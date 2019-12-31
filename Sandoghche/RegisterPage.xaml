@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage Title="ثبت نام" xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="Sandoghche.RegisterPage">
+    <Grid ColumnSpacing="0" RowSpacing="0" >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="456.5" />
+
+        </Grid.ColumnDefinitions>
+
+        <StackLayout Grid.Column="0">
+            <Grid ColumnSpacing="0" RowSpacing="0" VerticalOptions="FillAndExpand">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="70" />
+                </Grid.RowDefinitions>
+                <StackLayout Grid.Row="0" >
+                    <StackLayout HorizontalOptions="Center" Margin="0,25,0,0" >
+                        <Image x:Name="mainLogo" HorizontalOptions="End" WidthRequest="272" HeightRequest="196"  />
+
+                        <Label
+                        HorizontalOptions="End"
+                        TextColor="Black"
+                        FontAttributes="Bold"
+                        Text="روز بخیر"
+                        FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                        FontSize="20"
+                           />
+
+                        <Label
+                        HorizontalOptions="End"
+                        TextColor="Black"
+                        FontAttributes="Bold"
+                        Text="امروز ، مطمئنا روز خوبیست"
+                        FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                        FontSize="20"/>
+
+                        <StackLayout Margin="0,20,0,0" HorizontalOptions="FillAndExpand">
+                            <Entry x:Name="txtFullName" Placeholder="نام و نام خانوادگی" Keyboard="Text"  />
+                            <Entry x:Name="txtEmail" Placeholder=" آدرس ایمیل" Keyboard="Email"   />
+                            <Entry x:Name="txtPassword" Keyboard="Text"  Placeholder="رمز عبور" IsPassword="True"  />
+                            <Entry x:Name="txtRepeatPassword" Keyboard="Text"  Placeholder="تکرار رمز عبور" IsPassword="True"  />
+                            <Button
+                                x:Name="btnRegister"
+                                    VerticalOptions="Center"
+                                    Padding="0,-8,0,0"
+                                    FontSize="20"
+                                    CornerRadius="5"
+                                    Text="ثبت نام" 
+                                    BackgroundColor="#0078D7"
+                                    FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                                Clicked="btnRegister_Clicked"
+                                />
+                        </StackLayout>
+
+                    </StackLayout>
+
+
+
+                </StackLayout>
+                <StackLayout BackgroundColor="LightGray" Grid.Row="1"  >
+                    <BoxView HeightRequest="1" Color="Black" />
+                    <Label HorizontalOptions="Center" VerticalOptions="CenterAndExpand"
+                        Text="کلیه حقوق این نرم افزار متعلق به شرکت اسمارت نوین میباشد و هر گونه کپی برداری پیگرد قانونی دارد"
+                        FontSize="15"
+                        FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                        TextColor="Black"
+                        BackgroundColor="LightGray"
+                        
+                        />
+                </StackLayout>
+            </Grid>
+
+        </StackLayout>
+        <StackLayout BackgroundColor="CornflowerBlue"
+                     Grid.Column="1" VerticalOptions="FillAndExpand">
+            <AbsoluteLayout VerticalOptions="FillAndExpand">
+                <Image x:Name="backgroundImage"  AbsoluteLayout.LayoutBounds="0,0,1,1"  AbsoluteLayout.LayoutFlags="All" Aspect="AspectFill" />
+                <Label 
+                    Text="1398" TextColor="White" FontSize="50" 
+                    FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
+                    AbsoluteLayout.LayoutBounds="0.9,0.26"
+                    AbsoluteLayout.LayoutFlags="PositionProportional"
+                    />
+                <Label 
+                    Text="23" TextColor="White" FontSize="40" 
+                    FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
+                    AbsoluteLayout.LayoutBounds="0.9,0.35"
+                    AbsoluteLayout.LayoutFlags="PositionProportional"
+                    />
+                <Label 
+                    Text="شهریور" TextColor="White" FontSize="30" 
+                    FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
+                    AbsoluteLayout.LayoutBounds="0.9,0.42"
+                    AbsoluteLayout.LayoutFlags="PositionProportional"
+                    />
+                <StackLayout Orientation="Horizontal"  AbsoluteLayout.LayoutBounds=".75,.75,350,250"
+                         AbsoluteLayout.LayoutFlags="PositionProportional">
+                    <Label  FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalTextAlignment="Start"
+                            FontSize="20"
+                            TextColor="White" 
+                            Text="راز پیشرفت در آغاز کردن است. راز آغاز کردن در آن است که وظایف سخت و پیچیده ی خود را به وظایف کوچکی که قابل مدیریت کردن باشند، بشکنید و سپس از نخستین آنها آغاز کنید." HorizontalOptions="FillAndExpand" />
+                    <!--<Label TextColor="White" Text="t2"  WidthRequest="20"/>-->
+                    <Image x:Name="sloganLine" WidthRequest="20" />
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" AbsoluteLayout.LayoutBounds=".5,.95" AbsoluteLayout.LayoutFlags="PositionProportional" >
+                    <Label
+                        HorizontalOptions="FillAndExpand"
+                        TextColor="White" 
+                        Text="شیراز - خیابان نشاط - 09173842445 " 
+                        FontSize="20"  
+                        FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"/>
+                    <Image x:Name="Location" WidthRequest="35" HeightRequest="35" />
+
+                </StackLayout>
+            </AbsoluteLayout>
+
+        </StackLayout>
+    </Grid>
+</ContentPage>

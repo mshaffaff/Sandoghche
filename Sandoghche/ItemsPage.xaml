@@ -1,0 +1,338 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage  NavigationPage.HasNavigationBar="False"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:telerikDataControls="clr-namespace:Telerik.XamarinForms.DataControls;assembly=Telerik.XamarinForms.DataControls"
+             xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;assembly=Telerik.XamarinForms.DataControls"
+              xmlns:helpers="clr-namespace:Sandoghche.Helpers"
+              mc:Ignorable="d"
+             x:Class="Sandoghche.ItemsPage">
+    <Grid ColumnSpacing="0" RowSpacing="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <!--منوی بالا-->
+        <StackLayout Grid.Row="0" VerticalOptions="Center" >
+
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <StackLayout Grid.Column="0"   VerticalOptions="Center" >
+
+                    <Label 
+                        Margin="50,0,0,0"
+                        FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
+                        FontSize="20"
+                        Text="معرفی محصولات" HorizontalOptions="StartAndExpand" TextColor="Black" />
+
+                </StackLayout>
+
+                <StackLayout Grid.Column="1"  HorizontalOptions="Center" VerticalOptions="Center" >
+
+                    <Label TextColor="Black"
+                        FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
+                        FontSize="20" Text="چهارشنبه 23 شهریور 1398" HorizontalOptions="Center"  />
+                    <Label TextColor="Black"
+                        FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
+                        FontSize="20" Text="14:23:37" HorizontalOptions="Center" />
+
+                </StackLayout>
+
+                <StackLayout Margin="0,0,20,0" Grid.Column="2"  VerticalOptions="Center" >
+
+                    <Label TextColor="Black"
+                        x:Name="lblClient"
+                        FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
+                           FontSize="20"  Text="مدیر : مهدی شفاف" 
+                           HorizontalOptions="EndAndExpand"  >
+                    </Label>
+                </StackLayout>
+
+            </Grid>
+
+
+        </StackLayout>
+
+
+
+        <!--منوی وسط-->
+        <StackLayout Grid.Row="1" Padding="20,0,20,20" >
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!--ستون اجناس-->
+                
+                <Frame x:Name="frmItems" IsEnabled="False" Opacity=".2"  Margin="0,0,5,0" CornerRadius="5" Grid.Column="0"  BorderColor="Black">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="150" />
+                        </Grid.RowDefinitions>
+
+                        <!--لیست اجناس-->
+                        <StackLayout  Grid.Row="0" >
+                            <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand" >
+                                <Label
+                                    IsVisible="False"
+                                    x:Name="lblCategoryId"
+                                    FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                                    FontSize="20" />
+                                <Label
+                                    x:Name="lblCategoryText"
+                                    Text="انتخاب نشده" 
+                                    FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                                    FontSize="20" />
+                                <Label 
+                                    Text="طبقه مورد نظر : " 
+                                    FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                                    FontSize="20" />
+                            </StackLayout>
+                            
+                            <SearchBar FlowDirection="RightToLeft" Placeholder="اجناس" FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" TextColor="Black" PlaceholderColor="Black" />
+                            <telerikDataControls:RadListView IsItemSwipeEnabled="True" x:Name="lstItems" >
+                                <telerikDataControls:RadListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <telerikListView:ListViewTemplateCell>
+                                            <telerikListView:ListViewTemplateCell.View>
+                                                <StackLayout>
+                                                    <Label
+                                                HorizontalOptions="EndAndExpand"
+                                                VerticalOptions="Center"
+                                                FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                                                FontSize="20"
+                                                TextColor="Black"
+                                                Text="{Binding ItemText}" />
+                                                </StackLayout>
+                                            </telerikListView:ListViewTemplateCell.View>
+                                        </telerikListView:ListViewTemplateCell>
+                                    </DataTemplate>
+                                </telerikDataControls:RadListView.ItemTemplate>
+                            </telerikDataControls:RadListView>
+                        </StackLayout>
+
+                        <!--فرم-->
+                        <StackLayout Grid.Row="1" VerticalOptions="EndAndExpand" >
+                            <StackLayout HorizontalOptions="EndAndExpand" Orientation="Horizontal">
+                                <Entry Placeholder="قیمت محصول" Keyboard="Numeric" x:Name="txtProductPrice" FlowDirection="RightToLeft" WidthRequest="200"  />
+                                <Entry Placeholder="نام محصول" Keyboard="Plain" x:Name="txtItem" FlowDirection="RightToLeft" WidthRequest="200" />
+                                
+                            </StackLayout>
+                            <Switch FlowDirection="RightToLeft"  x:Name="swchItemStatus" IsToggled="True" />
+
+                            <Grid ColumnSpacing="0" RowSpacing="0"  HorizontalOptions="FillAndExpand" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+
+                                </Grid.ColumnDefinitions>
+
+
+                                <Button 
+                    HorizontalOptions="FillAndExpand"
+                    Grid.Column="0"
+                    VerticalOptions="Center"
+                    HeightRequest="40"
+                    x:Name="btnCancelItem"
+                    FontSize="17"
+                    CornerRadius="5"
+                    Text="انصراف" 
+                    BackgroundColor="Gray"
+                    FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                    Clicked="btnCancelItem_Clicked"
+                    IsVisible="False"
+                    Margin="5"
+                />
+
+                                <Button
+                    HorizontalOptions="FillAndExpand"
+                    Grid.Column="1"
+                    VerticalOptions="Center"
+                    HeightRequest="40"
+                    x:Name="btnDeleteItem"
+                    FontSize="17"
+                    CornerRadius="5"
+                    Text="حذف" 
+                    BackgroundColor="Red"
+                    FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                    Clicked="btnDeleteItem_Clicked"
+                    IsVisible="False"
+                    Margin="5"
+/>
+
+                                <Button
+                    HorizontalOptions="FillAndExpand"
+                    Grid.Column="2"
+                    VerticalOptions="Center"
+                    HeightRequest="40"
+                    x:Name="btnUpdateItem"
+                    FontSize="17"
+                    CornerRadius="5"
+                    Text="بروز رسانی" 
+                    BackgroundColor="#00c695"
+                    FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                    Clicked="btnUpdateItem_Clicked"
+                    IsVisible="False"
+                    Margin="5"
+/>
+
+                                <Button 
+                     Grid.Column="3"
+                     HeightRequest="40"
+                     x:Name="btnAddItem"
+                     HorizontalOptions="FillAndExpand"
+                     VerticalOptions="Center"
+                     Margin="5"
+                     FontSize="17"
+                     CornerRadius="5"
+                     Text="اضافه کردن" 
+                     BackgroundColor="#0078D7"
+                     FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                     Clicked="btnAddItem_Clicked" />
+                            </Grid>
+
+                        </StackLayout>
+
+                    </Grid>
+                </Frame>
+
+                <!--ستون طبقه بندی-->
+                <Frame  Margin="5,0,0,0" CornerRadius="5" BorderColor="Black" Grid.Column="1" >
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="150" />
+                        </Grid.RowDefinitions>
+                        <!--لیست طبقه بندی-->
+                        <StackLayout Grid.Row="0">
+                            <Label 
+                                Text="لیست طبقات" 
+                                HorizontalOptions="EndAndExpand" 
+                                FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                                FontSize="20" />
+
+                            <SearchBar FlowDirection="RightToLeft" x:Name="srchCategory" TextChanged="srchCategory_TextChanged" FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" Placeholder="طبقه بندی" PlaceholderColor="Black"  TextColor="Black"/>
+                            <ListView FlowDirection="RightToLeft" x:Name="lstCategory" HorizontalOptions="EndAndExpand" ItemSelected="lstCategory_ItemSelected">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <ViewCell>
+                                            <Label
+                                                Margin="0,10,0,0"
+                                                TextColor="{Binding IsActive,Converter={helpers:DisabledLabel}}"
+                                                TextDecorations="{Binding IsActive,Converter={helpers:LabelStrikethrough}}"
+                                                IsEnabled="{Binding IsActive,Converter={helpers:InverseBoolConverter}}"
+                                                FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                                                FontSize="20" Text="{Binding CategoryText}">
+                                            </Label>
+                                        </ViewCell>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </StackLayout>
+
+                        <!--فرم-->
+                        <StackLayout Grid.Row="1" VerticalOptions="EndAndExpand" >
+
+                            <Entry Placeholder="نام طبقه بندی" Keyboard="Plain" x:Name="txtCategory" FlowDirection="RightToLeft"  />
+                            <Switch FlowDirection="RightToLeft"  x:Name="swchCategoryStatus" IsToggled="True" />
+
+
+                            <Grid ColumnSpacing="0" RowSpacing="0"  HorizontalOptions="FillAndExpand" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+
+                                </Grid.ColumnDefinitions>
+
+
+                                <Button 
+                                    HorizontalOptions="FillAndExpand"
+                                    Grid.Column="0"
+                                    HeightRequest="40"
+                                    x:Name="btnCancelCategory"
+                                    FontSize="17"
+                                    CornerRadius="5"
+                                    Text="انصراف" 
+                                    BackgroundColor="Gray"
+                                    FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                                    Clicked="btnCancelCategory_Clicked"
+                                    IsVisible="False"
+                                    Margin="5" />
+
+                                <Button
+                                    HorizontalOptions="FillAndExpand"
+                                    Grid.Column="1"
+                                    VerticalOptions="Center"
+                                    HeightRequest="40"
+                                    x:Name="btnDeleteCategory"
+                                    FontSize="17"
+                                    CornerRadius="5"
+                                    Text="حذف " 
+                                    BackgroundColor="Red"
+                                    FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                                    Clicked="btnDeleteCategory_Clicked"
+                                    IsVisible="False"
+                                    Margin="5"/>
+
+                                <Button
+                                    HorizontalOptions="FillAndExpand"
+                                    Grid.Column="2"
+                                    VerticalOptions="Center"
+                                    HeightRequest="40"
+                                    x:Name="btnUpdateCategory"
+                                    FontSize="17"
+                                    CornerRadius="5"
+                                    Text="بروز رسانی" 
+                                    BackgroundColor="#00c695"
+                                    FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                                    Clicked="btnUpdateCategory_Clicked"
+                                    IsVisible="False"
+                                    Margin="5"/>
+
+                                <Button 
+                                    Grid.Column="3"
+                                    HeightRequest="40"
+                                    x:Name="btnAddCategory"
+                                    HorizontalOptions="FillAndExpand"
+                                    VerticalOptions="Center"
+                                    Margin="5"
+                                    FontSize="17"
+                                    CornerRadius="5"
+                                    Text="اضافه کردن" 
+                                    BackgroundColor="#0078D7"
+                                    FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                                    Clicked="btnAddCategory_Clicked" />
+                            </Grid>
+
+                        </StackLayout>
+
+                    </Grid>
+
+                </Frame>
+
+
+
+
+
+
+
+
+            </Grid>
+        </StackLayout>
+    </Grid>
+</ContentPage>
