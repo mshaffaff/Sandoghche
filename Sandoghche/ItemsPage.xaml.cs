@@ -144,11 +144,15 @@ namespace Sandoghche
 
        async private void btnAddItem_Clicked(object sender, EventArgs e)
         {
-            if (String.IsNullOrWhiteSpace(txtItem.Text) || String.IsNullOrWhiteSpace(txtProductPrice.Text))
+            double num;
+            if (String.IsNullOrWhiteSpace(txtItem.Text) || String.IsNullOrWhiteSpace(txtProductPrice.Text) || double.TryParse(txtProductPrice.Text,out num))
                 await DisplayAlert("خطا", " نام محصول یا قیمت خالی است", "باشه");
             else
             {
                 var product = new Product();
+                product.ProductText = txtItem.Text;
+                product.ProductPrice = Convert.ToDouble(txtProductPrice.Text);
+
 
             }
 
