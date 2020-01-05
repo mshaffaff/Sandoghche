@@ -39,10 +39,10 @@ namespace Sandoghche
 
             lstCategory.ItemsSource = result;
         }
-       
-        
-        
-        
+
+
+
+
         async private void btnAddCategory_Clicked(object sender, EventArgs e)
         {
             if (String.IsNullOrWhiteSpace(txtCategory.Text))
@@ -55,7 +55,7 @@ namespace Sandoghche
 
                 await SandoghcheController._connection.InsertAsync(category);
                 await DisplayAlert("ثبت ", "طبقه بندی جدید در سیستم با موفقیت ثبت گردید", "باشه");
-                
+
                 txtCategory.Text = null;
                 srchCategory.Text = "";
 
@@ -66,7 +66,7 @@ namespace Sandoghche
 
         }
 
-       async private void btnCancelCategory_Clicked(object sender, EventArgs e)
+        async private void btnCancelCategory_Clicked(object sender, EventArgs e)
         {
             txtCategory.Text = "";
             swchCategoryStatus.IsToggled = true;
@@ -74,13 +74,14 @@ namespace Sandoghche
             btnCancelCategory.IsVisible = false;
             btnUpdateCategory.IsVisible = false;
             btnAddCategory.IsVisible = true;
-            
+
             btnAddItem.IsVisible = true;
             btnUpdateItem.IsVisible = false;
             btnCancelItem.IsVisible = false;
             btnDeleteItem.IsVisible = false;
 
-
+            txtItem.Text = "";
+            txtProductPrice.Text = "";
             srchCategory.Text = "";
             frmItems.IsEnabled = false;
             frmItems.Opacity = .3;
@@ -88,7 +89,7 @@ namespace Sandoghche
             lblCategoryId.Text = "";
             DataGridProduct.ItemsSource = null;
 
-                                 
+
             await getCategories();
 
 
@@ -98,7 +99,7 @@ namespace Sandoghche
         {
             var category = (Category)lstCategory.SelectedItem;
 
-            var products = await SandoghcheController._connection.Table<Product>().Where(p=> p.CategoryId == category.CategoryId).ToListAsync();
+            var products = await SandoghcheController._connection.Table<Product>().Where(p => p.CategoryId == category.CategoryId).ToListAsync();
 
             bool action;
             if (products.Count() > 0)
@@ -108,13 +109,13 @@ namespace Sandoghche
             else
             {
                 action = await DisplayAlert("اخطار", string.Format(" آیا از حذف این طبقه اطمینان دارید؟"), "بله", "خیر");
-            } 
-                                 
-            if(action)
-            {               
+            }
+
+            if (action)
+            {
                 category.IsDeleted = true;
-                
-                if(products.Count()>0)
+
+                if (products.Count() > 0)
                 {
                     foreach (var product in products)
                     {
@@ -151,10 +152,10 @@ namespace Sandoghche
         async private void btnUpdateCategory_Clicked(object sender, EventArgs e)
         {
             var category = (Category)lstCategory.SelectedItem;
-            
+
             var products = await SandoghcheController._connection.Table<Product>().Where(c => c.CategoryId == category.CategoryId).ToListAsync();
 
-            
+
             if (String.IsNullOrWhiteSpace(txtCategory.Text))
                 await DisplayAlert("خطا", "طبقه بندی نمی تواند خالی باشد", "باشه");
             else
@@ -165,13 +166,19 @@ namespace Sandoghche
                 {
                     item.IsActive = swchCategoryStatus.IsToggled;
                 }
-                
+
 
 
 
                 await SandoghcheController._connection.UpdateAsync(category);
                 await SandoghcheController._connection.UpdateAllAsync(products);
-                
+                DataGridProduct.ItemsSource = null;
+                lblCategoryId.Text = "";
+                lblCategoryText.Text = "انتخاب نشده";
+                frmItems.IsEnabled = false;
+                frmItems.Opacity = 0.3;
+
+
                 await DisplayAlert("ثبت", "بروز رسانی با موفقیت انجام شد", "باشه");
 
 
@@ -191,26 +198,26 @@ namespace Sandoghche
 
                 srchCategory.Text = "";
 
-                if (!category.IsActive)
-                {
-                    frmItems.IsEnabled = false;
-                    frmItems.Opacity = 0.3;
-                }else
-                {
-                    frmItems.IsEnabled = true;
-                    frmItems.Opacity = 1;
-                }
+                //if (!category.IsActive)
+                //{
+                //    frmItems.IsEnabled = false;
+                //    frmItems.Opacity = 0.3;
+                //}else
+                //{
+                //    frmItems.IsEnabled = true;
+                //    frmItems.Opacity = 1;
+                //}
 
                 await getCategories();
-                await getProducts(category.CategoryId);
+                //await getProducts(category.CategoryId);
             }
 
         }
 
         async Task getProducts(int categoryId, string Searchtext = null)
         {
-            
-            var products = await SandoghcheController._connection.Table<Product>().Where(p => p.IsDeleted != true && p.CategoryId==categoryId).ToListAsync();
+
+            var products = await SandoghcheController._connection.Table<Product>().Where(p => p.IsDeleted != true && p.CategoryId == categoryId).ToListAsync();
 
             var result = new List<Product>();
             if (String.IsNullOrWhiteSpace(Searchtext))
@@ -226,7 +233,7 @@ namespace Sandoghche
         async private void btnAddItem_Clicked(object sender, EventArgs e)
         {
             double num;
-            if (String.IsNullOrWhiteSpace(txtItem.Text) || String.IsNullOrWhiteSpace(txtProductPrice.Text) || !double.TryParse(txtProductPrice.Text,out num) )
+            if (String.IsNullOrWhiteSpace(txtItem.Text) || String.IsNullOrWhiteSpace(txtProductPrice.Text) || !double.TryParse(txtProductPrice.Text, out num))
                 await DisplayAlert("خطا", " نام محصول یا قیمت خالی است", "باشه");
             else if (String.IsNullOrWhiteSpace(lblCategoryId.Text))
             {
@@ -257,21 +264,88 @@ namespace Sandoghche
 
         private void btnCancelItem_Clicked(object sender, EventArgs e)
         {
+            txtItem.Text = "";
+            txtProductPrice.Text = "";
+            swchItemStatus.IsToggled = true;
+            btnAddItem.IsVisible = true;
+            btnUpdateItem.IsVisible = false;
+            btnDeleteItem.IsVisible = false;
+            btnCancelItem.IsVisible = false;
+            srchProduct.Text = "";
+
+
 
         }
 
-        private void btnDeleteItem_Clicked(object sender, EventArgs e)
+        async private void btnDeleteItem_Clicked(object sender, EventArgs e)
         {
+            var product = (Product)DataGridProduct.SelectedItems[0];
+            bool action = await DisplayAlert("اخطار", "آیا از حذف این محصول اطمینان دارید ؟", "بله", "خیر");
+            if (action)
+            {
+                product.IsDeleted = true;
+                await SandoghcheController._connection.UpdateAsync(product);
+                await getProducts(Convert.ToInt32(lblCategoryId.Text));
+
+                swchItemStatus.IsToggled = true;
+                btnAddItem.IsVisible = true;
+                btnCancelItem.IsVisible = false;
+                btnUpdateItem.IsVisible = false;
+                btnDeleteItem.IsVisible = false;
+                txtItem.Text = "";
+                txtProductPrice.Text = "";
+                srchProduct.Text = "";
+            }
+
 
         }
 
-        private void btnUpdateItem_Clicked(object sender, EventArgs e)
+        async private void btnUpdateItem_Clicked(object sender, EventArgs e)
         {
-            
+            var product = (Product)DataGridProduct.SelectedItems[0];
+            double num;
+            if (String.IsNullOrWhiteSpace(lblCategoryId.Text) || String.IsNullOrWhiteSpace(lblCategoryText.Text))
+                await DisplayAlert("اخطار", "طبقه بندی نامشخص است", "باشه");
+            else if (String.IsNullOrWhiteSpace(txtItem.Text) || String.IsNullOrWhiteSpace(txtProductPrice.Text))
+                await DisplayAlert("اخطار", "نام محصول یا قیمت محصول خالی است", "باشه");
+            else if (!double.TryParse(txtProductPrice.Text, out num))
+                await DisplayAlert("اخطار", "مبلغ را به عدد وارد کنید", "باشه");
+            else
+            {
+                product.ProductText = txtItem.Text;
+                product.ProductPrice = Convert.ToDouble(txtProductPrice.Text);
+                product.IsActive = swchItemStatus.IsToggled;
+                await SandoghcheController._connection.UpdateAsync(product);
+                txtItem.Text = "";
+                txtProductPrice.Text = "";
+                srchProduct.Text = "";
+                btnAddItem.IsVisible = true;
+                btnCancelItem.IsVisible = false;
+                btnUpdateItem.IsVisible = false;
+                btnDeleteItem.IsVisible = false;
+                await getProducts(Convert.ToInt32(lblCategoryId.Text));
+
+
+            }
+
         }
 
         async private void srchCategory_TextChanged(object sender, TextChangedEventArgs e)
         {
+            DataGridProduct.ItemsSource = null;
+            lblCategoryId.Text = "";
+            lblCategoryText.Text = "انتخاب نشده";
+            txtItem.Text = "";
+            txtProductPrice.Text = "";
+            srchProduct.Text = "";
+            btnAddItem.IsVisible = true;
+            btnCancelItem.IsVisible = false;
+            btnUpdateItem.IsVisible = false;
+            btnDeleteItem.IsVisible = false;
+            frmItems.IsEnabled = false;
+            frmItems.Opacity = 0.3;
+
+
             await getCategories(e.NewTextValue);
         }
 
@@ -281,27 +355,7 @@ namespace Sandoghche
         async private void lstCategory_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             var category = (Category)e.SelectedItem;
-            if(category.IsActive)
-            {
-             txtCategory.Text = category.CategoryText;
-             swchCategoryStatus.IsToggled = category.IsActive;
-             btnAddCategory.IsVisible = false;
-             btnUpdateCategory.IsVisible = true;
-             btnCancelCategory.IsVisible = true;
-             btnDeleteCategory.IsVisible = true;
-             frmItems.IsEnabled = true;
-             frmItems.Opacity = 1;
-             txtItem.Text = "";
-             txtProductPrice.Text = "";
-             lblCategoryId.Text = category.CategoryId.ToString();
-             lblCategoryText.Text = category.CategoryText;
-
-
-             var categoryId = Convert.ToInt32(lblCategoryId.Text);
-             
-             await getProducts(categoryId);
-
-            }else
+            if (category.IsActive)
             {
                 txtCategory.Text = category.CategoryText;
                 swchCategoryStatus.IsToggled = category.IsActive;
@@ -309,6 +363,36 @@ namespace Sandoghche
                 btnUpdateCategory.IsVisible = true;
                 btnCancelCategory.IsVisible = true;
                 btnDeleteCategory.IsVisible = true;
+                btnAddItem.IsVisible = true;
+                btnUpdateItem.IsVisible = false;
+                btnCancelItem.IsVisible = false;
+                btnDeleteItem.IsVisible = false;
+                frmItems.IsEnabled = true;
+                frmItems.Opacity = 1;
+                txtItem.Text = "";
+                txtProductPrice.Text = "";
+                swchItemStatus.IsToggled = true;
+                lblCategoryId.Text = category.CategoryId.ToString();
+                lblCategoryText.Text = category.CategoryText;
+
+
+                var categoryId = Convert.ToInt32(lblCategoryId.Text);
+
+                await getProducts(categoryId);
+
+            }
+            else
+            {
+                txtCategory.Text = category.CategoryText;
+                swchCategoryStatus.IsToggled = category.IsActive;
+                btnAddCategory.IsVisible = false;
+                btnUpdateCategory.IsVisible = true;
+                btnCancelCategory.IsVisible = true;
+                btnDeleteCategory.IsVisible = true;
+                btnAddItem.IsVisible = true;
+                btnUpdateItem.IsVisible = false;
+                btnCancelItem.IsVisible = false;
+                btnDeleteItem.IsVisible = false;
                 frmItems.IsEnabled = false;
                 frmItems.Opacity = 0.3;
                 txtItem.Text = "";
@@ -321,25 +405,41 @@ namespace Sandoghche
 
                 await getProducts(categoryId);
             }
-          
+
 
 
         }
 
         private void DataGridProduct_SelectionChanged(object sender, Telerik.XamarinForms.DataGrid.DataGridSelectionChangedEventArgs e)
         {
-            if(DataGridProduct.SelectedItems != null && DataGridProduct.SelectedItems.Count > 0 && DataGridProduct.SelectedItems[0] != null)
+            if (DataGridProduct.SelectedItems != null && DataGridProduct.SelectedItems.Count > 0 && DataGridProduct.SelectedItems[0] != null)
             {
-                 var product = (Product)DataGridProduct.SelectedItems[0];
-                 txtItem.Text = product.ProductText;
-                 txtProductPrice.Text = product.ProductPrice.ToString();
-                 btnAddItem.IsVisible = false;
-                 btnCancelItem.IsVisible = true;
-                 btnUpdateItem.IsVisible = true;
-                 btnDeleteItem.IsVisible = true;
+                var product = (Product)DataGridProduct.SelectedItems[0];
+                txtItem.Text = product.ProductText;
+                txtProductPrice.Text = product.ProductPrice.ToString();
+                swchItemStatus.IsToggled = product.IsActive;
+                btnAddItem.IsVisible = false;
+                btnCancelItem.IsVisible = true;
+                btnUpdateItem.IsVisible = true;
+                btnDeleteItem.IsVisible = true;
             }
-            
 
+
+
+
+        }
+
+        async private void srchProduct_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+          
+            txtItem.Text = "";
+            txtProductPrice.Text = "";
+            btnAddItem.IsVisible = true;
+            btnCancelItem.IsVisible = false;
+            btnUpdateItem.IsVisible = false;
+            btnDeleteItem.IsVisible = false;
+            await getProducts(Convert.ToInt32(lblCategoryId.Text),e.NewTextValue);
 
 
         }

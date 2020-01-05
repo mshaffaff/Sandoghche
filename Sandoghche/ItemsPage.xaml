@@ -101,7 +101,7 @@
                                     FontSize="20" />
                             </StackLayout>
                             
-                            <SearchBar FlowDirection="RightToLeft" Placeholder="اجناس" FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" TextColor="Black" PlaceholderColor="Black" />
+                            <SearchBar x:Name="srchProduct" TextChanged="srchProduct_TextChanged" FlowDirection="RightToLeft" Placeholder="اجناس" FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" TextColor="Black" PlaceholderColor="Black" />
                             <ScrollView>
                             <telerikDataGrid:RadDataGrid   x:Name="DataGridProduct" SelectionChanged="DataGridProduct_SelectionChanged"   UserFilterMode="Disabled" UserGroupMode="Disabled" UserSortMode="None" UserEditMode="None" AutoGenerateColumns="False"  >
 
