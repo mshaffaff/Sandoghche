@@ -98,9 +98,12 @@ namespace Sandoghche
         }
         async private void imgInvoice_Tapped(object sender, EventArgs e)
         {
-            //var firstClient =  /*await SandoghcheController._connection.Table<Client>().FirstOrDefaultAsync(x => x.ClientId == txtEmail.Text.ToLower());*/
+            var firstClient = await SandoghcheController.GetConnection().Table<Client>().FirstAsync();
 
-            await Navigation.PushAsync(new InvoicePage(1,"Shaffaf"));
+            if (firstClient!=null)
+                await Navigation.PushAsync(new InvoicePage(firstClient.ClientId,firstClient.ClientName));
+            else
+                await Navigation.PushAsync(new InvoicePage(0, "انتخاب مشتری"));
         }
         async private void imgReports_Tapped(object sender, EventArgs e)
         {

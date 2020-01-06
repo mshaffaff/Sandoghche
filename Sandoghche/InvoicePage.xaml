@@ -27,6 +27,7 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
+                <!--شماره فاکتور و فیش-->
                 <StackLayout Grid.Column="0"   VerticalOptions="Center" >
 
                     <Label Margin="50,0,0,0"
@@ -38,6 +39,7 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
                         FontSize="20"
                         Text="شماره فیش 224"  HorizontalOptions="StartAndExpand" TextColor="Black"/>
                 </StackLayout>
+                <!--تاریخ و ساعت-->
                 <StackLayout Grid.Column="1"  HorizontalOptions="Center" VerticalOptions="Center" >
 
                     <Label TextColor="Black"
@@ -49,22 +51,24 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
 
 
                 </StackLayout>
-
-                <StackLayout Margin="0,0,20,0" Grid.Column="2" Orientation="Horizontal"  VerticalOptions="Center" >
-                    <Label TextColor="Black" Margin="50,0,0,0" Text="مانده 0"
-                           FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
-                           FontSize="20"
-                           
-                           />
+               
+                <!--نام مشتری-->
+                <StackLayout Margin="0,0,20,0" Grid.Column="2"   VerticalOptions="Center" >
+                    <Label  IsVisible="False" x:Name="lblClientId" />
                     <Label TextColor="Black"
                         x:Name="lblClient"
                         FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
-                           FontSize="20"  Text="بابا بستنی" 
+                           FontSize="20" 
                            HorizontalOptions="EndAndExpand"  >
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer Tapped="lblClients_Tapped" />
                         </Label.GestureRecognizers>
                     </Label>
+                    <Label TextColor="Black" Text="مانده 0"
+                           FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
+                           FontSize="20" HorizontalOptions="EndAndExpand"
+                           
+                           />
                 </StackLayout>
             </Grid>
         </StackLayout>
@@ -86,9 +90,12 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
                         </Grid.RowDefinitions>
                     </Grid>
 
-                    <ScrollView Grid.Row="0" >
+                    <Grid Grid.Row="0">
+                        
+                    
+                 
 
-                        <telerikDataGrid:RadDataGrid   x:Name="DataGrid"   UserFilterMode="Disabled" UserGroupMode="Disabled" UserSortMode="None" UserEditMode="None" AutoGenerateColumns="False"  >
+                        <telerikDataGrid:RadDataGrid   x:Name="ProductsDataGrid"   UserFilterMode="Disabled" UserGroupMode="Disabled" UserSortMode="None" UserEditMode="None" AutoGenerateColumns="False"  >
 
                             <telerikDataGrid:RadDataGrid.Columns>
 
@@ -133,10 +140,6 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
                                     </telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
                                 </telerikDataGrid:DataGridTemplateColumn>
 
-
-
-
-
                                 <!--قیمت کل-->
                                 <telerikDataGrid:DataGridTemplateColumn  CanUserEdit="False" CanUserFilter="False" CanUserGroup="False" CanUserSort="False">
 
@@ -162,7 +165,7 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
                                             HorizontalOptions="Center"
                                             FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
                                             FontSize="20"
-                                            Text="{Binding ItemId}"/>
+                                            Text="{Binding TotalPrice}"/>
                                         </DataTemplate>
                                     </telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
                                 </telerikDataGrid:DataGridTemplateColumn>
@@ -192,7 +195,7 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
                                             HorizontalOptions="Center"
                                             FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
                                             FontSize="20"
-                                            Text="{Binding ItemId}"/>
+                                            Text="{Binding Price}"/>
                                         </DataTemplate>
                                     </telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
                                 </telerikDataGrid:DataGridTemplateColumn>
@@ -224,7 +227,7 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
                                             Margin="0,0,10,0"
                                             FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
                                             FontSize="20"
-                                            Text="{Binding ItemId}"/>
+                                            Text="{Binding Number}"/>
                                         </DataTemplate>
                                     </telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
                                 </telerikDataGrid:DataGridTemplateColumn>
@@ -253,7 +256,7 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
                                             Margin="0,0,10,0"
                                             FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
                                             FontSize="20"
-                                            Text="{Binding ItemText}"/>
+                                            Text="{Binding ProductText}"/>
                                         </DataTemplate>
                                     </telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
                                 </telerikDataGrid:DataGridTemplateColumn>
@@ -281,7 +284,7 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
                                             TextColor="Black"
                                             FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
                                             FontSize="20"
-                                            Text="{Binding ItemId}"
+                                            Text="{Binding ProductId}"
                                             HorizontalOptions="Center"
                                             Margin="0,0,10,0"/>
                                         </DataTemplate>
@@ -290,8 +293,8 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
 
                             </telerikDataGrid:RadDataGrid.Columns>
                         </telerikDataGrid:RadDataGrid>
-                    </ScrollView>
-
+           
+                    </Grid>
                     <StackLayout Grid.Row="1" BackgroundColor="Black" VerticalOptions="StartAndExpand" >
                         <Grid>
                             <Grid.RowDefinitions>
@@ -317,46 +320,45 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
                 </StackLayout>
 
                 <!--اجناس-->
-                <StackLayout Grid.Column="1"  Margin="10,10,10,10" >
-                    <SearchBar Placeholder="اجناس" FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" TextColor="Black" PlaceholderColor="Black" />
 
-                    <telerikDataControls:RadListView IsItemSwipeEnabled="True" x:Name="lstItems" >
-                        <telerikDataControls:RadListView.ItemTemplate>
-                            <DataTemplate>
-                                <telerikListView:ListViewTemplateCell>
-                                    <telerikListView:ListViewTemplateCell.View>
-                                        <StackLayout>
-                                            <Label
-                                                HorizontalOptions="EndAndExpand"
-                                                VerticalOptions="Center"
-                                                FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
-                                                FontSize="20"
-                                                TextColor="Black"
-                                                Text="{Binding ItemText}" />
-                                        </StackLayout>
-                                    </telerikListView:ListViewTemplateCell.View>
-                                </telerikListView:ListViewTemplateCell>
-                            </DataTemplate>
-                        </telerikDataControls:RadListView.ItemTemplate>
-                    </telerikDataControls:RadListView>
-                  
-
-                </StackLayout>
-
-
-                <!--طبقه بندی-->
-                <StackLayout Grid.Column="2" Margin="10,10,10,10" >
-                    <SearchBar FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" Placeholder="طبقه بندی" PlaceholderColor="Black"  TextColor="Black"/>
-                    <ListView FlowDirection="RightToLeft" x:Name="lstCategory" HorizontalOptions="EndAndExpand">
+                <StackLayout Grid.Column="1" Margin="10,10,10,10" >
+                    <SearchBar x:Name="srchProduct" TextChanged="srchProduct_TextChanged" FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" Placeholder="محصول" PlaceholderColor="Black" FlowDirection="RightToLeft"  TextColor="Black"/>
+                    <ListView FlowDirection="RightToLeft" x:Name="lstProducts" HorizontalOptions="EndAndExpand" ItemTapped="lstProducts_ItemTapped" ItemSelected="lstProducts_ItemSelected">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
                                     <Label 
+                                        Margin="0,10,0,0"
                                         HorizontalOptions="EndAndExpand"
                                         VerticalOptions="Center"
                                         TextColor="Black"
                                         FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
-                                        FontSize="20" Text="{Binding CatText}"/>
+                                        FontSize="20" Text="{Binding ProductText}"/>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                </StackLayout>
+
+               
+
+
+                <!--طبقه بندی-->
+                <StackLayout Grid.Column="2" Margin="10,10,10,10" >
+                    <SearchBar x:Name="srchCategory" TextChanged="srchCategory_TextChanged" FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" Placeholder="طبقه بندی" PlaceholderColor="Black" FlowDirection="RightToLeft"  TextColor="Black"/>
+                    <Label x:Name="lblCategoryId" IsVisible="False" />
+                    <ListView FlowDirection="RightToLeft" x:Name="lstCategory" HorizontalOptions="EndAndExpand" ItemSelected="lstCategory_ItemSelected">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Label 
+                                        Margin="0,10,0,0"
+                                        HorizontalOptions="EndAndExpand"
+                                        VerticalOptions="Center"
+                                        TextColor="Black"
+                                        FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                                        FontSize="20" Text="{Binding CategoryText}"/>
                                 </ViewCell>
                             </DataTemplate>
                         </ListView.ItemTemplate>

@@ -29,7 +29,7 @@ namespace Sandoghche
 
         async Task getCategories(string Searchtext = null)
         {
-            var categories = await SandoghcheController._connection.Table<Category>().Where(c => c.IsDeleted != true).ToListAsync();
+            var categories = await SandoghcheController.GetConnection().Table<Category>().Where(c => c.IsDeleted != true).ToListAsync();
 
             var result = new List<Category>();
             if (String.IsNullOrWhiteSpace(Searchtext))

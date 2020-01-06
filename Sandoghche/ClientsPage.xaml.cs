@@ -25,20 +25,25 @@ namespace Sandoghche
 
         async protected override void OnAppearing()
         {
-            await SandoghcheController.GetConnection().CreateTableAsync<Client>();
+            //await SandoghcheController.GetConnection().CreateTableAsync<Client>();
+         
+        
             await GetClients();
             base.OnAppearing();
         }
 
         async Task GetClients(string Searchtext = null)
         {
-            var clients = await SandoghcheController._connection.Table<Client>().Where(c=>c.IsDeleted!=true).ToListAsync();
+            var clients = await SandoghcheController.GetConnection().Table<Client>().Where(c => c.IsDeleted != true).ToListAsync();
 
             var result = new List<Client>();
             if (String.IsNullOrWhiteSpace(Searchtext))
                 result = clients;
             else
-                result = clients.Where(c => c.ClientName.Contains(Searchtext) && c.IsDeleted!=true).ToList();
+                result = clients.Where(c => c.ClientName.Contains(Searchtext) && c.IsDeleted != true).ToList();
+
+
+            //var result = new List<Client>() { new Client { ClientId=1,ClientName="Test1",Address="hgflashdfgasjdhgfalskjhdfgsajhdf",Email="1@3.com",MobileNumber="09173842445",PhoneNumber="712331615" }, new Client { ClientId = 2, ClientName = "Test2", Address = "hgflashdfgasjdhgfalskjhdfgsajhdf", Email = "1@3.com", MobileNumber = "09173842445", PhoneNumber = "712331615" }, new Client { ClientId = 3, ClientName = "Test3", Address = "hgflashdfgasjdhgfalskjhdfgsajhdf", Email = "1@3.com", MobileNumber = "09173842445", PhoneNumber = "712331615" } };
 
             ClientDataGrid.ItemsSource = result;
         }
