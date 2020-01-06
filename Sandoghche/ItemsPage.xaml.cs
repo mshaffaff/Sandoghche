@@ -405,9 +405,6 @@ namespace Sandoghche
 
                 await getProducts(categoryId);
             }
-
-
-
         }
 
         private void DataGridProduct_SelectionChanged(object sender, Telerik.XamarinForms.DataGrid.DataGridSelectionChangedEventArgs e)
@@ -423,23 +420,19 @@ namespace Sandoghche
                 btnUpdateItem.IsVisible = true;
                 btnDeleteItem.IsVisible = true;
             }
-
-
-
-
         }
 
         async private void srchProduct_TextChanged(object sender, TextChangedEventArgs e)
         {
 
-          
+
             txtItem.Text = "";
             txtProductPrice.Text = "";
             btnAddItem.IsVisible = true;
             btnCancelItem.IsVisible = false;
             btnUpdateItem.IsVisible = false;
             btnDeleteItem.IsVisible = false;
-            await getProducts(Convert.ToInt32(lblCategoryId.Text),e.NewTextValue);
+            await getProducts(Convert.ToInt32(lblCategoryId.Text), e.NewTextValue);
 
 
         }

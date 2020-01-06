@@ -75,7 +75,7 @@
 
                 <!--ستون اجناس-->
                 
-                <Frame x:Name="frmItems" IsEnabled="False" Opacity=".2"  Margin="0,0,5,0" CornerRadius="5" Grid.Column="0"  BorderColor="Black">
+                <Frame x:Name="frmItems" IsEnabled="False" Opacity="0.3"  Margin="0,0,5,0" CornerRadius="5" Grid.Column="0"  BorderColor="Black">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
@@ -269,6 +269,7 @@
                 </Frame>
 
                 <!--ستون طبقه بندی-->
+       
                 <Frame  Margin="5,0,0,0" CornerRadius="5" BorderColor="Black" Grid.Column="1" >
                     <Grid>
                         <Grid.RowDefinitions>

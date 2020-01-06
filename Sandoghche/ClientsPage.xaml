@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+<ContentPage  NavigationPage.HasNavigationBar="False" 
+    xmlns="http://xamarin.com/schemas/2014/forms"
 xmlns:telerikGrid="clr-namespace:Telerik.XamarinForms.DataGrid;assembly=Telerik.XamarinForms.DataGrid"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
@@ -7,24 +8,78 @@ xmlns:telerikGrid="clr-namespace:Telerik.XamarinForms.DataGrid;assembly=Telerik.
              xmlns:local="clr-namespace:Sandoghche.MarkupExtentions"
              mc:Ignorable="d"
              x:Class="Sandoghche.ClientsPage">
-    <Grid  BackgroundColor="LightGray" >
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="400"/>
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
 
-        <StackLayout  Grid.Column="0" Margin="10,10,10,0" >
+    <Grid ColumnSpacing="0" RowSpacing="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!--منوی بالا-->
+        <StackLayout Grid.Row="0" VerticalOptions="Center" >
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <StackLayout Grid.Column="0"   VerticalOptions="Center" >
+
+                    <Label 
+                        Margin="50,0,0,0"
+                        FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
+                        FontSize="20"
+                        Text="مشترکین" HorizontalOptions="StartAndExpand" TextColor="Black" />
+
+                </StackLayout>
+
+                <StackLayout Grid.Column="1"  HorizontalOptions="Center" VerticalOptions="Center" >
+
+                    <Label TextColor="Black"
+                        FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
+                        FontSize="20" Text="چهارشنبه 23 شهریور 1398" HorizontalOptions="Center"  />
+                    <Label TextColor="Black"
+                        FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
+                        FontSize="20" Text="14:23:37" HorizontalOptions="Center" />
+
+                </StackLayout>
+
+                <StackLayout Margin="0,0,20,0" Grid.Column="2"  VerticalOptions="Center" >
+
+                    <Label TextColor="Black"
+                        x:Name="lblClient"
+                        FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
+                           FontSize="20"  Text="مدیر : مهدی شفاف" 
+                           HorizontalOptions="EndAndExpand"  >
+                    </Label>
+                </StackLayout>
+
+            </Grid>
+        </StackLayout>
+
+        <!--منوی وسط-->
+        <StackLayout Grid.Row="1" Padding="20,0,20,20"  >
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="400"/>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!--فرم-->
+                <Frame Grid.Column="0" BorderColor="Black" Margin="0,0,5,0"  >
+                    <StackLayout   Margin="10,10,10,0" >
 
 
-            <Label  Text="مشخصات مشترک"  HorizontalOptions="EndAndExpand"/>
-            <Entry x:Name="txtClientFullName"  FlowDirection="RightToLeft" Placeholder="نام مشترک" HorizontalOptions="FillAndExpand" />
-            <Entry x:Name="txtClientPhoneNumber" Keyboard="Telephone"  FlowDirection="RightToLeft" Placeholder="تلفن ثابت" HorizontalOptions="FillAndExpand"  />
-            <Entry x:Name="txtClientMobileNumber" Keyboard="Telephone" FlowDirection="RightToLeft" Placeholder="شماره موبایل" HorizontalOptions="FillAndExpand" />
-            <Entry x:Name="txtClientEmail" Keyboard="Email" FlowDirection="LeftToRight" Placeholder="ایمیل" HorizontalOptions="FillAndExpand" />
-            <Entry  x:Name="txtClientAddress" FlowDirection="RightToLeft" Placeholder="آدرس" HorizontalOptions="FillAndExpand" />
-            <Switch x:Name="swtClientIsActive" IsToggled="True" IsVisible="False"/>
+                        <Label  Text="مشخصات مشترک"  HorizontalOptions="EndAndExpand"/>
+                        <Entry x:Name="txtClientFullName"  FlowDirection="RightToLeft" Placeholder="نام مشترک" HorizontalOptions="FillAndExpand" />
+                        <Entry x:Name="txtClientPhoneNumber" Keyboard="Telephone"  FlowDirection="RightToLeft" Placeholder="تلفن ثابت" HorizontalOptions="FillAndExpand"  />
+                        <Entry x:Name="txtClientMobileNumber" Keyboard="Telephone" FlowDirection="RightToLeft" Placeholder="شماره موبایل" HorizontalOptions="FillAndExpand" />
+                        <Entry x:Name="txtClientEmail" Keyboard="Email" FlowDirection="LeftToRight" Placeholder="ایمیل" HorizontalOptions="FillAndExpand" />
+                        <Entry  x:Name="txtClientAddress" FlowDirection="RightToLeft" Placeholder="آدرس" HorizontalOptions="FillAndExpand" />
+                        <Switch x:Name="swtClientIsActive" IsToggled="True" IsVisible="False"/>
 
-            <Button
+                        <Button
                 VerticalOptions="Center"
                 HeightRequest="35"
                 x:Name="btnClientRegister"
@@ -37,15 +92,15 @@ xmlns:telerikGrid="clr-namespace:Telerik.XamarinForms.DataGrid;assembly=Telerik.
                 Clicked="btnClientRegister_Clicked"
                 />
 
-            <StackLayout Orientation="Horizontal" >
-                <Grid ColumnSpacing="0" RowSpacing="0"  HorizontalOptions="FillAndExpand" >
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
+                        <StackLayout Orientation="Horizontal" >
+                            <Grid ColumnSpacing="0" RowSpacing="0"  HorizontalOptions="FillAndExpand" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
 
-                    <Button 
+                                <Button 
                     HorizontalOptions="FillAndExpand"
                     Grid.Column="0"
                     VerticalOptions="Center"
@@ -61,7 +116,7 @@ xmlns:telerikGrid="clr-namespace:Telerik.XamarinForms.DataGrid;assembly=Telerik.
                     Margin="5"
                 />
 
-                    <Button
+                                <Button
                     HorizontalOptions="FillAndExpand"
                     Grid.Column="1"
                     VerticalOptions="Center"
@@ -77,7 +132,7 @@ xmlns:telerikGrid="clr-namespace:Telerik.XamarinForms.DataGrid;assembly=Telerik.
                     Margin="5"
 />
 
-                    <Button
+                                <Button
                     HorizontalOptions="FillAndExpand"
                     Grid.Column="2"
                     VerticalOptions="Center"
@@ -92,105 +147,107 @@ xmlns:telerikGrid="clr-namespace:Telerik.XamarinForms.DataGrid;assembly=Telerik.
                     IsVisible="False"
                     Margin="5"
 />
-                </Grid>
+                            </Grid>
 
 
-            </StackLayout>
+                        </StackLayout>
 
-        </StackLayout>
+                    </StackLayout>
+                </Frame>
+                <!--جدول مشتریان-->
+                <Frame Grid.Column="1" BorderColor="Black" Margin="5,0,0,0"  >
+                    <StackLayout  Margin="10,10,10,0">
+                        <SearchBar x:Name="srchClients"  FlowDirection="RightToLeft" Placeholder="... جستجوی مشتری " TextChanged="srchClients_TextChanged" />
 
-        <StackLayout Grid.Column="1" Margin="10,10,10,0" >
-            <SearchBar x:Name="srchClients"  FlowDirection="RightToLeft" Placeholder="... جستجوی مشتری " TextChanged="srchClients_TextChanged" />
 
+                        <!--////-->
+                        <ScrollView Grid.Row="0" >
 
-            <!--////-->
-            <ScrollView Grid.Row="0" >
+                            <telerikGrid:RadDataGrid SelectionUnit="Row" SelectionChanged="ClientDataGrid_SelectionChanged"   x:Name="ClientDataGrid"  UserFilterMode="Disabled" UserGroupMode="Disabled" UserSortMode="None" UserEditMode="None" AutoGenerateColumns="False"  SelectionMode="Single" >
 
-                <telerikGrid:RadDataGrid SelectionUnit="Row" SelectionChanged="ClientDataGrid_SelectionChanged"   x:Name="ClientDataGrid"  UserFilterMode="Disabled" UserGroupMode="Disabled" UserSortMode="None" UserEditMode="None" AutoGenerateColumns="False"  SelectionMode="Single" >
+                                <telerikGrid:RadDataGrid.Columns>
 
-                    <telerikGrid:RadDataGrid.Columns>
+                                    <!--آدرس-->
+                                    <telerikGrid:DataGridTemplateColumn  CanUserEdit="False" CanUserFilter="False" CanUserGroup="False" CanUserSort="False">
 
-                        <!--آدرس-->
-                        <telerikGrid:DataGridTemplateColumn  CanUserEdit="False" CanUserFilter="False" CanUserGroup="False" CanUserSort="False">
+                                        <telerikGrid:DataGridTemplateColumn.HeaderContentTemplate>
 
-                            <telerikGrid:DataGridTemplateColumn.HeaderContentTemplate>
+                                            <DataTemplate>
+                                                <Label FontSize="20" TextColor="Black" Text="آدرس" VerticalOptions="Center" HorizontalOptions="Center"/>
+                                            </DataTemplate>
+                                        </telerikGrid:DataGridTemplateColumn.HeaderContentTemplate>
 
-                                <DataTemplate>
-                                    <Label FontSize="20" TextColor="Black" Text="آدرس" VerticalOptions="Center" HorizontalOptions="Center"/>
-                                </DataTemplate>
-                            </telerikGrid:DataGridTemplateColumn.HeaderContentTemplate>
-
-                            <telerikGrid:DataGridTemplateColumn.HeaderStyle>
-                                <telerikGrid:DataGridColumnHeaderStyle OptionsButtonTextColor="Transparent"
+                                        <telerikGrid:DataGridTemplateColumn.HeaderStyle>
+                                            <telerikGrid:DataGridColumnHeaderStyle OptionsButtonTextColor="Transparent"
                                                     OptionsButtonFontSize="0"
                                                     BorderColor="#D9D9D9"
                                                     BorderThickness="1" />
-                            </telerikGrid:DataGridTemplateColumn.HeaderStyle>
+                                        </telerikGrid:DataGridTemplateColumn.HeaderStyle>
 
-                            <telerikGrid:DataGridTemplateColumn.CellContentTemplate>
-                                <DataTemplate>
-                                    <Label
+                                        <telerikGrid:DataGridTemplateColumn.CellContentTemplate>
+                                            <DataTemplate>
+                                                <Label
                                             VerticalOptions="Center"
                                             TextColor="Black"
                                             HorizontalOptions="Center"
                                             FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
                                             FontSize="20"
                                             Text="{Binding Address}"/>
-                                </DataTemplate>
-                            </telerikGrid:DataGridTemplateColumn.CellContentTemplate>
-                        </telerikGrid:DataGridTemplateColumn>
+                                            </DataTemplate>
+                                        </telerikGrid:DataGridTemplateColumn.CellContentTemplate>
+                                    </telerikGrid:DataGridTemplateColumn>
 
-                        <!--موبایل-->
-                        <telerikGrid:DataGridTemplateColumn  CanUserEdit="False" CanUserFilter="False" CanUserGroup="False" CanUserSort="False">
+                                    <!--موبایل-->
+                                    <telerikGrid:DataGridTemplateColumn  CanUserEdit="False" CanUserFilter="False" CanUserGroup="False" CanUserSort="False">
 
-                            <telerikGrid:DataGridTemplateColumn.HeaderContentTemplate>
+                                        <telerikGrid:DataGridTemplateColumn.HeaderContentTemplate>
 
-                                <DataTemplate>
-                                    <Label FontSize="20" TextColor="Black" Text="موبایل" VerticalOptions="Center" HorizontalOptions="Center"/>
-                                </DataTemplate>
-                            </telerikGrid:DataGridTemplateColumn.HeaderContentTemplate>
+                                            <DataTemplate>
+                                                <Label FontSize="20" TextColor="Black" Text="موبایل" VerticalOptions="Center" HorizontalOptions="Center"/>
+                                            </DataTemplate>
+                                        </telerikGrid:DataGridTemplateColumn.HeaderContentTemplate>
 
-                            <telerikGrid:DataGridTemplateColumn.HeaderStyle>
-                                <telerikGrid:DataGridColumnHeaderStyle OptionsButtonTextColor="Transparent"
+                                        <telerikGrid:DataGridTemplateColumn.HeaderStyle>
+                                            <telerikGrid:DataGridColumnHeaderStyle OptionsButtonTextColor="Transparent"
                                                     OptionsButtonFontSize="0"
                                                     BorderColor="#D9D9D9"
                                                     BorderThickness="1" />
-                            </telerikGrid:DataGridTemplateColumn.HeaderStyle>
+                                        </telerikGrid:DataGridTemplateColumn.HeaderStyle>
 
-                            <telerikGrid:DataGridTemplateColumn.CellContentTemplate>
-                                <DataTemplate>
-                                    <Label 
+                                        <telerikGrid:DataGridTemplateColumn.CellContentTemplate>
+                                            <DataTemplate>
+                                                <Label 
                                              VerticalOptions="Center"
                                             TextColor="Black"
                                             HorizontalOptions="Center"
                                             FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
                                             FontSize="20"
                                             Text="{Binding MobileNumber}"/>
-                                </DataTemplate>
-                            </telerikGrid:DataGridTemplateColumn.CellContentTemplate>
-                        </telerikGrid:DataGridTemplateColumn>
+                                            </DataTemplate>
+                                        </telerikGrid:DataGridTemplateColumn.CellContentTemplate>
+                                    </telerikGrid:DataGridTemplateColumn>
 
 
-                        <!--تلفن-->
-                        <telerikGrid:DataGridTemplateColumn  CanUserEdit="False" CanUserFilter="False" CanUserGroup="False" CanUserSort="False">
+                                    <!--تلفن-->
+                                    <telerikGrid:DataGridTemplateColumn  CanUserEdit="False" CanUserFilter="False" CanUserGroup="False" CanUserSort="False">
 
-                            <telerikGrid:DataGridTemplateColumn.HeaderContentTemplate>
+                                        <telerikGrid:DataGridTemplateColumn.HeaderContentTemplate>
 
-                                <DataTemplate>
-                                    <Label FontSize="20" TextColor="Black" Text="تلفن" VerticalOptions="Center" HorizontalOptions="Center"/>
-                                </DataTemplate>
-                            </telerikGrid:DataGridTemplateColumn.HeaderContentTemplate>
+                                            <DataTemplate>
+                                                <Label FontSize="20" TextColor="Black" Text="تلفن" VerticalOptions="Center" HorizontalOptions="Center"/>
+                                            </DataTemplate>
+                                        </telerikGrid:DataGridTemplateColumn.HeaderContentTemplate>
 
-                            <telerikGrid:DataGridTemplateColumn.HeaderStyle>
-                                <telerikGrid:DataGridColumnHeaderStyle OptionsButtonTextColor="Transparent"
+                                        <telerikGrid:DataGridTemplateColumn.HeaderStyle>
+                                            <telerikGrid:DataGridColumnHeaderStyle OptionsButtonTextColor="Transparent"
                                                     OptionsButtonFontSize="0"
                                                     BorderColor="#D9D9D9"
                                                     BorderThickness="1" />
-                            </telerikGrid:DataGridTemplateColumn.HeaderStyle>
+                                        </telerikGrid:DataGridTemplateColumn.HeaderStyle>
 
-                            <telerikGrid:DataGridTemplateColumn.CellContentTemplate>
-                                <DataTemplate>
-                                    <Label
+                                        <telerikGrid:DataGridTemplateColumn.CellContentTemplate>
+                                            <DataTemplate>
+                                                <Label
                                             VerticalOptions="Center"
                                             TextColor="Black"
                                             HorizontalOptions="Center"
@@ -198,58 +255,58 @@ xmlns:telerikGrid="clr-namespace:Telerik.XamarinForms.DataGrid;assembly=Telerik.
                                             FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
                                             FontSize="20"
                                             Text="{Binding PhoneNumber}"/>
-                                </DataTemplate>
-                            </telerikGrid:DataGridTemplateColumn.CellContentTemplate>
-                        </telerikGrid:DataGridTemplateColumn>
+                                            </DataTemplate>
+                                        </telerikGrid:DataGridTemplateColumn.CellContentTemplate>
+                                    </telerikGrid:DataGridTemplateColumn>
 
 
-                        <!--نام مشترک-->
-                        <telerikGrid:DataGridTemplateColumn  CanUserEdit="False" CanUserFilter="False" CanUserGroup="False" CanUserSort="False">
-                            <telerikGrid:DataGridTemplateColumn.HeaderContentTemplate>
-                                <DataTemplate>
-                                    <Label FontSize="20" TextColor="Black" Text="نام مشترک" HorizontalOptions="End"  VerticalOptions="Center"    Margin="0,0,10,0" />
-                                </DataTemplate>
-                            </telerikGrid:DataGridTemplateColumn.HeaderContentTemplate>
-                            <telerikGrid:DataGridTemplateColumn.HeaderStyle>
-                                <telerikGrid:DataGridColumnHeaderStyle 
+                                    <!--نام مشترک-->
+                                    <telerikGrid:DataGridTemplateColumn  CanUserEdit="False" CanUserFilter="False" CanUserGroup="False" CanUserSort="False">
+                                        <telerikGrid:DataGridTemplateColumn.HeaderContentTemplate>
+                                            <DataTemplate>
+                                                <Label FontSize="20" TextColor="Black" Text="نام مشترک" HorizontalOptions="End"  VerticalOptions="Center"    Margin="0,0,10,0" />
+                                            </DataTemplate>
+                                        </telerikGrid:DataGridTemplateColumn.HeaderContentTemplate>
+                                        <telerikGrid:DataGridTemplateColumn.HeaderStyle>
+                                            <telerikGrid:DataGridColumnHeaderStyle 
                                             OptionsButtonTextColor="Transparent"
                                             OptionsButtonFontSize="0"
                                             BorderColor="#D9D9D9"
                                             BorderThickness="1" />
-                            </telerikGrid:DataGridTemplateColumn.HeaderStyle>
+                                        </telerikGrid:DataGridTemplateColumn.HeaderStyle>
 
-                            <telerikGrid:DataGridTemplateColumn.CellContentTemplate>
-                                <DataTemplate>
-                                    <Label VerticalOptions="Center"
+                                        <telerikGrid:DataGridTemplateColumn.CellContentTemplate>
+                                            <DataTemplate>
+                                                <Label VerticalOptions="Center"
                                             HorizontalOptions="End"
                                             TextColor="Black"
                                             Margin="0,0,10,0"
                                             FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
                                             FontSize="20"
                                             Text="{Binding ClientName}"/>
-                                </DataTemplate>
-                            </telerikGrid:DataGridTemplateColumn.CellContentTemplate>
-                        </telerikGrid:DataGridTemplateColumn>
+                                            </DataTemplate>
+                                        </telerikGrid:DataGridTemplateColumn.CellContentTemplate>
+                                    </telerikGrid:DataGridTemplateColumn>
 
 
-                        <!--کد اشتراک-->
-                        <telerikGrid:DataGridTemplateColumn CanUserEdit="False" CanUserFilter="False" CanUserGroup="False" CanUserSort="False" >
-                            <telerikGrid:DataGridTemplateColumn.HeaderContentTemplate>
-                                <DataTemplate>
-                                    <Label 
+                                    <!--کد اشتراک-->
+                                    <telerikGrid:DataGridTemplateColumn CanUserEdit="False" CanUserFilter="False" CanUserGroup="False" CanUserSort="False" >
+                                        <telerikGrid:DataGridTemplateColumn.HeaderContentTemplate>
+                                            <DataTemplate>
+                                                <Label 
                                              FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
                                             FontSize="20" TextColor="Black" Text="کد اشتراک" VerticalOptions="Center" HorizontalOptions="Center" />
-                                </DataTemplate>
-                            </telerikGrid:DataGridTemplateColumn.HeaderContentTemplate>
-                            <telerikGrid:DataGridTemplateColumn.HeaderStyle>
-                                <telerikGrid:DataGridColumnHeaderStyle OptionsButtonTextColor="Transparent"
+                                            </DataTemplate>
+                                        </telerikGrid:DataGridTemplateColumn.HeaderContentTemplate>
+                                        <telerikGrid:DataGridTemplateColumn.HeaderStyle>
+                                            <telerikGrid:DataGridColumnHeaderStyle OptionsButtonTextColor="Transparent"
                                                     OptionsButtonFontSize="0"
                                                     BorderColor="#D9D9D9"
                                                     BorderThickness="1" />
-                            </telerikGrid:DataGridTemplateColumn.HeaderStyle>
-                            <telerikGrid:DataGridTemplateColumn.CellContentTemplate>
-                                <DataTemplate>
-                                    <Label 
+                                        </telerikGrid:DataGridTemplateColumn.HeaderStyle>
+                                        <telerikGrid:DataGridTemplateColumn.CellContentTemplate>
+                                            <DataTemplate>
+                                                <Label 
                                             VerticalOptions="Center"                                    
                                             TextColor="Black"
                                             FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
@@ -257,49 +314,49 @@ xmlns:telerikGrid="clr-namespace:Telerik.XamarinForms.DataGrid;assembly=Telerik.
                                             Text="{Binding ClientId}"
                                             HorizontalOptions="Center"
                                             Margin="0,0,10,0"/>
-                                </DataTemplate>
-                            </telerikGrid:DataGridTemplateColumn.CellContentTemplate>
-                        </telerikGrid:DataGridTemplateColumn>
+                                            </DataTemplate>
+                                        </telerikGrid:DataGridTemplateColumn.CellContentTemplate>
+                                    </telerikGrid:DataGridTemplateColumn>
 
-                        <!--Select Image-->
-                        <telerikGrid:DataGridTemplateColumn CanUserEdit="False" CanUserFilter="False" CanUserGroup="False" CanUserSort="False" >
-                            <telerikGrid:DataGridTemplateColumn.HeaderContentTemplate>
-                                <DataTemplate>
-                                    <Label 
+                                    <!--Select Image-->
+                                    <telerikGrid:DataGridTemplateColumn CanUserEdit="False" CanUserFilter="False" CanUserGroup="False" CanUserSort="False" >
+                                        <telerikGrid:DataGridTemplateColumn.HeaderContentTemplate>
+                                            <DataTemplate>
+                                                <Label 
                                             FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
                                             FontSize="20" TextColor="Black" Text="انتخاب" VerticalOptions="Center" HorizontalOptions="Center" />
-                                </DataTemplate>
-                            </telerikGrid:DataGridTemplateColumn.HeaderContentTemplate>
-                            <telerikGrid:DataGridTemplateColumn.HeaderStyle>
-                                <telerikGrid:DataGridColumnHeaderStyle OptionsButtonTextColor="Transparent"
+                                            </DataTemplate>
+                                        </telerikGrid:DataGridTemplateColumn.HeaderContentTemplate>
+                                        <telerikGrid:DataGridTemplateColumn.HeaderStyle>
+                                            <telerikGrid:DataGridColumnHeaderStyle OptionsButtonTextColor="Transparent"
                                                     OptionsButtonFontSize="0"
                                                     BorderColor="#D9D9D9"
                                                     BorderThickness="1" />
-                            </telerikGrid:DataGridTemplateColumn.HeaderStyle>
-                            <telerikGrid:DataGridTemplateColumn.CellContentTemplate>
-                                <DataTemplate>
-                                    <Image x:Name="imgSelectClient" Source="{local:EmbeddedImage Sandoghche.Images.Select.png}"  HeightRequest="40" VerticalOptions="Center">
-                                        <Image.GestureRecognizers>
-                                            <TapGestureRecognizer Tapped="imgSelectClient_Tapped" />
-                                        </Image.GestureRecognizers>
-                                    </Image>
+                                        </telerikGrid:DataGridTemplateColumn.HeaderStyle>
+                                        <telerikGrid:DataGridTemplateColumn.CellContentTemplate>
+                                            <DataTemplate>
+                                                <Image x:Name="imgSelectClient" Source="{local:EmbeddedImage Sandoghche.Images.Select.png}"  HeightRequest="40" VerticalOptions="Center">
+                                                    <Image.GestureRecognizers>
+                                                        <TapGestureRecognizer Tapped="imgSelectClient_Tapped" />
+                                                    </Image.GestureRecognizers>
+                                                </Image>
 
-                                </DataTemplate>
-                            </telerikGrid:DataGridTemplateColumn.CellContentTemplate>
-                        </telerikGrid:DataGridTemplateColumn>
-
-
+                                            </DataTemplate>
+                                        </telerikGrid:DataGridTemplateColumn.CellContentTemplate>
+                                    </telerikGrid:DataGridTemplateColumn>
 
 
-                    </telerikGrid:RadDataGrid.Columns>
-                </telerikGrid:RadDataGrid>
-            </ScrollView>
 
 
-            <!--////-->
+                                </telerikGrid:RadDataGrid.Columns>
+                            </telerikGrid:RadDataGrid>
+                        </ScrollView>
 
 
-            <!--<ListView x:Name="lstClientsView" >
+                        <!--////-->
+
+
+                        <!--<ListView x:Name="lstClientsView" >
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
@@ -308,8 +365,15 @@ xmlns:telerikGrid="clr-namespace:Telerik.XamarinForms.DataGrid;assembly=Telerik.
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>-->
+                    </StackLayout>
+                </Frame>
+
+            </Grid>
         </StackLayout>
+
     </Grid>
+
+
 
 
 </ContentPage>
