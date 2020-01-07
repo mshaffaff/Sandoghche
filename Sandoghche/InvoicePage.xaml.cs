@@ -142,13 +142,13 @@ namespace Sandoghche
 
         private void lstProducts_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            
+
         }
         private void lstProducts_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             var product = (Product)e.Item;
-                     
-            order.Order.ClientId =Convert.ToInt32(lblClientId.Text);
+
+            order.Order.ClientId = Convert.ToInt32(lblClientId.Text);
             order.Order.ReceiptNumber = 1;
             order.Order.Tax1 = 1;
             order.Order.Tax2 = 2;
@@ -161,7 +161,7 @@ namespace Sandoghche
             order.Order.Comment = "Comment";
             order.Order.PaymentType = 1;
             order.Order.TotalPrice = 57400;
-            
+
             var detail = order.OrderDetail.FirstOrDefault(x => x.ProductId == product.ProductId);
             if (detail != null)
             {
@@ -170,20 +170,48 @@ namespace Sandoghche
                 detail.TotalPrice = n * detail.Price;
             }
             else
-                order.OrderDetail.Add(new OrderDetailViewModel { ProductId = product.ProductId,ProductText = product.ProductText, Number = 1, Price = product.ProductPrice, CategoryId = product.CategoryId,TotalPrice=product.ProductPrice });
-
-            var t = order;
+                order.OrderDetail.Add(new OrderDetailViewModel { RowNumber = order.OrderDetail.Count + 1, ProductId = product.ProductId, ProductText = product.ProductText, Number = 1, Price = product.ProductPrice, CategoryId = product.CategoryId, TotalPrice = product.ProductPrice });
 
             ProductsDataGrid.ItemsSource = null;
             ProductsDataGrid.ItemsSource = order.OrderDetail;
-           
-            
+
+
         }
         async private void srchProduct_TextChanged(object sender, TextChangedEventArgs e)
         {
             await getProducts(Convert.ToInt32(lblCategoryId.Text), e.NewTextValue);
         }
 
+        private void btnPlus_Clicked(object sender, EventArgs e)
+        {
+            var s = sender as ImageButton;
+            var selectedItem = s.BindingContext;
+            var orderDetail = (OrderDetailViewModel)selectedItem;
 
+            orderDetail.Number++;
+            orderDetail.TotalPrice = orderDetail.TotalPrice + orderDetail.Price;
+
+            ProductsDataGrid.ItemsSource = null;
+            ProductsDataGrid.ItemsSource = order.OrderDetail;
+        }
+
+        private void btnMines_Clicked(object sender, EventArgs e)
+        {
+            var s = sender as ImageButton;
+            var selectedItem = s.BindingContext;
+            var orderDetail = (OrderDetailViewModel)selectedItem;
+            orderDetail.Number--;
+            orderDetail.TotalPrice = orderDetail.TotalPrice - orderDetail.Price;
+            if (orderDetail.Number == 0)
+                order.OrderDetail.Remove(orderDetail);
+
+            ProductsDataGrid.ItemsSource = null;
+            ProductsDataGrid.ItemsSource = order.OrderDetail;
+        }
+
+         private void btnNote_Clicked(object sender, EventArgs e)
+        {
+            
+        }
     }
 }

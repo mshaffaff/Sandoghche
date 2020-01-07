@@ -20,6 +20,7 @@ namespace Sandoghche.ModelView
 
     public class OrderDetailViewModel
     {
+        public int RowNumber { get; set; }
         public int ProductId { get; set; }
         public string ProductText { get; set; }
         public int CategoryId { get; set; }

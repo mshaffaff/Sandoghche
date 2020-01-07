@@ -317,24 +317,9 @@ xmlns:telerikGrid="clr-namespace:Telerik.XamarinForms.DataGrid;assembly=Telerik.
 
 
                                 </telerikGrid:RadDataGrid.Columns>
-                           
-                        </telerikGrid:RadDataGrid>
+
+                            </telerikGrid:RadDataGrid>
                         </Grid>
-                        <!--</ScrollView>-->
-
-
-                        <!--////-->
-
-
-                        <!--<ListView x:Name="lstClientsView" >
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <Label Text="{Binding ClientName}" />
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>-->
                     </StackLayout>
                 </Frame>
 

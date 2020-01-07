@@ -51,7 +51,7 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
 
 
                 </StackLayout>
-               
+
                 <!--نام مشتری-->
                 <StackLayout Margin="0,0,20,0" Grid.Column="2"   VerticalOptions="Center" >
                     <Label  IsVisible="False" x:Name="lblClientId" />
@@ -90,12 +90,8 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
                         </Grid.RowDefinitions>
                     </Grid>
 
-                    <Grid Grid.Row="0">
-                        
-                    
-                 
-
-                        <telerikDataGrid:RadDataGrid   x:Name="ProductsDataGrid"   UserFilterMode="Disabled" UserGroupMode="Disabled" UserSortMode="None" UserEditMode="None" AutoGenerateColumns="False"  >
+                    <Grid Grid.Row="0" VerticalOptions="FillAndExpand">
+                        <telerikDataGrid:RadDataGrid x:Name="ProductsDataGrid"   UserFilterMode="Disabled" UserGroupMode="Disabled" UserSortMode="None" UserEditMode="None" AutoGenerateColumns="False"  >
 
                             <telerikDataGrid:RadDataGrid.Columns>
 
@@ -111,10 +107,8 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
 
                                     <telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
                                         <DataTemplate>
-                                            <!--<Image Source="{local:EmbeddedImage Sandoghche.Images.Plus.png}"  WidthRequest="5" HeightRequest="5"/>-->
-                                            <Label Text="-" FontSize="35" FontAttributes="Bold" TextColor="IndianRed" VerticalOptions="Center" HorizontalOptions="Center"/>
-
-
+                                            <ImageButton x:Name="btnMines"  WidthRequest="20" HeightRequest="20" Margin="5" Clicked="btnMines_Clicked"  Source="{local:EmbeddedImage Sandoghche.Images.Mines.png}" />
+                                           
                                         </DataTemplate>
                                     </telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
                                 </telerikDataGrid:DataGridTemplateColumn>
@@ -132,10 +126,8 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
 
                                     <telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
                                         <DataTemplate>
-                                            <!--<Image Source="{local:EmbeddedImage Sandoghche.Images.Plus.png}"  WidthRequest="5" HeightRequest="5"/>-->
-
-                                            <Label Text="+" FontSize="35" FontAttributes="Bold" TextColor="Green" VerticalOptions="Center" HorizontalOptions="Center"/>
-
+                                            <ImageButton Margin="5" BackgroundColor="White"  WidthRequest="20" HeightRequest="20" x:Name="btnPlus" Clicked="btnPlus_Clicked"  Source="{local:EmbeddedImage Sandoghche.Images.Plus.png}" />
+                                           
                                         </DataTemplate>
                                     </telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
                                 </telerikDataGrid:DataGridTemplateColumn>
@@ -233,7 +225,7 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
                                 </telerikDataGrid:DataGridTemplateColumn>
 
 
-                                <!--////عنوان-->
+                                <!--عنوان-->
                                 <telerikDataGrid:DataGridTemplateColumn  CanUserEdit="False" CanUserFilter="False" CanUserGroup="False" CanUserSort="False">
                                     <telerikDataGrid:DataGridTemplateColumn.HeaderContentTemplate>
                                         <DataTemplate>
@@ -263,7 +255,7 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
 
 
                                 <!--ردیف-->
-                                <telerikDataGrid:DataGridTemplateColumn CanUserEdit="False" CanUserFilter="False" CanUserGroup="False" CanUserSort="False" >
+                                <telerikDataGrid:DataGridTemplateColumn  CanUserEdit="False" CanUserFilter="False" CanUserGroup="False" CanUserSort="False" >
                                     <telerikDataGrid:DataGridTemplateColumn.HeaderContentTemplate>
                                         <DataTemplate>
                                             <Label 
@@ -279,12 +271,13 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
                                     </telerikDataGrid:DataGridTemplateColumn.HeaderStyle>
                                     <telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
                                         <DataTemplate>
+
                                             <Label 
                                             VerticalOptions="Center"                                    
                                             TextColor="Black"
                                             FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
                                             FontSize="20"
-                                            Text="{Binding ProductId}"
+                                            Text="{Binding RowNumber}"
                                             HorizontalOptions="Center"
                                             Margin="0,0,10,0"/>
                                         </DataTemplate>
@@ -293,9 +286,8 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
 
                             </telerikDataGrid:RadDataGrid.Columns>
                         </telerikDataGrid:RadDataGrid>
-           
                     </Grid>
-                    <StackLayout Grid.Row="1" BackgroundColor="Black" VerticalOptions="StartAndExpand" >
+                    <StackLayout Grid.Row="1" BackgroundColor="Black" VerticalOptions="EndAndExpand" >
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="35"/>
@@ -341,7 +333,7 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
 
                 </StackLayout>
 
-               
+
 
 
                 <!--طبقه بندی-->
@@ -388,7 +380,7 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
                 <Image Grid.Column="2" Source="{local:EmbeddedImage Sandoghche.Images.Delivery.png}" />
                 <Image Grid.Column="3" Source="{local:EmbeddedImage Sandoghche.Images.Tax.png}" />
                 <Image Grid.Column="4" Source="{local:EmbeddedImage Sandoghche.Images.Discount.png}" />
-                <Image Grid.Column="5" Source="{local:EmbeddedImage Sandoghche.Images.Note.png}" />
+                <ImageButton x:Name="btnNote" Grid.Column="5" Source="{local:EmbeddedImage Sandoghche.Images.Note.png}" Clicked="btnNote_Clicked"  />
                 <Image Grid.Column="6" Source="{local:EmbeddedImage Sandoghche.Images.CreditInvoice.png}" />
                 <Image Grid.Column="7" Source="{local:EmbeddedImage Sandoghche.Images.SaveInvoice.png}" />
                 <Image Grid.Column="8" Source="{local:EmbeddedImage Sandoghche.Images.PrintInvoice.png}" />
