@@ -68,13 +68,7 @@ namespace Sandoghche
             }
 
 
-            Device.StartTimer(TimeSpan.FromSeconds(1), () =>
-             {
-             Device.BeginInvokeOnMainThread(() =>
-                lblClocl.Text = DateTime.Now.ToString("HH:mm:ss") 
-                );
-            return true;
-             });
+            
 
             backgroundImage.Source = ImageSource.FromResource("Sandoghche.Images.background.jpg");
             sloganLine.Source = ImageSource.FromResource("Sandoghche.Images.sloganLine.png");
@@ -90,6 +84,18 @@ namespace Sandoghche
             if (Application.Current.Properties.ContainsKey("Email"))
                 lblUser.Text = Application.Current.Properties["Email"].ToString();
 
+        }
+
+        protected override void OnAppearing()
+        {
+            Device.StartTimer(TimeSpan.FromSeconds(1), () =>
+            {
+                Device.BeginInvokeOnMainThread(() =>
+                   lblClocl.Text = DateTime.Now.ToString("HH:mm:ss")
+                   );
+                return true;
+            });
+            base.OnAppearing();
         }
 
         async private void imgEdit_Tapped(object sender, EventArgs e)

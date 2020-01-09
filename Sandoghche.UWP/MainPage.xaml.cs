@@ -21,6 +21,8 @@ namespace Sandoghche.UWP
         {
             this.InitializeComponent();
 
+            Rg.Plugins.Popup.Popup.Init();
+
             LoadApplication(new Sandoghche.App());
         }
     }

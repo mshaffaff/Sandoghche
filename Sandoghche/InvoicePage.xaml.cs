@@ -1,4 +1,5 @@
-﻿using Sandoghche.Components;
+﻿using Rg.Plugins.Popup.Services;
+using Sandoghche.Components;
 using Sandoghche.Models;
 using Sandoghche.ModelView;
 using System;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using static Sandoghche.NotePopupPage;
 
 namespace Sandoghche
 {
@@ -16,16 +18,13 @@ namespace Sandoghche
     public partial class InvoicePage : ContentPage
     {
         private static OrderViewModel order;
-
-        public class Item
-        {
-            public int ItemId { get; set; }
-
-            public string ItemText { get; set; }
-        }
         public InvoicePage(int ClientId, string ClientName)
         {
             InitializeComponent();
+
+        
+
+
             lblClient.Text = ClientName;
             lblClientId.Text = ClientId.ToString();
 
@@ -39,42 +38,11 @@ namespace Sandoghche
             await SandoghcheController.GetConnection().CreateTableAsync<Order>();
             await SandoghcheController.GetConnection().CreateTableAsync<OrderDetail>();
             await getCategories();
+
             base.OnAppearing();
         }
 
-
-
-        //lstItems.ItemsSource = new List<Item>
-        //{ 
-        //    new Item{ItemId = 1,ItemText="لیوانی نارگیلی" },
-        //    new Item{ItemId = 2,ItemText="لیوانی شکلاتی" },
-        //    new Item{ItemId = 3,ItemText="لیوانی نارگیلی" },
-        //    new Item{ItemId = 4,ItemText="لیوانی نسکافه" },
-        //    new Item{ItemId = 5,ItemText="لیوانی آناناس" }
-
-
-        //};
-
-        //DataGrid.ItemsSource = new List<Item>
-        //{
-        //    new Item{ItemId = 1,ItemText="لیوانی شکلاتی لیوانی شکلات" },
-        //    new Item{ItemId = 2,ItemText="لیوانی نارگیلی" },
-        //    new Item{ItemId = 3,ItemText="لیوانی نسکافه" },
-        //    new Item{ItemId = 4,ItemText="لیوانی نارگیلی" },
-        //    new Item{ItemId = 5,ItemText="لیوانی شکلاتی" },
-        //    new Item{ItemId = 6,ItemText="لیوانی نارگیلی" },
-        //    new Item{ItemId = 7,ItemText="لیوانی نسکافه" },
-        //    new Item{ItemId = 8,ItemText="لیوانی آناناس" },
-        //    new Item{ItemId = 9,ItemText="لیوانی آناناس" },
-        //    new Item{ItemId = 10,ItemText="لیوانی آناناس" },
-        //    new Item{ItemId = 11,ItemText="لیوانی آناناس" },
-        //    new Item{ItemId = 12,ItemText="لیوانی آناناس" },
-
-
-
-        //};
-
-
+      
         async Task getCategories(string Searchtext = null)
         {
             var categories = await SandoghcheController._connection.Table<Category>().Where(c => c.IsDeleted != true).ToListAsync();
@@ -87,6 +55,7 @@ namespace Sandoghche
 
             lstCategory.ItemsSource = result;
         }
+
 
         async Task getProducts(int categoryId, string Searchtext = null)
         {
@@ -155,12 +124,11 @@ namespace Sandoghche
             order.Order.DeliveryFee = 1500;
             order.Order.ServiceType = 1;
             order.Order.TotalServiceFee = 1700;
-            order.Order.DiscountType = 2;
-            order.Order.DiscountPercent = 20;
-            order.Order.TotalDiscount = 1700;
-            order.Order.Comment = "Comment";
+            //order.Order.DiscountType = 2;
+            //order.Order.DiscountPercent = 20;
+            //order.Order.TotalDiscount = 1700;
             order.Order.PaymentType = 1;
-            order.Order.TotalPrice = 57400;
+            order.Order.TotalPrice = 100000;
 
             var detail = order.OrderDetail.FirstOrDefault(x => x.ProductId == product.ProductId);
             if (detail != null)
@@ -209,9 +177,40 @@ namespace Sandoghche
             ProductsDataGrid.ItemsSource = order.OrderDetail;
         }
 
-         private void btnNote_Clicked(object sender, EventArgs e)
+        private void btnNote_Clicked(object sender, EventArgs e)
         {
-            
+            MessagingCenter.Subscribe<PopupViewModel>(this, "txtComment", (value) =>
+            {
+                order.Order.Comment = value.CommentText;
+            });
+
+            PopupNavigation.Instance.PushAsync(new NotePopupPage());
+        }
+
+        private void btnDiscount_Tapped(object sender, EventArgs e)
+        {
+            MessagingCenter.Subscribe<PopupViewModel>(this, "Discount", (value) =>
+            {
+                if(value.DiscountType==0)
+                {
+                    order.Order.DiscountType = 0;
+                    order.Order.DiscountPercent = value.DiscountAmount;
+                    order.Order.TotalDiscount = order.Order.TotalPrice * (value.DiscountAmount * 0.01); 
+
+                }
+                else
+                {
+                    order.Order.DiscountType = Convert.ToInt16(value.DiscountType);
+                    order.Order.DiscountPercent = 0;
+                    order.Order.TotalDiscount = value.DiscountAmount;
+                    
+                }
+              
+
+            });
+
+            PopupNavigation.Instance.PushAsync(new DiscountPopupPage());
         }
     }
+    
 }
