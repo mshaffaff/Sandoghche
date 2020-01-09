@@ -16,7 +16,7 @@ namespace Sandoghche
 
         private void btnAddNote_Clicked(object sender, EventArgs e)
         {
-
+            //اگر هنوز فاکتوری صادر نشده و فاکتور خالی است کاربر نمیتواند در ان توضیحات لحاظ کند
             PopupNavigation.Instance.PopAsync(true);
 
             MessagingCenter.Send(new PopupViewModel() { CommentText = txtComment.Text }, "txtComment");
