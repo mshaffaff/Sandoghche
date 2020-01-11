@@ -121,9 +121,9 @@ namespace Sandoghche
             order.Order.ReceiptNumber = 1;
             order.Order.Tax1 = 1;
             order.Order.Tax2 = 2;
-            order.Order.DeliveryFee = 1500;
-            order.Order.ServiceType = 1;
-            order.Order.TotalServiceFee = 1700;
+            //order.Order.DeliveryFee = 1500;
+            //order.Order.ServiceType = 1;
+            //order.Order.TotalServiceFee = 1700;
             //order.Order.DiscountType = 2;
             //order.Order.DiscountPercent = 20;
             //order.Order.TotalDiscount = 1700;
@@ -196,20 +196,64 @@ namespace Sandoghche
                     order.Order.DiscountType = 0;
                     order.Order.DiscountPercent = value.DiscountAmount;
                     order.Order.TotalDiscount = order.Order.TotalPrice * (value.DiscountAmount * 0.01); 
-
+                    lblDiscount.Text = (order.Order.TotalPrice * (value.DiscountAmount * 0.01)).ToString();
                 }
                 else
                 {
                     order.Order.DiscountType = Convert.ToInt16(value.DiscountType);
                     order.Order.DiscountPercent = 0;
                     order.Order.TotalDiscount = value.DiscountAmount;
-                    
+                    lblDiscount.Text = value.DiscountAmount.ToString();
                 }
               
 
             });
 
             PopupNavigation.Instance.PushAsync(new DiscountPopupPage());
+        }
+
+        private void btnDelivey_Tapped(object sender, EventArgs e)
+        {
+            MessagingCenter.Subscribe<PopupViewModel>(this, "txtDeliveryFee", (value) =>
+            {
+                order.Order.DeliveryFee = value.DeliveryFee;
+                lblDelivery.Text = value.DeliveryFee.ToString();
+            });
+
+            PopupNavigation.Instance.PushAsync(new DeliveryPopupPage());
+        }
+
+        private void btnService_Tapped(object sender, EventArgs e)
+        {
+            MessagingCenter.Subscribe<PopupViewModel>(this, "Service", (value) =>
+            {
+                if (value.ServiceType == 0)
+                {
+                    order.Order.ServiceType = 0;
+                    order.Order.ServicePercent = value.ServiceAmount;
+                    order.Order.TotalServiceFee = order.Order.TotalPrice * (value.ServiceAmount * 0.01);
+                    lblService.Text = (order.Order.TotalPrice * (value.ServiceAmount * 0.01)).ToString();
+
+                }
+                else
+                {
+                    order.Order.ServiceType = Convert.ToInt16(value.ServiceType);
+                    order.Order.ServicePercent = 0;
+                    order.Order.TotalDiscount = value.ServiceAmount;
+                    lblService.Text = value.ServiceAmount.ToString();
+
+                }
+
+
+            });
+
+            PopupNavigation.Instance.PushAsync(new ServicePopupPage());
+
+        }
+
+        private void btnMainMenu_Tapped(object sender, EventArgs e)
+        {
+            Navigation.PopAsync();
         }
     }
     

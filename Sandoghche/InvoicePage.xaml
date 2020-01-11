@@ -296,15 +296,15 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
                                 <RowDefinition Height="35"/>
                                 <RowDefinition Height="35"/>
                             </Grid.RowDefinitions>
-                            <Label FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"  FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" Grid.Row="0" Grid.Column="0" Text="1254" TextColor="White" />
+                            <Label x:Name="lblDiscount" FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"  FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" Grid.Row="0" Grid.Column="0" Text="0" TextColor="White" />
                             <Label FontSize="20" VerticalOptions="Center"  HorizontalOptions="End" Margin="0,0,10,0"  FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" Grid.Row="0" Grid.Column="1" Text="تخفیف" TextColor="White" />
-                            <Label FontSize="20" VerticalOptions="Center"  HorizontalOptions="Center"   FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" Grid.Row="1" Grid.Column="0" Text="1254" TextColor="White" />
+                            <Label x:Name="lblService" FontSize="20" VerticalOptions="Center"  HorizontalOptions="Center"   FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" Grid.Row="1" Grid.Column="0" Text="0" TextColor="White" />
                             <Label FontSize="20" VerticalOptions="Center"  HorizontalOptions="End" Margin="0,0,10,0" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" Grid.Row="1" Grid.Column="1" Text="سرویس" TextColor="White" />
-                            <Label FontSize="20" VerticalOptions="Center"  HorizontalOptions="Center"   FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" Grid.Row="2" Grid.Column="0" Text="1254" TextColor="White" />
+                            <Label x:Name="lblDelivery" FontSize="20" VerticalOptions="Center"  HorizontalOptions="Center"   FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" Grid.Row="2" Grid.Column="0" Text="0" TextColor="White" />
                             <Label FontSize="20" VerticalOptions="Center"  HorizontalOptions="End" Margin="0,0,10,0"  FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" Grid.Row="2" Grid.Column="1" Text="پیک" TextColor="White" />
-                            <Label FontSize="20" VerticalOptions="Center"  HorizontalOptions="Center"   FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" Grid.Row="3" Grid.Column="0" Text="1254" TextColor="White" />
+                            <Label x:Name="lblTax" FontSize="20" VerticalOptions="Center"  HorizontalOptions="Center"   FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" Grid.Row="3" Grid.Column="0" Text="0" TextColor="White" />
                             <Label FontSize="20" VerticalOptions="Center"  HorizontalOptions="End" Margin="0,0,10,0" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" Grid.Row="3" Grid.Column="1" Text="مالیات" TextColor="White" />
-                            <Label FontSize="20" VerticalOptions="Center"  HorizontalOptions="Center"   FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" Grid.Row="4" Grid.Column="0" Text="1254" TextColor="White" />
+                            <Label x:Name="lblTotalPrice" FontSize="20" VerticalOptions="Center"  HorizontalOptions="Center"   FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" Grid.Row="4" Grid.Column="0" Text="0" TextColor="White" />
                             <Label FontSize="20" VerticalOptions="Center"  HorizontalOptions="End" Margin="0,0,10,0" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" Grid.Row="4" Grid.Column="1" Text="جمع کل" TextColor="White" />
                         </Grid>
                     </StackLayout>
@@ -332,9 +332,6 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
                     </ListView>
 
                 </StackLayout>
-
-
-
 
                 <!--طبقه بندی-->
                 <StackLayout Grid.Column="2" Margin="10,10,10,10" >
@@ -365,7 +362,7 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                   
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
@@ -375,23 +372,43 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
                     <ColumnDefinition Width="*"/>
 
                 </Grid.ColumnDefinitions>
-                <Image Grid.Column="0" Source="{local:EmbeddedImage Sandoghche.Images.MainMenu.png}"  HeightRequest="90" VerticalOptions="Center" />
-                <Image Grid.Column="1" Source="{local:EmbeddedImage Sandoghche.Images.Service.png}"  />
-                <Image Grid.Column="2" Source="{local:EmbeddedImage Sandoghche.Images.Delivery.png}" />
-                <Image Grid.Column="3" Source="{local:EmbeddedImage Sandoghche.Images.Tax.png}" />
-                <Image x:Name="btnDiscount" Grid.Column="4" Source="{local:EmbeddedImage Sandoghche.Images.Discount.png}" >
+                <Image Grid.Column="0" x:Name="btnMainMenu" Source="{local:EmbeddedImage Sandoghche.Images.MainMenu.png}"  HeightRequest="90" VerticalOptions="Center">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="btnMainMenu_Tapped" />
+                    </Image.GestureRecognizers>
+                </Image>
+
+                <Image Grid.Column="1" Source="{local:EmbeddedImage Sandoghche.Images.Service.png}">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="btnService_Tapped" />
+                    </Image.GestureRecognizers>
+                </Image>
+                
+                <Image x:Name="btnDelivery" Grid.Column="2" Source="{local:EmbeddedImage Sandoghche.Images.Delivery.png}">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="btnDelivey_Tapped" />
+                    </Image.GestureRecognizers>
+                </Image>
+
+                
+
+                <Image x:Name="btnDiscount" Grid.Column="3" Source="{local:EmbeddedImage Sandoghche.Images.Discount.png}" >
                     <Image.GestureRecognizers>
                         <TapGestureRecognizer Tapped="btnDiscount_Tapped"/>
                     </Image.GestureRecognizers>
                 </Image>
-                <Image x:Name="btnNote" Grid.Column="5" Source="{local:EmbeddedImage Sandoghche.Images.Note.png}">
+                
+                <Image x:Name="btnNote" Grid.Column="4" Source="{local:EmbeddedImage Sandoghche.Images.Note.png}">
                     <Image.GestureRecognizers>
                         <TapGestureRecognizer Tapped="btnNote_Clicked" />
                     </Image.GestureRecognizers>
                 </Image>
-                <Image Grid.Column="6" Source="{local:EmbeddedImage Sandoghche.Images.CreditInvoice.png}" />
-                <Image Grid.Column="7" Source="{local:EmbeddedImage Sandoghche.Images.SaveInvoice.png}" />
-                <Image Grid.Column="8" Source="{local:EmbeddedImage Sandoghche.Images.PrintInvoice.png}" />
+                
+                <Image Grid.Column="5" Source="{local:EmbeddedImage Sandoghche.Images.CreditInvoice.png}" />
+                
+                <Image Grid.Column="6" Source="{local:EmbeddedImage Sandoghche.Images.SaveInvoice.png}" />
+                
+                <Image Grid.Column="7" Source="{local:EmbeddedImage Sandoghche.Images.PrintInvoice.png}" />
 
             </Grid>
         </StackLayout>

@@ -25,14 +25,10 @@ namespace Sandoghche
         {
             //اگر هنوز فاکتوری صادر نشده و فاکتور خالی است کاربر نمیتواند در ان تخفیف لحاظ کند
 
-
-
-
             if (string.IsNullOrWhiteSpace(txtDiscountAmount.Text) || pkrDiscountType.SelectedIndex == -1)
             {
                 DisplayAlert("اخطار", "اطلاعات تخیخف ناقص است", "باشه");
                 return;
-                //PopupNavigation.Instance.PushAsync(new DiscountPopupPage());
             }
             else
             {

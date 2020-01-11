@@ -10,6 +10,13 @@ namespace Sandoghche.ModelView
         public int DiscountType { get; set; }
         public double DiscountAmount { get; set; }
 
+        public double DeliveryFee { get; set; }
+
+        public int ServiceType { get; set; }
+        public double ServiceAmount { get; set; }
+
+
+
 
 
     }

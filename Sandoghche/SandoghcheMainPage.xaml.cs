@@ -86,17 +86,17 @@ namespace Sandoghche
 
         }
 
-        protected override void OnAppearing()
-        {
-            Device.StartTimer(TimeSpan.FromSeconds(1), () =>
-            {
-                Device.BeginInvokeOnMainThread(() =>
-                   lblClocl.Text = DateTime.Now.ToString("HH:mm:ss")
-                   );
-                return true;
-            });
-            base.OnAppearing();
-        }
+        //protected override void OnAppearing()
+        //{
+        //    //Device.StartTimer(TimeSpan.FromSeconds(1), () =>
+        //    //{
+        //    //    Device.BeginInvokeOnMainThread(() =>
+        //    //       lblClocl.Text = DateTime.Now.ToString("HH:mm:ss")
+        //    //       );
+        //    //    return true;
+        //    //});
+        //    base.OnAppearing();
+        //}
 
         async private void imgEdit_Tapped(object sender, EventArgs e)
         {

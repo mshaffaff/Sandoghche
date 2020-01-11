@@ -21,9 +21,6 @@ namespace Sandoghche
 
             MessagingCenter.Send(new PopupViewModel() { CommentText = txtComment.Text }, "txtComment");
 
-
-
-
         }
     }
 }

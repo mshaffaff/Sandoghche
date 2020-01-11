@@ -24,9 +24,9 @@
                 </Grid.RowDefinitions>
 
                 <StackLayout Grid.Row="0" VerticalOptions="Center" Orientation="Horizontal" >
-                    <Label x:Name="lblClocl" Margin="20,0,0,0"
+                    <!--<Label x:Name="lblClocl" Margin="20,0,0,0"
                            FontSize="25"
-                           FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"/>
+                           FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"/>-->
 
                     <Label
                         x:Name="lblUser"
