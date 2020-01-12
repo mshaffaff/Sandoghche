@@ -14,9 +14,10 @@ namespace Sandoghche
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ServicePopupPage : Rg.Plugins.Popup.Pages.PopupPage
     {
-        public ServicePopupPage()
+        public ServicePopupPage(string totalPrice = null)
         {
             InitializeComponent();
+            lblTotalPrice.Text = totalPrice;
             pkrServiceType.Items.Add("درصد");
             pkrServiceType.Items.Add("مقدار");
         }
@@ -48,7 +49,7 @@ namespace Sandoghche
                     {
                         DisplayAlert("اخطار", "مقدار سرویس بایستی عددی بین 0 تا 100 باشد", "باشه");
                     }
-                    else if ((index == 1) && (amount < 0 || amount > 1000))
+                    else if ((index == 1) && (amount < 0 || amount > Convert.ToDouble(lblTotalPrice.Text)))
                     {
                         DisplayAlert("اخطار", "مقدار سرویس نمیتواند از مجموع فاکتور کمتر یا  بیشتر باشد", "باشه");
                     }

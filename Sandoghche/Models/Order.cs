@@ -30,6 +30,9 @@ namespace Sandoghche.Models
 
         public short PaymentType { get; set; }
         public double TotalPrice { get; set; }
+
+        public double FinalPayment { get; set; }
+
         public DateTime DateCreated
         {
             get

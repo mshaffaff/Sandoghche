@@ -14,9 +14,10 @@ namespace Sandoghche
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class DiscountPopupPage : Rg.Plugins.Popup.Pages.PopupPage
     {
-        public DiscountPopupPage()
+        public DiscountPopupPage(string TotalPrice = null)
         {
             InitializeComponent();
+            lblTotalPrice.Text = TotalPrice;
             pkrDiscountType.Items.Add("درصد");
             pkrDiscountType.Items.Add("مقدار");
         }
@@ -48,7 +49,7 @@ namespace Sandoghche
                     {
                         DisplayAlert("اخطار", "مقدار تخفیف بایستی عددی بین 0 تا 100 باشد", "باشه");
                     }
-                    else if ((index == 1) && (amount < 0 || amount > 1000))
+                    else if ((index == 1) && (amount < 0 || amount > Convert.ToDouble(lblTotalPrice.Text)))
                     {
                         DisplayAlert("اخطار", "مقدار تخفیف نمیتواند از مجموع فاکتور کمتر یا  بیشتر باشد", "باشه");
                     }

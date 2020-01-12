@@ -22,13 +22,12 @@ namespace Sandoghche
         {
             InitializeComponent();
 
-        
-
-
             lblClient.Text = ClientName;
             lblClientId.Text = ClientId.ToString();
 
             order = new OrderViewModel();
+            order.Order.Tax1 = 9.0;
+            order.Order.Tax2 = 25.0;
         }
 
         async protected override void OnAppearing()
@@ -37,12 +36,13 @@ namespace Sandoghche
             await SandoghcheController.GetConnection().CreateTableAsync<Product>();
             await SandoghcheController.GetConnection().CreateTableAsync<Order>();
             await SandoghcheController.GetConnection().CreateTableAsync<OrderDetail>();
+            await SandoghcheController.GetConnection().CreateTableAsync<SandoghcheSetting>();
             await getCategories();
 
             base.OnAppearing();
         }
 
-      
+
         async Task getCategories(string Searchtext = null)
         {
             var categories = await SandoghcheController._connection.Table<Category>().Where(c => c.IsDeleted != true).ToListAsync();
@@ -55,7 +55,6 @@ namespace Sandoghche
 
             lstCategory.ItemsSource = result;
         }
-
 
         async Task getProducts(int categoryId, string Searchtext = null)
         {
@@ -70,7 +69,6 @@ namespace Sandoghche
 
             lstProducts.ItemsSource = result;
         }
-
 
         private void lblClients_Tapped(object sender, EventArgs e)
         {
@@ -113,23 +111,20 @@ namespace Sandoghche
         {
 
         }
+
+        double totalPrice = 0;
+        
         private void lstProducts_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             var product = (Product)e.Item;
 
             order.Order.ClientId = Convert.ToInt32(lblClientId.Text);
-            order.Order.ReceiptNumber = 1;
-            order.Order.Tax1 = 1;
-            order.Order.Tax2 = 2;
-            //order.Order.DeliveryFee = 1500;
-            //order.Order.ServiceType = 1;
-            //order.Order.TotalServiceFee = 1700;
-            //order.Order.DiscountType = 2;
-            //order.Order.DiscountPercent = 20;
-            //order.Order.TotalDiscount = 1700;
-            order.Order.PaymentType = 1;
-            order.Order.TotalPrice = 100000;
 
+            order.Order.ReceiptNumber = 1;
+
+            order.Order.PaymentType = 1;
+
+            //جمع کل یه محصول
             var detail = order.OrderDetail.FirstOrDefault(x => x.ProductId == product.ProductId);
             if (detail != null)
             {
@@ -140,11 +135,87 @@ namespace Sandoghche
             else
                 order.OrderDetail.Add(new OrderDetailViewModel { RowNumber = order.OrderDetail.Count + 1, ProductId = product.ProductId, ProductText = product.ProductText, Number = 1, Price = product.ProductPrice, CategoryId = product.CategoryId, TotalPrice = product.ProductPrice });
 
+
             ProductsDataGrid.ItemsSource = null;
             ProductsDataGrid.ItemsSource = order.OrderDetail;
 
+            TotalPriceCalculator();
+
 
         }
+
+        ////محاسبه جمع کل فاکتور 
+       
+        
+        void TotalPriceCalculator()
+        {
+            double totalPrice = 0;
+
+            foreach (var orderDetail in order.OrderDetail)
+            {
+                totalPrice += orderDetail.TotalPrice;
+            }
+
+            lblTotalPrice.Text = totalPrice.ToString();
+            order.Order.TotalPrice = totalPrice;
+
+
+            ///////
+            order.Order.Tax1 = order.Order.TotalPrice * (5.0 * 0.01);
+            order.Order.Tax2 = order.Order.TotalPrice * (25.0 * 0.01);
+
+            lblTax.Text = (order.Order.Tax1 + order.Order.Tax2).ToString();
+            
+            ///////////////////
+            
+
+
+            var discountType = order.Order.DiscountType;
+            var totalDiscount = order.Order.TotalPrice * (order.Order.DiscountPercent * 0.01);
+            var discountPercent = order.Order.DiscountPercent;
+            if (discountType == 0)
+            {
+                totalDiscount = order.Order.TotalPrice * (order.Order.DiscountPercent * 0.01);
+                order.Order.TotalDiscount = totalDiscount;
+                lblDiscount.Text = totalDiscount.ToString();
+            }
+            else
+            {
+                totalDiscount = order.Order.TotalDiscount;
+                order.Order.TotalDiscount = totalDiscount;
+                lblDiscount.Text = totalDiscount.ToString();
+            }
+
+
+            var serviceType = order.Order.ServiceType;
+            var totalService = order.Order.TotalPrice * (order.Order.ServicePercent * 0.01);
+            var servicePercent = order.Order.ServicePercent;
+            if (serviceType == 0)
+            {
+                totalService = order.Order.TotalPrice * (order.Order.ServicePercent * 0.01);
+                order.Order.TotalServiceFee = totalService;
+                lblService.Text = totalService.ToString();
+            }
+            else
+            {
+                totalService = order.Order.TotalServiceFee;
+                order.Order.TotalServiceFee = totalService;
+                lblService.Text = totalService.ToString();
+            }
+
+                                           
+
+
+            order.Order.FinalPayment = totalPrice - (totalDiscount + order.Order.TotalServiceFee + order.Order.DeliveryFee);
+            if (order.Order.FinalPayment <= 0)
+            {
+                DisplayAlert("اخطار", "مبلغ پرداختی نمیتواند منفی باشد", "باشه");
+            }
+
+            lblFinalPayment.Text = (totalPrice - (totalDiscount + order.Order.TotalServiceFee + order.Order.DeliveryFee + order.Order.Tax1+ order.Order.Tax2)).ToString();
+        }
+
+
         async private void srchProduct_TextChanged(object sender, TextChangedEventArgs e)
         {
             await getProducts(Convert.ToInt32(lblCategoryId.Text), e.NewTextValue);
@@ -161,6 +232,8 @@ namespace Sandoghche
 
             ProductsDataGrid.ItemsSource = null;
             ProductsDataGrid.ItemsSource = order.OrderDetail;
+            TotalPriceCalculator();
+
         }
 
         private void btnMines_Clicked(object sender, EventArgs e)
@@ -175,6 +248,8 @@ namespace Sandoghche
 
             ProductsDataGrid.ItemsSource = null;
             ProductsDataGrid.ItemsSource = order.OrderDetail;
+
+            TotalPriceCalculator();
         }
 
         private void btnNote_Clicked(object sender, EventArgs e)
@@ -191,12 +266,14 @@ namespace Sandoghche
         {
             MessagingCenter.Subscribe<PopupViewModel>(this, "Discount", (value) =>
             {
-                if(value.DiscountType==0)
+                if (value.DiscountType == 0)
                 {
                     order.Order.DiscountType = 0;
                     order.Order.DiscountPercent = value.DiscountAmount;
-                    order.Order.TotalDiscount = order.Order.TotalPrice * (value.DiscountAmount * 0.01); 
+                    order.Order.TotalDiscount = order.Order.TotalPrice * (value.DiscountAmount * 0.01);
                     lblDiscount.Text = (order.Order.TotalPrice * (value.DiscountAmount * 0.01)).ToString();
+                    TotalPriceCalculator();
+
                 }
                 else
                 {
@@ -204,12 +281,14 @@ namespace Sandoghche
                     order.Order.DiscountPercent = 0;
                     order.Order.TotalDiscount = value.DiscountAmount;
                     lblDiscount.Text = value.DiscountAmount.ToString();
+                    TotalPriceCalculator();
+
                 }
-              
+
 
             });
 
-            PopupNavigation.Instance.PushAsync(new DiscountPopupPage());
+            PopupNavigation.Instance.PushAsync(new DiscountPopupPage(order.Order.TotalPrice.ToString()));
         }
 
         private void btnDelivey_Tapped(object sender, EventArgs e)
@@ -218,6 +297,8 @@ namespace Sandoghche
             {
                 order.Order.DeliveryFee = value.DeliveryFee;
                 lblDelivery.Text = value.DeliveryFee.ToString();
+                TotalPriceCalculator();
+
             });
 
             PopupNavigation.Instance.PushAsync(new DeliveryPopupPage());
@@ -233,21 +314,23 @@ namespace Sandoghche
                     order.Order.ServicePercent = value.ServiceAmount;
                     order.Order.TotalServiceFee = order.Order.TotalPrice * (value.ServiceAmount * 0.01);
                     lblService.Text = (order.Order.TotalPrice * (value.ServiceAmount * 0.01)).ToString();
+                    TotalPriceCalculator();
 
                 }
                 else
                 {
                     order.Order.ServiceType = Convert.ToInt16(value.ServiceType);
                     order.Order.ServicePercent = 0;
-                    order.Order.TotalDiscount = value.ServiceAmount;
+                    order.Order.TotalServiceFee = value.ServiceAmount;
                     lblService.Text = value.ServiceAmount.ToString();
+                    TotalPriceCalculator();
 
                 }
 
 
             });
 
-            PopupNavigation.Instance.PushAsync(new ServicePopupPage());
+            PopupNavigation.Instance.PushAsync(new ServicePopupPage(order.Order.TotalPrice.ToString()));
 
         }
 
@@ -255,6 +338,11 @@ namespace Sandoghche
         {
             Navigation.PopAsync();
         }
+
+
+
+
+
     }
-    
+
 }

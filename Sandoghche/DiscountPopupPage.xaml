@@ -8,6 +8,7 @@
              mc:Ignorable="d"
              x:Class="Sandoghche.DiscountPopupPage">
     <StackLayout  HorizontalOptions="Center" VerticalOptions="Center" BackgroundColor="LightGray" Padding="50">
+        <Label x:Name="lblTotalPrice" IsVisible="False" />
         <Picker x:Name="pkrDiscountType" >
             
         </Picker>
