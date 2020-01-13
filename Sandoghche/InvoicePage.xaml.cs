@@ -18,16 +18,29 @@ namespace Sandoghche
     public partial class InvoicePage : ContentPage
     {
         private static OrderViewModel order;
+        private static double Tax1, Tax2;
+
         public InvoicePage(int ClientId, string ClientName)
         {
             InitializeComponent();
 
             lblClient.Text = ClientName;
             lblClientId.Text = ClientId.ToString();
-
             order = new OrderViewModel();
-            order.Order.Tax1 = 9.0;
-            order.Order.Tax2 = 25.0;
+
+            if (order.Order.OrderId == null)
+            {
+                order.Order.OrderId = 1;
+                order.Order.ReceiptNumber = 1;
+                lblOrderId.Text = "1";
+                lblReceipNumber.Text = "1";
+            }
+            else
+            {
+                lblOrderId.Text = (order.Order.OrderId + 1).ToString();
+                lblReceipNumber.Text =(order.Order.ReceiptNumber + 1).ToString();
+
+            }
         }
 
         async protected override void OnAppearing()
@@ -37,9 +50,26 @@ namespace Sandoghche
             await SandoghcheController.GetConnection().CreateTableAsync<Order>();
             await SandoghcheController.GetConnection().CreateTableAsync<OrderDetail>();
             await SandoghcheController.GetConnection().CreateTableAsync<SandoghcheSetting>();
+
             await getCategories();
+            await getSetting();
 
             base.OnAppearing();
+        }
+
+        async Task getSetting()
+        {
+            var tax = await SandoghcheController._connection.Table<SandoghcheSetting>().FirstOrDefaultAsync();
+            if (tax == null)
+            {
+                Tax1 = 0;
+                Tax2 = 0;
+            }
+            else
+            {
+                Tax1 = tax.Tax1;
+                Tax2 = tax.Tax2;
+            }
         }
 
 
@@ -113,16 +143,16 @@ namespace Sandoghche
         }
 
         double totalPrice = 0;
-        
+
         private void lstProducts_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             var product = (Product)e.Item;
 
             order.Order.ClientId = Convert.ToInt32(lblClientId.Text);
 
-            order.Order.ReceiptNumber = 1;
+            order.Order.ReceiptNumber = Convert.ToInt32(lblReceipNumber.Text);
 
-            order.Order.PaymentType = 1;
+            //order.Order.PaymentType = 1;
 
             //جمع کل یه محصول
             var detail = order.OrderDetail.FirstOrDefault(x => x.ProductId == product.ProductId);
@@ -145,8 +175,7 @@ namespace Sandoghche
         }
 
         ////محاسبه جمع کل فاکتور 
-       
-        
+
         void TotalPriceCalculator()
         {
             double totalPrice = 0;
@@ -161,13 +190,13 @@ namespace Sandoghche
 
 
             ///////
-            order.Order.Tax1 = order.Order.TotalPrice * (5.0 * 0.01);
-            order.Order.Tax2 = order.Order.TotalPrice * (25.0 * 0.01);
+            order.Order.Tax1 = order.Order.TotalPrice * (Tax1 * 0.01);
+            order.Order.Tax2 = order.Order.TotalPrice * (Tax2 * 0.01);
 
             lblTax.Text = (order.Order.Tax1 + order.Order.Tax2).ToString();
-            
+
             ///////////////////
-            
+
 
 
             var discountType = order.Order.DiscountType;
@@ -203,16 +232,16 @@ namespace Sandoghche
                 lblService.Text = totalService.ToString();
             }
 
-                                           
+
 
 
             order.Order.FinalPayment = totalPrice - (totalDiscount + order.Order.TotalServiceFee + order.Order.DeliveryFee);
-            if (order.Order.FinalPayment <= 0)
+            if (order.Order.FinalPayment < 0)
             {
                 DisplayAlert("اخطار", "مبلغ پرداختی نمیتواند منفی باشد", "باشه");
             }
 
-            lblFinalPayment.Text = (totalPrice - (totalDiscount + order.Order.TotalServiceFee + order.Order.DeliveryFee + order.Order.Tax1+ order.Order.Tax2)).ToString();
+            lblFinalPayment.Text = (totalPrice - (totalDiscount + order.Order.TotalServiceFee + order.Order.DeliveryFee + order.Order.Tax1 + order.Order.Tax2)).ToString();
         }
 
 
@@ -332,6 +361,22 @@ namespace Sandoghche
 
             PopupNavigation.Instance.PushAsync(new ServicePopupPage(order.Order.TotalPrice.ToString()));
 
+        }
+
+        async private void btnSaveInvoice_Tapped(object sender, EventArgs e)
+        {
+            double finalPayment =Convert.ToDouble(lblFinalPayment.Text);
+            if(finalPayment == 0)
+            {
+                await DisplayAlert("صدور فاکتور", "فاکتور به مبلغ صفر نمیتواتد در سیستم ثبت گردد", "باشه");
+            }else
+            {
+                //await SandoghcheController._connection.InsertAsync(order.Order);
+               //await SandoghcheController._connection.InsertAllAsync(order.OrderDetail);
+
+                await DisplayAlert("صدور فاکتور", string.Format(" فاکتور {0}  شماره فیش {1} به مبلغ {2} ثبت شد", order.Order.ReceiptNumber, order.Order.OrderId+1,Convert.ToDouble(lblFinalPayment.Text)), "باشه");
+                await Navigation.PushAsync(new InvoicePage(Convert.ToInt32(lblClientId.Text), lblClient.Text));
+            }
         }
 
         private void btnMainMenu_Tapped(object sender, EventArgs e)

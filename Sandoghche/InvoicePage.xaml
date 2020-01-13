@@ -30,14 +30,27 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
                 <!--شماره فاکتور و فیش-->
                 <StackLayout Grid.Column="0"   VerticalOptions="Center" >
 
-                    <Label Margin="50,0,0,0"
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand">
+                        <Label x:Name="lblOrderId" Margin="50,0,0,0"
                         FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
                         FontSize="20"
-                        Text="شماره فاکتور 224" HorizontalOptions="StartAndExpand" TextColor="Black" />
-                    <Label Margin="50,0,0,0"
+                          TextColor="Black" />
+                        <Label Text="شماره فاکتور : " Margin="50,0,0,0"
                         FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
                         FontSize="20"
-                        Text="شماره فیش 224"  HorizontalOptions="StartAndExpand" TextColor="Black"/>
+                          TextColor="Black" />
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal"  HorizontalOptions="StartAndExpand" >
+                        <Label x:Name="lblReceipNumber" Margin="50,0,0,0"
+                        FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
+                        FontSize="20"
+                         TextColor="Black"/>
+                        <Label Text="شماره فیش : " Margin="50,0,0,0"
+                        FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
+                        FontSize="20"
+                          TextColor="Black"/>
+                    </StackLayout>
+                    
                 </StackLayout>
                 <!--تاریخ و ساعت-->
                 <StackLayout Grid.Column="1"  HorizontalOptions="Center" VerticalOptions="Center" >
@@ -414,9 +427,13 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
                 </Image>
                 
                 <Image Grid.Column="5" Source="{local:EmbeddedImage Sandoghche.Images.CreditInvoice.png}" />
-                
-                <Image Grid.Column="6" Source="{local:EmbeddedImage Sandoghche.Images.SaveInvoice.png}" />
-                
+
+                <Image Grid.Column="6" Source="{local:EmbeddedImage Sandoghche.Images.SaveInvoice.png}">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="btnSaveInvoice_Tapped" />
+                    </Image.GestureRecognizers>
+                </Image>
+
                 <Image Grid.Column="7" Source="{local:EmbeddedImage Sandoghche.Images.PrintInvoice.png}" />
 
             </Grid>
