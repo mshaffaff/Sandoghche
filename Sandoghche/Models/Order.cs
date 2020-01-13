@@ -1,4 +1,6 @@
 ﻿using SQLite;
+using SQLiteNetExtensions.Attributes;
+
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -48,7 +50,18 @@ namespace Sandoghche.Models
         private DateTime? dateCreated = null;
 
 
-      
+
+        [OneToMany("OrderId")] 
+        public List<OrderDetail> OrderDetails { get; set; }
+
+
+
+
+
+
+
+
+
 
 
     }

@@ -7,6 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SQLiteNetExtensions.Extensions;
+using SQLiteNetExtensionsAsync.Extensions;
+
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -17,7 +20,8 @@ namespace Sandoghche
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class InvoicePage : ContentPage
     {
-        private static OrderViewModel order;
+        private static Order order;
+
         private static double Tax1, Tax2;
 
         public InvoicePage(int ClientId, string ClientName)
@@ -26,21 +30,9 @@ namespace Sandoghche
 
             lblClient.Text = ClientName;
             lblClientId.Text = ClientId.ToString();
-            order = new OrderViewModel();
+            order = new Order();
 
-            if (order.Order.OrderId == null)
-            {
-                order.Order.OrderId = 1;
-                order.Order.ReceiptNumber = 1;
-                lblOrderId.Text = "1";
-                lblReceipNumber.Text = "1";
-            }
-            else
-            {
-                lblOrderId.Text = (order.Order.OrderId + 1).ToString();
-                lblReceipNumber.Text =(order.Order.ReceiptNumber + 1).ToString();
-
-            }
+           
         }
 
         async protected override void OnAppearing()
@@ -53,6 +45,23 @@ namespace Sandoghche
 
             await getCategories();
             await getSetting();
+
+            var lastOrder =await SandoghcheController._connection.Table<Order>().OrderByDescending(x => x.OrderId).FirstOrDefaultAsync();
+
+            if (lastOrder == null)
+            {
+                //order.OrderId = 1;
+                order.ReceiptNumber = 1;
+                lblOrderId.Text = "1";
+                lblReceipNumber.Text = "1";
+            }
+            else
+            {
+                lblOrderId.Text = (lastOrder.OrderId + 1).ToString();
+                lblReceipNumber.Text = (lastOrder.ReceiptNumber + 1).ToString();
+
+            }
+
 
             base.OnAppearing();
         }
@@ -148,14 +157,17 @@ namespace Sandoghche
         {
             var product = (Product)e.Item;
 
-            order.Order.ClientId = Convert.ToInt32(lblClientId.Text);
+            order.ClientId = Convert.ToInt32(lblClientId.Text);
 
-            order.Order.ReceiptNumber = Convert.ToInt32(lblReceipNumber.Text);
+            order.ReceiptNumber = Convert.ToInt32(lblReceipNumber.Text);
 
-            //order.Order.PaymentType = 1;
+            //order.PaymentType = 1;
 
             //جمع کل یه محصول
-            var detail = order.OrderDetail.FirstOrDefault(x => x.ProductId == product.ProductId);
+            if (order.OrderDetails == null)
+                order.OrderDetails = new List<OrderDetail>();
+
+            var detail = order.OrderDetails?.FirstOrDefault(x => x.ProductId == product.ProductId);
             if (detail != null)
             {
                 var n = detail.Number + 1;
@@ -163,11 +175,11 @@ namespace Sandoghche
                 detail.TotalPrice = n * detail.Price;
             }
             else
-                order.OrderDetail.Add(new OrderDetailViewModel { RowNumber = order.OrderDetail.Count + 1, ProductId = product.ProductId, ProductText = product.ProductText, Number = 1, Price = product.ProductPrice, CategoryId = product.CategoryId, TotalPrice = product.ProductPrice });
-
+                order.OrderDetails.Add(new OrderDetail { RowNumber = order.OrderDetails.Count+1, ProductId = product.ProductId, ProductText = product.ProductText, Number = 1, Price = product.ProductPrice, CategoryId = product.CategoryId, TotalPrice = product.ProductPrice });
+            
 
             ProductsDataGrid.ItemsSource = null;
-            ProductsDataGrid.ItemsSource = order.OrderDetail;
+            ProductsDataGrid.ItemsSource = order.OrderDetails;
 
             TotalPriceCalculator();
 
@@ -180,68 +192,68 @@ namespace Sandoghche
         {
             double totalPrice = 0;
 
-            foreach (var orderDetail in order.OrderDetail)
+            foreach (var orderDetail in order.OrderDetails)
             {
                 totalPrice += orderDetail.TotalPrice;
             }
 
             lblTotalPrice.Text = totalPrice.ToString();
-            order.Order.TotalPrice = totalPrice;
+            order.TotalPrice = totalPrice;
 
 
             ///////
-            order.Order.Tax1 = order.Order.TotalPrice * (Tax1 * 0.01);
-            order.Order.Tax2 = order.Order.TotalPrice * (Tax2 * 0.01);
+            order.Tax1 = order.TotalPrice * (Tax1 * 0.01);
+            order.Tax2 = order.TotalPrice * (Tax2 * 0.01);
 
-            lblTax.Text = (order.Order.Tax1 + order.Order.Tax2).ToString();
+            lblTax.Text = (order.Tax1 + order.Tax2).ToString();
 
             ///////////////////
 
 
 
-            var discountType = order.Order.DiscountType;
-            var totalDiscount = order.Order.TotalPrice * (order.Order.DiscountPercent * 0.01);
-            var discountPercent = order.Order.DiscountPercent;
+            var discountType = order.DiscountType;
+            var totalDiscount = order.TotalPrice * (order.DiscountPercent * 0.01);
+            var discountPercent = order.DiscountPercent;
             if (discountType == 0)
             {
-                totalDiscount = order.Order.TotalPrice * (order.Order.DiscountPercent * 0.01);
-                order.Order.TotalDiscount = totalDiscount;
+                totalDiscount = order.TotalPrice * (order.DiscountPercent * 0.01);
+                order.TotalDiscount = totalDiscount;
                 lblDiscount.Text = totalDiscount.ToString();
             }
             else
             {
-                totalDiscount = order.Order.TotalDiscount;
-                order.Order.TotalDiscount = totalDiscount;
+                totalDiscount = order.TotalDiscount;
+                order.TotalDiscount = totalDiscount;
                 lblDiscount.Text = totalDiscount.ToString();
             }
 
 
-            var serviceType = order.Order.ServiceType;
-            var totalService = order.Order.TotalPrice * (order.Order.ServicePercent * 0.01);
-            var servicePercent = order.Order.ServicePercent;
+            var serviceType = order.ServiceType;
+            var totalService = order.TotalPrice * (order.ServicePercent * 0.01);
+            var servicePercent = order.ServicePercent;
             if (serviceType == 0)
             {
-                totalService = order.Order.TotalPrice * (order.Order.ServicePercent * 0.01);
-                order.Order.TotalServiceFee = totalService;
+                totalService = order.TotalPrice * (order.ServicePercent * 0.01);
+                order.TotalServiceFee = totalService;
                 lblService.Text = totalService.ToString();
             }
             else
             {
-                totalService = order.Order.TotalServiceFee;
-                order.Order.TotalServiceFee = totalService;
+                totalService = order.TotalServiceFee;
+                order.TotalServiceFee = totalService;
                 lblService.Text = totalService.ToString();
             }
 
 
 
 
-            order.Order.FinalPayment = totalPrice - (totalDiscount + order.Order.TotalServiceFee + order.Order.DeliveryFee);
-            if (order.Order.FinalPayment < 0)
+            order.FinalPayment = totalPrice - (totalDiscount + order.TotalServiceFee + order.DeliveryFee);
+            if (order.FinalPayment < 0)
             {
                 DisplayAlert("اخطار", "مبلغ پرداختی نمیتواند منفی باشد", "باشه");
             }
 
-            lblFinalPayment.Text = (totalPrice - (totalDiscount + order.Order.TotalServiceFee + order.Order.DeliveryFee + order.Order.Tax1 + order.Order.Tax2)).ToString();
+            lblFinalPayment.Text = (totalPrice - (totalDiscount + order.TotalServiceFee + order.DeliveryFee + order.Tax1 + order.Tax2)).ToString();
         }
 
 
@@ -254,13 +266,13 @@ namespace Sandoghche
         {
             var s = sender as ImageButton;
             var selectedItem = s.BindingContext;
-            var orderDetail = (OrderDetailViewModel)selectedItem;
+            var orderDetail = (OrderDetail)selectedItem;
 
             orderDetail.Number++;
             orderDetail.TotalPrice = orderDetail.TotalPrice + orderDetail.Price;
 
             ProductsDataGrid.ItemsSource = null;
-            ProductsDataGrid.ItemsSource = order.OrderDetail;
+            ProductsDataGrid.ItemsSource = order.OrderDetails;
             TotalPriceCalculator();
 
         }
@@ -269,14 +281,14 @@ namespace Sandoghche
         {
             var s = sender as ImageButton;
             var selectedItem = s.BindingContext;
-            var orderDetail = (OrderDetailViewModel)selectedItem;
+            var orderDetail = (OrderDetail)selectedItem;
             orderDetail.Number--;
             orderDetail.TotalPrice = orderDetail.TotalPrice - orderDetail.Price;
             if (orderDetail.Number == 0)
-                order.OrderDetail.Remove(orderDetail);
+                order.OrderDetails.Remove(orderDetail);
 
             ProductsDataGrid.ItemsSource = null;
-            ProductsDataGrid.ItemsSource = order.OrderDetail;
+            ProductsDataGrid.ItemsSource = order.OrderDetails;
 
             TotalPriceCalculator();
         }
@@ -285,7 +297,7 @@ namespace Sandoghche
         {
             MessagingCenter.Subscribe<PopupViewModel>(this, "txtComment", (value) =>
             {
-                order.Order.Comment = value.CommentText;
+                order.Comment = value.CommentText;
             });
 
             PopupNavigation.Instance.PushAsync(new NotePopupPage());
@@ -297,18 +309,18 @@ namespace Sandoghche
             {
                 if (value.DiscountType == 0)
                 {
-                    order.Order.DiscountType = 0;
-                    order.Order.DiscountPercent = value.DiscountAmount;
-                    order.Order.TotalDiscount = order.Order.TotalPrice * (value.DiscountAmount * 0.01);
-                    lblDiscount.Text = (order.Order.TotalPrice * (value.DiscountAmount * 0.01)).ToString();
+                    order.DiscountType = 0;
+                    order.DiscountPercent = value.DiscountAmount;
+                    order.TotalDiscount = order.TotalPrice * (value.DiscountAmount * 0.01);
+                    lblDiscount.Text = (order.TotalPrice * (value.DiscountAmount * 0.01)).ToString();
                     TotalPriceCalculator();
 
                 }
                 else
                 {
-                    order.Order.DiscountType = Convert.ToInt16(value.DiscountType);
-                    order.Order.DiscountPercent = 0;
-                    order.Order.TotalDiscount = value.DiscountAmount;
+                    order.DiscountType = Convert.ToInt16(value.DiscountType);
+                    order.DiscountPercent = 0;
+                    order.TotalDiscount = value.DiscountAmount;
                     lblDiscount.Text = value.DiscountAmount.ToString();
                     TotalPriceCalculator();
 
@@ -317,14 +329,14 @@ namespace Sandoghche
 
             });
 
-            PopupNavigation.Instance.PushAsync(new DiscountPopupPage(order.Order.TotalPrice.ToString()));
+            PopupNavigation.Instance.PushAsync(new DiscountPopupPage(order.TotalPrice.ToString()));
         }
 
         private void btnDelivey_Tapped(object sender, EventArgs e)
         {
             MessagingCenter.Subscribe<PopupViewModel>(this, "txtDeliveryFee", (value) =>
             {
-                order.Order.DeliveryFee = value.DeliveryFee;
+                order.DeliveryFee = value.DeliveryFee;
                 lblDelivery.Text = value.DeliveryFee.ToString();
                 TotalPriceCalculator();
 
@@ -339,18 +351,18 @@ namespace Sandoghche
             {
                 if (value.ServiceType == 0)
                 {
-                    order.Order.ServiceType = 0;
-                    order.Order.ServicePercent = value.ServiceAmount;
-                    order.Order.TotalServiceFee = order.Order.TotalPrice * (value.ServiceAmount * 0.01);
-                    lblService.Text = (order.Order.TotalPrice * (value.ServiceAmount * 0.01)).ToString();
+                    order.ServiceType = 0;
+                    order.ServicePercent = value.ServiceAmount;
+                    order.TotalServiceFee = order.TotalPrice * (value.ServiceAmount * 0.01);
+                    lblService.Text = (order.TotalPrice * (value.ServiceAmount * 0.01)).ToString();
                     TotalPriceCalculator();
 
                 }
                 else
                 {
-                    order.Order.ServiceType = Convert.ToInt16(value.ServiceType);
-                    order.Order.ServicePercent = 0;
-                    order.Order.TotalServiceFee = value.ServiceAmount;
+                    order.ServiceType = Convert.ToInt16(value.ServiceType);
+                    order.ServicePercent = 0;
+                    order.TotalServiceFee = value.ServiceAmount;
                     lblService.Text = value.ServiceAmount.ToString();
                     TotalPriceCalculator();
 
@@ -359,22 +371,27 @@ namespace Sandoghche
 
             });
 
-            PopupNavigation.Instance.PushAsync(new ServicePopupPage(order.Order.TotalPrice.ToString()));
+            PopupNavigation.Instance.PushAsync(new ServicePopupPage(order.TotalPrice.ToString()));
 
         }
 
         async private void btnSaveInvoice_Tapped(object sender, EventArgs e)
         {
-            double finalPayment =Convert.ToDouble(lblFinalPayment.Text);
-            if(finalPayment == 0)
+            double finalPayment = Convert.ToDouble(lblFinalPayment.Text);
+            if (finalPayment == 0)
             {
                 await DisplayAlert("صدور فاکتور", "فاکتور به مبلغ صفر نمیتواتد در سیستم ثبت گردد", "باشه");
-            }else
+            }
+            else
             {
-                //await SandoghcheController._connection.InsertAsync(order.Order);
-               //await SandoghcheController._connection.InsertAllAsync(order.OrderDetail);
+                await SandoghcheController._connection.InsertAsync(order);
+                await SandoghcheController._connection.InsertAllAsync(order.OrderDetails);
 
-                await DisplayAlert("صدور فاکتور", string.Format(" فاکتور {0}  شماره فیش {1} به مبلغ {2} ثبت شد", order.Order.ReceiptNumber, order.Order.OrderId+1,Convert.ToDouble(lblFinalPayment.Text)), "باشه");
+
+
+                await SandoghcheController._connection.UpdateWithChildrenAsync(order);
+
+                await DisplayAlert("صدور فاکتور", string.Format(" فاکتور {0}  شماره فیش {1} به مبلغ {2} ثبت شد", order.ReceiptNumber, order.OrderId , Convert.ToDouble(lblFinalPayment.Text)), "باشه");
                 await Navigation.PushAsync(new InvoicePage(Convert.ToInt32(lblClientId.Text), lblClient.Text));
             }
         }
