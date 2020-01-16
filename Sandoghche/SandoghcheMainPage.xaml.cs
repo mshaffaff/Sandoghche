@@ -121,7 +121,7 @@ namespace Sandoghche
         }
         async private void imgSettings_Tapped(object sender, EventArgs e)
         {
-            await DisplayAlert("settings", "test", "test");
+            await Navigation.PushAsync(new SettingsPage());
         }
         async private void imgClients_Tapped(object sender, EventArgs e)
         {

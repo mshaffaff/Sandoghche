@@ -62,8 +62,6 @@
 
         </StackLayout>
 
-
-
         <!--منوی وسط-->
         <StackLayout Grid.Row="1" Padding="20,0,20,20" >
 

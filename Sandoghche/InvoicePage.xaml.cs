@@ -298,83 +298,107 @@ namespace Sandoghche
 
         private void btnNote_Clicked(object sender, EventArgs e)
         {
-            MessagingCenter.Subscribe<PopupViewModel>(this, "txtComment", (value) =>
+            if (lblFinalPayment.Text == "0")
+                DisplayAlert("اخطار", "برای فاکتور به مبلغ صفر نمیتوان توضیحاتی اضافه نمود", "باشه");
+            else
             {
-                order.Comment = value.CommentText;
-            });
+                MessagingCenter.Subscribe<PopupViewModel>(this, "txtComment", (value) =>
+                {
+                    order.Comment = value.CommentText;
+                });
 
-            PopupNavigation.Instance.PushAsync(new NotePopupPage());
+                PopupNavigation.Instance.PushAsync(new NotePopupPage());
+            }
+
         }
 
         private void btnDiscount_Tapped(object sender, EventArgs e)
         {
-            MessagingCenter.Subscribe<PopupViewModel>(this, "Discount", (value) =>
+            if (lblFinalPayment.Text == "0")
+                DisplayAlert("اخطار", "برای فاکتور به مبلغ صفر نمیتوان تخفیفی اضافه نمود", "باشه");
+            else
             {
-                if (value.DiscountType == 0)
+                MessagingCenter.Subscribe<PopupViewModel>(this, "Discount", (value) =>
                 {
-                    order.DiscountType = 0;
-                    order.DiscountPercent = value.DiscountAmount;
-                    order.TotalDiscount = order.TotalPrice * (value.DiscountAmount * 0.01);
-                    lblDiscount.Text = (order.TotalPrice * (value.DiscountAmount * 0.01)).ToString();
-                    TotalPriceCalculator();
+                    if (value.DiscountType == 0)
+                    {
+                        order.DiscountType = 0;
+                        order.DiscountPercent = value.DiscountAmount;
+                        order.TotalDiscount = order.TotalPrice * (value.DiscountAmount * 0.01);
+                        lblDiscount.Text = (order.TotalPrice * (value.DiscountAmount * 0.01)).ToString();
+                        TotalPriceCalculator();
 
-                }
-                else
-                {
-                    order.DiscountType = Convert.ToInt16(value.DiscountType);
-                    order.DiscountPercent = 0;
-                    order.TotalDiscount = value.DiscountAmount;
-                    lblDiscount.Text = value.DiscountAmount.ToString();
-                    TotalPriceCalculator();
+                    }
+                    else
+                    {
+                        order.DiscountType = Convert.ToInt16(value.DiscountType);
+                        order.DiscountPercent = 0;
+                        order.TotalDiscount = value.DiscountAmount;
+                        lblDiscount.Text = value.DiscountAmount.ToString();
+                        TotalPriceCalculator();
 
-                }
+                    }
 
 
-            });
+                });
 
-            PopupNavigation.Instance.PushAsync(new DiscountPopupPage(order.TotalPrice.ToString()));
+                PopupNavigation.Instance.PushAsync(new DiscountPopupPage(order.TotalPrice.ToString()));
+            }
+
         }
 
         private void btnDelivey_Tapped(object sender, EventArgs e)
         {
-            MessagingCenter.Subscribe<PopupViewModel>(this, "txtDeliveryFee", (value) =>
+            if (lblFinalPayment.Text == "0")
+                DisplayAlert("اخطار", "برای فاکتور به مبلغ صفر نمیتوان هزینه پیک اضافه نمود", "باشه");
+            else
             {
-                order.DeliveryFee = value.DeliveryFee;
-                lblDelivery.Text = value.DeliveryFee.ToString();
-                TotalPriceCalculator();
+                MessagingCenter.Subscribe<PopupViewModel>(this, "txtDeliveryFee", (value) =>
+                {
+                    order.DeliveryFee = value.DeliveryFee;
+                    lblDelivery.Text = value.DeliveryFee.ToString();
+                    TotalPriceCalculator();
 
-            });
+                });
 
-            PopupNavigation.Instance.PushAsync(new DeliveryPopupPage());
+                PopupNavigation.Instance.PushAsync(new DeliveryPopupPage());
+            }
+
         }
 
         private void btnService_Tapped(object sender, EventArgs e)
         {
-            MessagingCenter.Subscribe<PopupViewModel>(this, "Service", (value) =>
+            if (lblFinalPayment.Text == "0")
+                DisplayAlert("اخطار", "برای فاکتور به مبلغ صفر نمیتوان حق سرویس اضافه نمود", "باشه");
+            else
             {
-                if (value.ServiceType == 0)
+                MessagingCenter.Subscribe<PopupViewModel>(this, "Service", (value) =>
                 {
-                    order.ServiceType = 0;
-                    order.ServicePercent = value.ServiceAmount;
-                    order.TotalServiceFee = order.TotalPrice * (value.ServiceAmount * 0.01);
-                    lblService.Text = (order.TotalPrice * (value.ServiceAmount * 0.01)).ToString();
-                    TotalPriceCalculator();
+                    if (value.ServiceType == 0)
+                    {
+                        order.ServiceType = 0;
+                        order.ServicePercent = value.ServiceAmount;
+                        order.TotalServiceFee = order.TotalPrice * (value.ServiceAmount * 0.01);
+                        lblService.Text = (order.TotalPrice * (value.ServiceAmount * 0.01)).ToString();
+                        TotalPriceCalculator();
 
-                }
-                else
-                {
-                    order.ServiceType = Convert.ToInt16(value.ServiceType);
-                    order.ServicePercent = 0;
-                    order.TotalServiceFee = value.ServiceAmount;
-                    lblService.Text = value.ServiceAmount.ToString();
-                    TotalPriceCalculator();
+                    }
+                    else
+                    {
+                        order.ServiceType = Convert.ToInt16(value.ServiceType);
+                        order.ServicePercent = 0;
+                        order.TotalServiceFee = value.ServiceAmount;
+                        lblService.Text = value.ServiceAmount.ToString();
+                        TotalPriceCalculator();
 
-                }
+                    }
 
 
-            });
+                });
 
-            PopupNavigation.Instance.PushAsync(new ServicePopupPage(order.TotalPrice.ToString()));
+                PopupNavigation.Instance.PushAsync(new ServicePopupPage(order.TotalPrice.ToString()));
+            }
+
 
         }
 
@@ -410,12 +434,12 @@ namespace Sandoghche
             //    //await Navigation.PushAsync(new InvoicePage(Convert.ToInt32(lblClientId.Text), lblClient.Text));
             //}
         }
-      
+
         async private void btnCreditInvoice_Tapped(object sender, EventArgs e)
         {
             await SaveInvoice(1);
         }
-        
+
         async Task SaveInvoice(int InvoiceType)
         {
             if (InvoiceType == 0)
@@ -486,6 +510,7 @@ namespace Sandoghche
         private void btnMainMenu_Tapped(object sender, EventArgs e)
         {
             Navigation.PushAsync(new SandoghcheMainPage());
+
         }
 
 
