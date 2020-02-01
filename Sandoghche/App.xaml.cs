@@ -8,6 +8,8 @@ namespace Sandoghche
     {
         public App()
         {
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("NzM3NEAzMTM3MmUzNDJlMzBPRm41TTBEL2hiZ0pjbG93dDZPQ0VocmRCWkJHSXlzWFgrUkxrZVlDaUpzPQ==");
+
             InitializeComponent();
 
             MainPage = new NavigationPage(new MainPage());

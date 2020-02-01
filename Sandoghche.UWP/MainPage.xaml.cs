@@ -1,4 +1,5 @@
-﻿using System;
+using Syncfusion.SfDataGrid.XForms.UWP;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -19,7 +20,8 @@ namespace Sandoghche.UWP
     {
         public MainPage()
         {
-            this.InitializeComponent();
+this.InitializeComponent();
+SfDataGridRenderer.Init();
 
             Rg.Plugins.Popup.Popup.Init();
 

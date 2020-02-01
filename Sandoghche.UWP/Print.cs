@@ -1,4 +1,5 @@
-﻿using Sandoghche.UWP;
+﻿using Sandoghche.Models;
+using Sandoghche.UWP;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +13,10 @@ namespace Sandoghche.UWP
 {
     public class Print : IPrint
     {
-        void IPrint.Print(byte[] content)
+        void IPrint.Print(Order order)
         {
             Print_UWP printing = new Print_UWP();
-            printing.PrintUWpAsync(content);
+            printing.PrintUWpAsync(order);
         }
     }
 }

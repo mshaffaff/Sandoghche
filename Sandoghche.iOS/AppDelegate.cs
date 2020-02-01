@@ -1,4 +1,5 @@
-﻿using System;
+using Syncfusion.SfDataGrid.XForms.iOS;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -24,7 +25,8 @@ namespace Sandoghche.iOS
         {
             Rg.Plugins.Popup.Popup.Init();
 
-            global::Xamarin.Forms.Forms.Init();
+global::Xamarin.Forms.Forms.Init();
+SfDataGridRenderer.Init();
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);

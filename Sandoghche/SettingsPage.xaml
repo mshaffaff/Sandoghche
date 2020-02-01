@@ -61,8 +61,47 @@
         </StackLayout>
 
         <!--منوی پایین-->
-        <StackLayout Grid.Row="1" BackgroundColor="CadetBlue" >
+        <StackLayout Grid.Row="1">
+            <StackLayout WidthRequest="150" HeightRequest="250" >
+                <ListView x:Name="lstReceipt" WidthRequest="150">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid RowSpacing="0" ColumnSpacing="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="20" />
+                                        <RowDefinition Height="15" />
+                                        <RowDefinition Height="25" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="15" />
+                                    </Grid.RowDefinitions>
+                                    <Label Grid.Row="0" TextColor="Black" Text="بابا بستنی" />
+                                    <Label Grid.Row="1" TextColor="Black" Text="فاکتور فروش" />
+                                    <StackLayout Grid.Row="2" >
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label Text="کاربر : صندوقدار" />
+                                            <Label Text="شماره 98"  />
+                                        </StackLayout>
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label Text="ساعت 12:24:45" />
+                                            <Label Text="تاریخ 22:11:1398" />
+                                        </StackLayout>
+                                    </StackLayout>
+                                    <StackLayout Grid.Row="3" >
+
+                                    </StackLayout>
+                                    <Label Text="شیراز خیابان هفتم" />
+
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+
+                </ListView>
+
+            </StackLayout>
             <Image x:Name="imgtest"  />
+
             <!--<telerikPrimitives:RadTabView x:Name="tabView">
                 <telerikPrimitives:RadTabView.Items>
 
@@ -100,6 +139,6 @@
                 </telerikPrimitives:RadTabView.Items>
             </telerikPrimitives:RadTabView>-->
         </StackLayout>
-        
+
     </Grid>
 </ContentPage>
