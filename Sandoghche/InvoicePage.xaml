@@ -433,16 +433,7 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
                                 </DataTemplate>
                             </datagrid:GridTemplateColumn.CellTemplate>
                         </datagrid:GridTemplateColumn>-->
-                <!--
-
-
-                    </datagrid:SfDataGrid.Columns>
-                </datagrid:SfDataGrid>-->
-
-
-
-
-
+               
                 <Grid x:Name="PrintPDF" IsVisible="False" >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="20" />

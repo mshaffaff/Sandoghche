@@ -1,4 +1,5 @@
-﻿using Sandoghche.Components;
+﻿using Rg.Plugins.Popup.Services;
+using Sandoghche.Components;
 using Sandoghche.Models;
 using System;
 using System.Collections.Generic;
@@ -100,7 +101,7 @@ namespace Sandoghche
 
         async private void imgEdit_Tapped(object sender, EventArgs e)
         {
-           await DisplayAlert("Edit","test","test");
+           await PopupNavigation.Instance.PushAsync(new EditPopupPage());
         }
         async private void imgInvoice_Tapped(object sender, EventArgs e)
         {

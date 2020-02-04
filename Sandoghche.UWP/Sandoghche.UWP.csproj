@@ -215,13 +215,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="Assets\IRANSansMobile%28FaNum%29.ttf" />
+    <EmbeddedResource Include="Assets\IRANSansMobile%28FaNum%29.ttf" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidAsset Include="Assets\IRANSansMobile.ttf" />
+    <EmbeddedResource Include="Assets\IRANSansMobile.ttf" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="pdf\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\IRANSans%28FaNum%29.ttf" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

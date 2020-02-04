@@ -116,6 +116,7 @@
                     <Label  FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalTextAlignment="Start"
                             FontSize="20"
                             TextColor="White" 
+                            FlowDirection="RightToLeft"
                             Text="راز پیشرفت در آغاز کردن است. راز آغاز کردن در آن است که وظایف سخت و پیچیده ی خود را به وظایف کوچکی که قابل مدیریت کردن باشند، بشکنید و سپس از نخستین آنها آغاز کنید." HorizontalOptions="FillAndExpand" />
                     <Image x:Name="sloganLine" WidthRequest="20" />
                 </StackLayout>

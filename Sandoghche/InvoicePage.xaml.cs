@@ -548,8 +548,6 @@ namespace Sandoghche
             }
         }
 
-
-
         private void btnMainMenu_Tapped(object sender, EventArgs e)
         {
             Navigation.PushAsync(new SandoghcheMainPage());

@@ -10,16 +10,13 @@ using Windows.UI.Xaml.Printing;
 
 namespace Sandoghche.UWP
 {
-    public class Print_UWP : IDisposable
+
+    public class Print_UWP
     {
         PrintManager printmgr = PrintManager.GetForCurrentView();
-        PrintDocument PrintDoc = null;
+        PrintDocument PrintDoc;
         PrintDocument printDoc;
         PrintTask Task = null;
-
-        bool disposed = false;
-
-        static bool IsPrinting;
 
         StackPanel testPanel = new StackPanel();
         Grid Receipt = new Grid { Width = 300 };
@@ -29,9 +26,7 @@ namespace Sandoghche.UWP
         public Print_UWP()
         {
             printmgr.PrintTaskRequested += Printmgr_PrintTaskRequested;
-          
-            
-            // IsPrinting = true;
+
 
             //if (!IsPrinting)
             //{
@@ -87,6 +82,7 @@ namespace Sandoghche.UWP
             {
                 Foreground = new SolidColorBrush(Windows.UI.Colors.Black),
                 Text = "بابا بستنی",
+                FontFamily = new FontFamily("IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"),
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
                 FontSize = 18,
@@ -103,6 +99,7 @@ namespace Sandoghche.UWP
             {
                 Foreground = new SolidColorBrush(Windows.UI.Colors.Black),
                 Text = "فاکتور فروش",
+                FontFamily = new FontFamily("IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"),
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
                 FontSize = 15,
@@ -137,6 +134,7 @@ namespace Sandoghche.UWP
             {
                 Foreground = new SolidColorBrush(Windows.UI.Colors.Black),
                 Text = "کاربر : مدیر",
+                FontFamily = new FontFamily("IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"),
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center
             };
@@ -147,6 +145,7 @@ namespace Sandoghche.UWP
             {
                 Foreground = new SolidColorBrush(Windows.UI.Colors.Black),
                 Text = "شماره : " + order.ReceiptNumber,
+                FontFamily = new FontFamily("IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"),
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
                 FontSize = 15,
@@ -159,6 +158,7 @@ namespace Sandoghche.UWP
             {
                 Foreground = new SolidColorBrush(Windows.UI.Colors.Black),
                 Text = "ساعت :" + order.DateCreated.ToString("HH:mm:ss"),
+                FontFamily = new FontFamily("IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"),
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center
             };
@@ -169,6 +169,7 @@ namespace Sandoghche.UWP
             {
                 Foreground = new SolidColorBrush(Windows.UI.Colors.Black),
                 Text = "تاریخ : " + order.DateCreated.ToString("dd:MM:yyyy"),
+                FontFamily = new FontFamily("IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"),
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center
             };
@@ -211,6 +212,7 @@ namespace Sandoghche.UWP
             {
                 HorizontalAlignment = HorizontalAlignment.Center,
                 Text = "قیمت کل",
+                FontFamily = new FontFamily("IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"),
                 Foreground = new SolidColorBrush(Windows.UI.Colors.Black)
             };
             Header.Children.Add(TotalPriceHeader); Grid.SetColumn(TotalPriceHeader, 0);
@@ -219,6 +221,7 @@ namespace Sandoghche.UWP
             {
                 HorizontalAlignment = HorizontalAlignment.Center,
                 Text = "قیمت",
+                FontFamily = new FontFamily("IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"),
                 Foreground = new SolidColorBrush(Windows.UI.Colors.Black)
             };
             Header.Children.Add(PriceHeader); Grid.SetColumn(PriceHeader, 1);
@@ -227,6 +230,7 @@ namespace Sandoghche.UWP
             {
                 HorizontalAlignment = HorizontalAlignment.Center,
                 Text = "تعداد",
+                FontFamily = new FontFamily("IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"),
                 Foreground = new SolidColorBrush(Windows.UI.Colors.Black)
             };
             Header.Children.Add(NumberHeader); Grid.SetColumn(NumberHeader, 2);
@@ -235,6 +239,7 @@ namespace Sandoghche.UWP
             {
                 HorizontalAlignment = HorizontalAlignment.Right,
                 Text = "عنوان",
+                FontFamily = new FontFamily("IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"),
                 Foreground = new SolidColorBrush(Windows.UI.Colors.Black)
             };
             Header.Children.Add(ProductTextHeader); Grid.SetColumn(ProductTextHeader, 3);
@@ -243,6 +248,7 @@ namespace Sandoghche.UWP
             {
                 HorizontalAlignment = HorizontalAlignment.Center,
                 Text = "ردیف",
+                FontFamily = new FontFamily("IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"),
                 Foreground = new SolidColorBrush(Windows.UI.Colors.Black)
             };
             Header.Children.Add(RowNumberHeader); Grid.SetColumn(RowNumberHeader, 4);
@@ -295,6 +301,7 @@ namespace Sandoghche.UWP
                 {
                     HorizontalAlignment = HorizontalAlignment.Center,
                     Text = order.OrderDetails[rowIndex].TotalPrice.ToString(),
+                    FontFamily = new FontFamily("IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"),
                     Foreground = new SolidColorBrush(Windows.UI.Colors.Black)
                 };
                 Contents.Children.Add(TotalPriceContent);
@@ -305,6 +312,7 @@ namespace Sandoghche.UWP
                 {
                     HorizontalAlignment = HorizontalAlignment.Center,
                     Text = order.OrderDetails[rowIndex].Price.ToString(),
+                    FontFamily = new FontFamily("IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"),
                     Foreground = new SolidColorBrush(Windows.UI.Colors.Black)
                 };
                 Contents.Children.Add(PriceContent);
@@ -315,6 +323,7 @@ namespace Sandoghche.UWP
                 {
                     HorizontalAlignment = HorizontalAlignment.Center,
                     Text = order.OrderDetails[rowIndex].Number.ToString(),
+                    FontFamily = new FontFamily("IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"),
                     Foreground = new SolidColorBrush(Windows.UI.Colors.Black)
                 };
                 Contents.Children.Add(NumberContent);
@@ -325,6 +334,7 @@ namespace Sandoghche.UWP
                 {
                     HorizontalAlignment = HorizontalAlignment.Right,
                     Text = order.OrderDetails[rowIndex].ProductText,
+                    FontFamily = new FontFamily("IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"),
                     Foreground = new SolidColorBrush(Windows.UI.Colors.Black)
                 };
                 Contents.Children.Add(ProductTextContent);
@@ -335,6 +345,7 @@ namespace Sandoghche.UWP
                 {
                     HorizontalAlignment = HorizontalAlignment.Center,
                     Text = order.OrderDetails[rowIndex].RowNumber.ToString(),
+                    FontFamily = new FontFamily("IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"),
                     Foreground = new SolidColorBrush(Windows.UI.Colors.Black)
                 };
                 Contents.Children.Add(RowNumberContent);
@@ -361,6 +372,7 @@ namespace Sandoghche.UWP
             {
                 Foreground = new SolidColorBrush(Windows.UI.Colors.Black),
                 Text = "مجموع : " + order.FinalPayment.ToString(),
+                FontFamily = new FontFamily("IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"),
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
                 FontSize = 15,
@@ -375,6 +387,7 @@ namespace Sandoghche.UWP
             {
                 Foreground = new SolidColorBrush(Windows.UI.Colors.Black),
                 Text = "شیراز - خیابان عفیف آباد",
+                FontFamily = new FontFamily("IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"),
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
                 FontSize = 15,
@@ -384,9 +397,6 @@ namespace Sandoghche.UWP
             Receipt.Children.Add(Note);
             Grid.SetRow(Note, 5);
 
-
-
-
             testPanel.Children.Add(Receipt);
             #endregion
 
@@ -395,8 +405,10 @@ namespace Sandoghche.UWP
                 printDoc.GetPreviewPage -= PrintDoc_GetPreviewPage;
                 printDoc.Paginate -= PrintDoc_Paginate;
                 printDoc.AddPages -= PrintDoc_AddPages;
-                printmgr.PrintTaskRequested -= Printmgr_PrintTaskRequested;
+
+
             }
+
 
             this.printDoc = new PrintDocument();
             try
@@ -413,7 +425,10 @@ namespace Sandoghche.UWP
             {
                 Debug.WriteLine(e.ToString());
             }
+
             PrintDoc = null;
+            PrintManager printmgr = PrintManager.GetForCurrentView();
+            printmgr.PrintTaskRequested -= Printmgr_PrintTaskRequested;
             GC.Collect();
 
         }
@@ -453,6 +468,7 @@ namespace Sandoghche.UWP
         private void PrintDoc_GetPreviewPage(object sender, GetPreviewPageEventArgs e)
         {
             printDoc.SetPreviewPage(e.PageNumber, testPanel);
+
         }
 
 
@@ -472,28 +488,6 @@ namespace Sandoghche.UWP
             printmgr.PrintTaskRequested -= Printmgr_PrintTaskRequested;
         }
 
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        // Protected implementation of Dispose pattern.
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposed)
-                return;
-
-            if (disposing)
-            {
-                var t = 1;
-                // Free any other managed objects here.
-                //
-            }
-
-            disposed = true;
-        }
-
     }
+
 }
