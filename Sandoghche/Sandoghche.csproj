@@ -55,6 +55,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Bit.CSharpClient.Controls" Version="3.7.0" />
     <PackageReference Include="Rg.Plugins.Popup" Version="1.2.0.223" />
     <PackageReference Include="SkiaSharp" Version="1.68.1.1" />
     <PackageReference Include="SkiaSharp.Views.Forms" Version="1.68.1.1" />
@@ -80,11 +81,20 @@
     <Reference Include="Syncfusion.Compression.Portable">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\Xamarin\17.4.0.39\Xamarin\lib\pcl\Syncfusion.Compression.Portable.dll</HintPath>
     </Reference>
+    <Reference Include="Syncfusion.Core.XForms">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\Xamarin\17.4.0.39\Xamarin\lib\pcl\Syncfusion.Core.XForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.Licensing">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\Xamarin\17.4.0.39\Xamarin\lib\pcl\Syncfusion.Licensing.dll</HintPath>
+    </Reference>
     <Reference Include="Syncfusion.Pdf.Portable">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\Xamarin\17.4.0.39\Xamarin\lib\pcl\Syncfusion.Pdf.Portable.dll</HintPath>
     </Reference>
     <Reference Include="Syncfusion.SfGridConverter.XForms">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\Xamarin\17.4.0.39\Xamarin\lib\pcl\Syncfusion.SfGridConverter.XForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Syncfusion.SfNumericTextBox.XForms">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\Xamarin\17.4.0.39\Xamarin\lib\pcl\Syncfusion.SfNumericTextBox.XForms.dll</HintPath>
     </Reference>
     <Reference Include="Syncfusion.XlsIO.Portable">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\Xamarin\17.4.0.39\Xamarin\lib\pcl\Syncfusion.XlsIO.Portable.dll</HintPath>
@@ -116,13 +126,16 @@
     <EmbeddedResource Update="DiscountPopupPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="EditOrderPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="EditPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="EditPopupPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="ForgetPasswordPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="GridPdf.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="InvoicePage.xaml">
@@ -144,9 +157,6 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="SettingsPage.xaml">
-      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
-    </EmbeddedResource>
-    <EmbeddedResource Update="TestPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

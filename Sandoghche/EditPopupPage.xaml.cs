@@ -20,7 +20,8 @@ namespace Sandoghche
         }
         private void btnShowReceipt_Clicked(object sender, EventArgs e)
         {
-
+            //var receiptNumber = 
+            //Navigation.PushAsync(new EditPage(txtOrderId));
         }
     }
 }

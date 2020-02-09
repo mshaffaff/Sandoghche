@@ -6,6 +6,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using Bit.View;
 
 namespace Sandoghche.Droid
 {
@@ -20,6 +21,8 @@ namespace Sandoghche.Droid
             base.OnCreate(savedInstanceState);
            
             Rg.Plugins.Popup.Popup.Init(this, savedInstanceState);
+            BitCSharpClientControls.Init();
+
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);

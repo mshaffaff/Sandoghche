@@ -5,6 +5,8 @@ using System.Linq;
 
 using Foundation;
 using UIKit;
+using Bit.View;
+using Syncfusion.SfNumericTextBox.XForms.iOS;
 
 namespace Sandoghche.iOS
 {
@@ -24,9 +26,12 @@ namespace Sandoghche.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             Rg.Plugins.Popup.Popup.Init();
+            BitCSharpClientControls.Init();
 
-global::Xamarin.Forms.Forms.Init();
-SfDataGridRenderer.Init();
+            global::Xamarin.Forms.Forms.Init();
+            SfDataGridRenderer.Init();
+            new SfNumericTextBoxRenderer();
+
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);

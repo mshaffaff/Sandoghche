@@ -35,19 +35,22 @@ namespace Sandoghche.Components
 
         }
 
-        public static string GetPersianDate()
+        public static string GetPersianDate(DateTime? OriginDate)
         {
- 
+
             PersianCalendar pc = new PersianCalendar();
-            DateTime thisDate = DateTime.Now;
-            
-            string persianYear="";
+           
+            DateTime thisDate = OriginDate!=null ? OriginDate.Value : DateTime.Now;
+           
+        
+
+            string persianYear = "";
             persianYear = pc.GetYear(thisDate).ToString();
 
 
-            string persianDayOfWeek="";
+            string persianDayOfWeek = "";
             persianDayOfWeek = pc.GetDayOfWeek(thisDate).ToString();
-            switch(pc.GetDayOfWeek(thisDate))
+            switch (pc.GetDayOfWeek(thisDate))
             {
                 case System.DayOfWeek.Monday:
                     persianDayOfWeek = "دوشنبه";
@@ -72,11 +75,11 @@ namespace Sandoghche.Components
                     break;
             }
 
-            string persinaDayOfMonth="";
+            string persinaDayOfMonth = "";
             persinaDayOfMonth = pc.GetDayOfMonth(thisDate).ToString();
 
 
-            string persianMonth="";
+            string persianMonth = "";
             switch (pc.GetMonth(thisDate))
             {
                 case 1:
@@ -120,7 +123,7 @@ namespace Sandoghche.Components
 
 
 
-            return (persianDayOfWeek + " " + persinaDayOfMonth + " " + persianMonth + " " + persianYear) ;
+            return (persianDayOfWeek + " " + persinaDayOfMonth + " " + persianMonth + " " + persianYear);
         }
 
     }

@@ -16,6 +16,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Bit.View;
+using Syncfusion.SfNumericTextBox.XForms.UWP;
 
 namespace Sandoghche.UWP
 {
@@ -54,9 +56,14 @@ namespace Sandoghche.UWP
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
-List<Assembly> assembliesToInclude = new List<Assembly>();
-assembliesToInclude.Add(typeof(SfDataGridRenderer).GetTypeInfo().Assembly);
-Xamarin.Forms.Forms.Init(e, assembliesToInclude);
+
+                BitCSharpClientControls.Init();
+
+
+                List<Assembly> assembliesToInclude = new List<Assembly>();
+                assembliesToInclude.Add(typeof(SfDataGridRenderer).GetTypeInfo().Assembly);
+                assembliesToInclude.Add(typeof(SfNumericTextBoxRenderer).GetTypeInfo().Assembly);
+                Xamarin.Forms.Forms.Init(e, assembliesToInclude);
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {

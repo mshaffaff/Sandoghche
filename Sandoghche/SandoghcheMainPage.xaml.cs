@@ -101,7 +101,8 @@ namespace Sandoghche
 
         async private void imgEdit_Tapped(object sender, EventArgs e)
         {
-           await PopupNavigation.Instance.PushAsync(new EditPopupPage());
+            await Navigation.PushAsync(new EditPage());
+           //await PopupNavigation.Instance.PushAsync(new EditPopupPage());
         }
         async private void imgInvoice_Tapped(object sender, EventArgs e)
         {

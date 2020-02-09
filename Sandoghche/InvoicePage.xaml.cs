@@ -33,7 +33,7 @@ namespace Sandoghche
         {
             InitializeComponent();
 
-            lblPersianDate.Text = SandoghcheController.GetPersianDate();
+            lblPersianDate.Text = SandoghcheController.GetPersianDate(null);
             lblClient.Text = ClientName;
             lblClientId.Text = ClientId.ToString();
             order = new Order();
@@ -410,34 +410,6 @@ namespace Sandoghche
         async private void btnSaveInvoice_Tapped(object sender, EventArgs e)
         {
             await SaveInvoice(0);
-
-            //double finalPayment = Convert.ToDouble(lblFinalPayment.Text);
-            //if (finalPayment == 0)
-            //{
-            //    await DisplayAlert("صدور فاکتور", "فاکتور به مبلغ صفر نمیتواتد در سیستم ثبت گردد", "باشه");
-            //}
-            //else
-            //{
-            //    await SandoghcheController._connection.InsertAsync(order);
-            //    await SandoghcheController._connection.InsertAllAsync(order.OrderDetails);
-            //    await SandoghcheController._connection.UpdateWithChildrenAsync(order);
-
-            //    await DisplayAlert("صدور فاکتور", string.Format(" فاکتور {0}  شماره فیش {1} به مبلغ {2} ثبت شد", order.ReceiptNumber, order.OrderId , Convert.ToDouble(lblFinalPayment.Text)), "باشه");
-            //    await setOrderNumber();
-            //    lblTax.Text = "0";
-            //    lblDiscount.Text = "0";
-            //    lblService.Text = "0";
-            //    lblTax.Text = "0";
-            //    lblFinalPayment.Text = "0";
-            //    lblTotalPrice.Text = "0";
-            //    lblDelivery.Text = "0";
-
-            //    ProductsDataGrid.ItemsSource = null;
-            //    lstProducts.ItemsSource = null;
-            //    await getCategories();
-            //    order = new Order();
-            //    //await Navigation.PushAsync(new InvoicePage(Convert.ToInt32(lblClientId.Text), lblClient.Text));
-            //}
         }
 
         async private void btnCreditInvoice_Tapped(object sender, EventArgs e)
