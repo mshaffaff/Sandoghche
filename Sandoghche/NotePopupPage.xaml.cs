@@ -9,16 +9,15 @@ namespace Sandoghche
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class NotePopupPage : Rg.Plugins.Popup.Pages.PopupPage
     {
-        public NotePopupPage()
+       public NotePopupPage(string comment="")
         {
             InitializeComponent();
+            txtComment.Text = comment;
         }
 
         private void btnAddNote_Clicked(object sender, EventArgs e)
-        {
-            //اگر هنوز فاکتوری صادر نشده و فاکتور خالی است کاربر نمیتواند در ان توضیحات لحاظ کند
+        {            
             PopupNavigation.Instance.PopAsync(true);
-
             MessagingCenter.Send(new PopupViewModel() { CommentText = txtComment.Text }, "txtComment");
 
         }

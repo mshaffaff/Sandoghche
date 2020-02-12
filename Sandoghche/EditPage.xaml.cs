@@ -39,7 +39,7 @@ namespace Sandoghche
         }
         async Task getOrders(DateTime? createdDate, int orderId, int receiptId)
         {
-            var query = "SELECT Orders.OrderId,Orders.ReceiptNumber,Orders.FinalPayment,Orders.DateCreated,Clients.ClientName from Orders LEFT  JOIN Clients ON Orders.ClientId = Clients.ClientId where 1=1";
+            var query = "SELECT Orders.OrderId,Orders.ReceiptNumber,Orders.FinalPayment,Orders.DateCreated,Clients.ClientName from Orders LEFT  JOIN Clients ON Orders.ClientId = Clients.ClientId where Orders.isDeleted <>1";
             if (orderId != 0)
                 query += " and Orders.OrderId=" + orderId;
             else

@@ -26,20 +26,9 @@ namespace Sandoghche.UWP
         public Print_UWP()
         {
             printmgr.PrintTaskRequested += Printmgr_PrintTaskRequested;
-
-
-            //if (!IsPrinting)
-            //{
-            //    printmgr = null;
-            //    printmgr = PrintManager.GetForCurrentView();
-            //    printmgr.PrintTaskRequested += Printmgr_PrintTaskRequested;
-            //    IsPrinting = true;
-            //}
-            //else
-            //    printmgr.PrintTaskRequested -= Printmgr_PrintTaskRequested;
         }
 
-        public async void PrintUWpAsync(Order order)
+        public async void PrintUWpAsync(Order order,string receiptType)
         {
             #region Grid Print Document
             Grid Receipt = new Grid { Width = 300 };
@@ -98,7 +87,7 @@ namespace Sandoghche.UWP
             TextBlock ReceiptType = new TextBlock
             {
                 Foreground = new SolidColorBrush(Windows.UI.Colors.Black),
-                Text = "فاکتور فروش",
+                Text = receiptType,
                 FontFamily = new FontFamily("IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"),
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,

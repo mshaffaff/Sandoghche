@@ -377,19 +377,20 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
 
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
 
                 </Grid.ColumnDefinitions>
-                <Image Grid.Column="0" x:Name="btnMainMenu" Source="{local:EmbeddedImage Sandoghche.Images.MainMenu.png}"  HeightRequest="90" VerticalOptions="Center">
+                <Image Grid.Column="0" x:Name="btnMainMenu" Source="{local:EmbeddedImage Sandoghche.Images.CancelEdit.png}"  HeightRequest="90" VerticalOptions="Center">
                     <Image.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="btnMainMenu_Tapped" />
+                        <TapGestureRecognizer Tapped="btnCancelEdit_Tapped" />
                     </Image.GestureRecognizers>
                 </Image>
 
@@ -417,21 +418,28 @@
                     </Image.GestureRecognizers>
                 </Image>
 
-                <Image Grid.Column="5" Source="{local:EmbeddedImage Sandoghche.Images.CreditInvoice.png}">
+                <Image Grid.Column="5" Source="{local:EmbeddedImage Sandoghche.Images.DeleteOrder.png}">
                     <Image.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="btnCreditInvoice_Tapped" />
+                        <TapGestureRecognizer Tapped="btnDeleteOrder_Tapped" />
                     </Image.GestureRecognizers>
                 </Image>
 
-                <Image Grid.Column="6" Source="{local:EmbeddedImage Sandoghche.Images.SaveInvoice.png}">
+
+                <Image Grid.Column="6" Source="{local:EmbeddedImage Sandoghche.Images.CreditInvoiceUpdate.png}">
                     <Image.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="btnSaveInvoice_Tapped" />
+                        <TapGestureRecognizer Tapped="btnCreditInvoiceUpdate_Tapped" />
                     </Image.GestureRecognizers>
                 </Image>
 
-                <Image Grid.Column="7" Source="{local:EmbeddedImage Sandoghche.Images.PrintInvoice.png}">
+                <Image Grid.Column="7" Source="{local:EmbeddedImage Sandoghche.Images.SaveInvoiceUpdate.png}">
                     <Image.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="PrintInvoice_Tapped" />
+                        <TapGestureRecognizer Tapped="btnSaveInvoiceUpdate_Tapped" />
+                    </Image.GestureRecognizers>
+                </Image>
+
+                <Image Grid.Column="8" Source="{local:EmbeddedImage Sandoghche.Images.PrintInvoiceUpdate.png}">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="PrintInvoiceUpdate_Tapped" />
                     </Image.GestureRecognizers>
                 </Image>
 

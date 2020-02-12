@@ -7,7 +7,7 @@ namespace Sandoghche
 {
    public interface IPrint
     {
-        void Print(Order content);
+        void Print(Order content, string receiptType);
 
 
     }

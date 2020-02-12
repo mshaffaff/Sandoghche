@@ -19,7 +19,7 @@ namespace Sandoghche
         public SandoghcheMainPage()
         {
             InitializeComponent();
-            
+
             NavigationPage.SetHasBackButton(this, false);
 
             PersianCalendar pc = new PersianCalendar();
@@ -69,7 +69,7 @@ namespace Sandoghche
             }
 
 
-            
+
 
             backgroundImage.Source = ImageSource.FromResource("Sandoghche.Images.background.jpg");
             sloganLine.Source = ImageSource.FromResource("Sandoghche.Images.sloganLine.png");
@@ -87,29 +87,17 @@ namespace Sandoghche
 
         }
 
-        //protected override void OnAppearing()
-        //{
-        //    //Device.StartTimer(TimeSpan.FromSeconds(1), () =>
-        //    //{
-        //    //    Device.BeginInvokeOnMainThread(() =>
-        //    //       lblClocl.Text = DateTime.Now.ToString("HH:mm:ss")
-        //    //       );
-        //    //    return true;
-        //    //});
-        //    base.OnAppearing();
-        //}
-
         async private void imgEdit_Tapped(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new EditPage());
-           //await PopupNavigation.Instance.PushAsync(new EditPopupPage());
+            //await PopupNavigation.Instance.PushAsync(new EditPopupPage());
         }
         async private void imgInvoice_Tapped(object sender, EventArgs e)
         {
             var firstClient = await SandoghcheController.GetConnection().Table<Client>().FirstAsync();
 
-            if (firstClient!=null)
-                await Navigation.PushAsync(new InvoicePage(firstClient.ClientId,firstClient.ClientName));
+            if (firstClient != null)
+                await Navigation.PushAsync(new InvoicePage(firstClient.ClientId, firstClient.ClientName));
             else
                 await Navigation.PushAsync(new InvoicePage(0, "انتخاب مشتری"));
         }
@@ -134,5 +122,5 @@ namespace Sandoghche
             return true;
         }
     }
-   
+
 }

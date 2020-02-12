@@ -255,13 +255,13 @@ namespace Sandoghche
 
 
 
-            order.FinalPayment = totalPrice - (totalDiscount + order.TotalServiceFee + order.DeliveryFee + order.Tax1 + order.Tax2);
+            order.FinalPayment = totalPrice + order.TotalServiceFee + order.DeliveryFee + order.Tax1 + order.Tax2 -(totalDiscount);
             if (order.FinalPayment < 0)
             {
                 DisplayAlert("اخطار", "مبلغ پرداختی نمیتواند منفی باشد", "باشه");
             }
 
-            lblFinalPayment.Text = (totalPrice - (totalDiscount + order.TotalServiceFee + order.DeliveryFee + order.Tax1 + order.Tax2)).ToString();
+            lblFinalPayment.Text = (totalPrice + order.TotalServiceFee + order.DeliveryFee + order.Tax1 + order.Tax2 - (totalDiscount)).ToString();
         }
 
 
@@ -502,7 +502,7 @@ namespace Sandoghche
                 lblTimePDF.Text = order.DateCreated.ToString("HH:mm:ss");
                 lblDatePDF.Text = order.DateCreated.ToString("dd:MM:yyyy");
 
-                DependencyService.Get<IPrint>().Print(order);
+                DependencyService.Get<IPrint>().Print(order,"فاکتور فروش");
 
                 await setOrderNumber();
                 lblTax.Text = "0";

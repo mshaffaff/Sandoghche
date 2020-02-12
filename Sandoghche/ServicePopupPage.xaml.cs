@@ -14,12 +14,18 @@ namespace Sandoghche
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ServicePopupPage : Rg.Plugins.Popup.Pages.PopupPage
     {
-        public ServicePopupPage(string totalPrice = null)
+        public ServicePopupPage(string totalPrice = null, int serviceType = 0, double servicePercet = 0, double totalService = 0)
         {
             InitializeComponent();
             lblTotalPrice.Text = totalPrice;
             pkrServiceType.Items.Add("درصد");
-            pkrServiceType.Items.Add("مقدار");
+            pkrServiceType.Items.Add("عدد");
+
+            pkrServiceType.SelectedIndex = serviceType;
+            if (pkrServiceType.SelectedIndex == 0)
+                txtServiceAmount.Text = servicePercet.ToString();
+            else
+                txtServiceAmount.Text = totalService.ToString();
         }
 
         private void btnAddService_Clicked(object sender, EventArgs e)

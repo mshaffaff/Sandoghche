@@ -49,6 +49,13 @@ namespace Sandoghche.Models
 
         private DateTime? dateCreated = null;
 
+        public DateTime? EditedTime { get; set; }
+        public bool isEdited { get; set; }
+
+        public bool isDeleted { get; set; }
+        public DateTime? DeletedTime { get; set; }
+
+
 
 
         [OneToMany("OrderId")] 

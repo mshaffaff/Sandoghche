@@ -12,8 +12,11 @@
 
   <ItemGroup>
     <None Remove="Images\background.jpg" />
+    <None Remove="Images\CancelEdit.png" />
     <None Remove="Images\Clients.png" />
     <None Remove="Images\CreditInvoice.png" />
+    <None Remove="Images\CreditInvoiceUpdate.png" />
+    <None Remove="Images\DeleteOrder.png" />
     <None Remove="Images\Delivery.png" />
     <None Remove="Images\Discount.png" />
     <None Remove="Images\Edit.png" />
@@ -26,8 +29,10 @@
     <None Remove="Images\Note.png" />
     <None Remove="Images\Plus.png" />
     <None Remove="Images\PrintInvoice.png" />
+    <None Remove="Images\PrintInvoiceUpdate.png" />
     <None Remove="Images\reports.png" />
     <None Remove="Images\SaveInvoice.png" />
+    <None Remove="Images\SaveInvoiceUpdate.png" />
     <None Remove="Images\Select.png" />
     <None Remove="Images\Service.png" />
     <None Remove="Images\Settings.png" />
@@ -37,7 +42,10 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Images\background.jpg" />
+    <EmbeddedResource Include="Images\CancelEdit.png" />
     <EmbeddedResource Include="Images\CreditInvoice.png" />
+    <EmbeddedResource Include="Images\CreditInvoiceUpdate.png" />
+    <EmbeddedResource Include="Images\DeleteOrder.png" />
     <EmbeddedResource Include="Images\Delivery.png" />
     <EmbeddedResource Include="Images\Discount.png" />
     <EmbeddedResource Include="Images\Location.png" />
@@ -46,8 +54,10 @@
     <EmbeddedResource Include="Images\Mines.png" />
     <EmbeddedResource Include="Images\Note.png" />
     <EmbeddedResource Include="Images\Plus.png" />
+    <EmbeddedResource Include="Images\PrintInvoiceUpdate.png" />
     <EmbeddedResource Include="Images\PrintInvoice.png" />
     <EmbeddedResource Include="Images\SaveInvoice.png" />
+    <EmbeddedResource Include="Images\SaveInvoiceUpdate.png" />
     <EmbeddedResource Include="Images\Select.png" />
     <EmbeddedResource Include="Images\Service.png" />
     <EmbeddedResource Include="Images\sloganLine.png" />

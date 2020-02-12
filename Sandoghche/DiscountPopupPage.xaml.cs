@@ -14,12 +14,19 @@ namespace Sandoghche
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class DiscountPopupPage : Rg.Plugins.Popup.Pages.PopupPage
     {
-        public DiscountPopupPage(string TotalPrice = null)
+        public DiscountPopupPage(string TotalPrice = null,int discountType=0,double discountPercet=0,double totalDiscount=0)
         {
             InitializeComponent();
             lblTotalPrice.Text = TotalPrice;
             pkrDiscountType.Items.Add("درصد");
             pkrDiscountType.Items.Add("مقدار");
+
+            pkrDiscountType.SelectedIndex = discountType;
+            if (pkrDiscountType.SelectedIndex == 0)
+                txtDiscountAmount.Text = discountPercet.ToString();
+            else
+                txtDiscountAmount.Text = totalDiscount.ToString();
+
         }
 
         private void btnAddDiscount_Clicked(object sender, EventArgs e)

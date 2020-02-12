@@ -14,9 +14,10 @@ namespace Sandoghche
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class DeliveryPopupPage : Rg.Plugins.Popup.Pages.PopupPage
     {
-        public DeliveryPopupPage()
+        public DeliveryPopupPage(double deliveryFee = 0.0)
         {
             InitializeComponent();
+            txtDeliveryFee.Text = deliveryFee.ToString();
         }
 
         private void btnAddDelivery_Clicked(object sender, EventArgs e)
