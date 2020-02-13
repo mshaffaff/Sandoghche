@@ -103,7 +103,7 @@ namespace Sandoghche
         }
         async private void imgReports_Tapped(object sender, EventArgs e)
         {
-            await DisplayAlert("reports", "test", "test");
+            await Navigation.PushAsync(new ReportPage());
         }
         async private void imgItems_Tapped(object sender, EventArgs e)
         {

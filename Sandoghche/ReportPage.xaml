@@ -1,19 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage NavigationPage.HasNavigationBar="False" xmlns="http://xamarin.com/schemas/2014/forms"
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:datagrid="clr-namespace:Syncfusion.SfDataGrid.XForms;assembly=Syncfusion.SfDataGrid.XForms"
-             xmlns:telerikDataGrid="clr-namespace:Telerik.XamarinForms.DataGrid;assembly=Telerik.XamarinForms.DataGrid"
-             xmlns:local="clr-namespace:Sandoghche.MarkupExtentions"
-             xmlns:helpers="clr-namespace:Sandoghche.Helpers"
-             mc:Ignorable="d"
-             x:Class="Sandoghche.EditPage"
              xmlns:bitControls="clr-namespace:Bit.View.Controls;assembly=Bit.CSharpClient.Controls"
              xmlns:noda="clr-namespace:NodaTime;assembly=NodaTime"
              xmlns:syncfusion="clr-namespace:Syncfusion.SfNumericTextBox.XForms;assembly=Syncfusion.SfNumericTextBox.XForms"
-             xmlns:telerikCommon="clr-namespace:Telerik.XamarinForms.Common.Data;assembly=Telerik.XamarinForms.Common">
-
+             mc:Ignorable="d"
+             x:Class="Sandoghche.ReportPage">
     <Grid ColumnSpacing="0" RowSpacing="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="100"/>
@@ -36,7 +30,7 @@
                         Margin="50,0,0,0"
                         FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
                         FontSize="20"
-                        Text="معرفی محصولات" HorizontalOptions="StartAndExpand" TextColor="Black" />
+                        Text="گزارش" HorizontalOptions="StartAndExpand" TextColor="Black" />
 
                 </StackLayout>
 
@@ -81,10 +75,12 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="100" />
                             <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="150" />
-                            <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="150" />
-                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+
                         </Grid.ColumnDefinitions>
 
                         <Button Grid.Column="0"
@@ -95,12 +91,39 @@
                                     Text="جستجو" 
                                     BackgroundColor="#0078D7"
                                     FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
-                                Clicked="btnSearch_Clicked"
+                               
                                    />
+
+                            <Grid Grid.Column="1" VerticalOptions="Center" >
+                                <Switch Grid.Row="0" Grid.Column="0" x:Name="isEdited"></Switch>
+                                <Label Grid.Row="0" Grid.Column="1" Text="ویرایش شده" />
+                                <Switch Grid.Row="1" Grid.Column="0" x:Name="isDeleted"></Switch>
+                                <Label Grid.Row="1" Grid.Column="1" Text="حذف" />
+                            </Grid>
+
+                           
+
+
+                        <Picker x:Name="pkrProducts" Grid.Column="2" VerticalOptions="Center">
+                            <Picker.Items>
+                                <x:String>همه</x:String>
+                                <x:String>قیفی</x:String>
+                                <x:String>فالوده</x:String>
+                            </Picker.Items>
+                        </Picker>
+
+                        <Picker x:Name="pkrReceiptType" Grid.Column="3" VerticalOptions="Center">
+                            <Picker.Items>
+                                <x:String>همه</x:String>
+                                <x:String>نقدی</x:String>
+                                <x:String>اعتباری</x:String>
+                            </Picker.Items>
+                        </Picker>
+
                         <bitControls:BitDateTimePicker
-                            Grid.Column="1"
-                            x:Name="srchCreatedDate"
-                            Text="لطفا یک روز را انتخاب کنید"
+                            Grid.Column="4"
+                            x:Name="srchEndDate"
+                            Text="تا تاریخ"
                             Culture="Fa"
                             CalendarSystem="{x:Static noda:CalendarSystem.PersianArithmetic}"
                             FlowDirection="RightToLeft"
@@ -109,30 +132,48 @@
                             VerticalOptions="Center"
                             WidthRequest="150"
                             />
-                        <syncfusion:SfNumericTextBox VerticalOptions="Center" x:Name="srchReceiptNumber"  MaximumNumberDecimalDigits="0"  Grid.Column="2" FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" TextColor="Black"/>
-                        <Label Text="یا شماره فیش" Grid.Column="3" VerticalOptions="Center" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" />
+                        <!--<Label Text="تا" Grid.Column="5" VerticalOptions="Center" />-->
+                        <bitControls:BitDateTimePicker
+                            Grid.Column="5"
+                            x:Name="srchStartDate"
+                            Text="از تاریخ"
+                            Culture="Fa"
+                            CalendarSystem="{x:Static noda:CalendarSystem.PersianArithmetic}"
+                            FlowDirection="RightToLeft"
+                            DateTimeDisplayFormat="dd MMM yyyy"
+                            ShowTimePicker="False"
+                            VerticalOptions="Center"
+                            WidthRequest="150"
+                            />
+                        <!--<Label Text="از" Grid.Column="7" VerticalOptions="Center" />-->
 
-                      
-                            
-                        <syncfusion:SfNumericTextBox VerticalOptions="Center"  MaximumNumberDecimalDigits="0"  x:Name="srchOrderId" Grid.Column="4" FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" TextColor="Black"/>
-                        <Label Text="شماره فاکتور" Grid.Column="5" VerticalOptions="Center" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"/>
-                       
+                        <Picker x:Name="ClientName" Grid.Column="6" VerticalOptions="Center">
+                            <Picker.Items>
+                                <x:String>مهدی شفاف</x:String>
+                                <x:String>مهدی دهقانی</x:String>
+                                <x:String>بابا بستنی</x:String>
+
+                            </Picker.Items>
+                        </Picker>
                     </Grid>
                 </Frame>
 
                 <!--نمایش فاکتورها-->
-                <Frame Grid.Row="1" Margin="5" BorderColor="Black"  >
+
+                <!--<Frame Grid.Row="1" Margin="5" BorderColor="Black"  >
 
 
                     <telerikDataGrid:RadDataGrid x:Name="OrdersDataGrid"  UserFilterMode="Disabled" UserGroupMode="Disabled"  UserSortMode="Single" UserEditMode="None" AutoGenerateColumns="False"   >
 
-                       
+
 
 
 
                         <telerikDataGrid:RadDataGrid.Columns>
 
-                            <!--Mines-->
+                            -->
+                <!--Mines-->
+                <!--
                             <telerikDataGrid:DataGridTemplateColumn  CanUserEdit="False" CanUserFilter="False" CanUserGroup="False" CanUserSort="False">
 
                                 <telerikDataGrid:DataGridTemplateColumn.HeaderStyle>
@@ -144,7 +185,9 @@
 
                                 <telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
                                     <DataTemplate>
-                                        <!--<ImageButton x:Name="btnMines"  WidthRequest="20" HeightRequest="20" Margin="5" Clicked="btnMines_Clicked"  Source="{local:EmbeddedImage Sandoghche.Images.Mines.png}" />-->
+                                        -->
+                <!--<ImageButton x:Name="btnMines"  WidthRequest="20" HeightRequest="20" Margin="5" Clicked="btnMines_Clicked"  Source="{local:EmbeddedImage Sandoghche.Images.Mines.png}" />-->
+                <!--
                                         <Button
                                     HorizontalOptions="FillAndExpand"
                                     VerticalOptions="Center"
@@ -162,25 +205,9 @@
                                 </telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
                             </telerikDataGrid:DataGridTemplateColumn>
 
-                            <!--plus-->
-                            <!--<telerikDataGrid:DataGridTemplateColumn  CanUserEdit="False" CanUserFilter="False" CanUserGroup="False" CanUserSort="False">
-
-                                <telerikDataGrid:DataGridTemplateColumn.HeaderStyle>
-                                    <telerikDataGrid:DataGridColumnHeaderStyle OptionsButtonTextColor="Transparent"
-                                                    OptionsButtonFontSize="0"
-                                                    BorderColor="#D9D9D9"
-                                                    BorderThickness="1" />
-                                </telerikDataGrid:DataGridTemplateColumn.HeaderStyle>
-
-                                <telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
-                                    <DataTemplate>
-                                        <ImageButton Margin="5" BackgroundColor="White"  WidthRequest="20" HeightRequest="20" x:Name="btnPlus" Clicked="btnPlus_Clicked"  Source="{local:EmbeddedImage Sandoghche.Images.Plus.png}" />
-
-                                    </DataTemplate>
-                                </telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
-                            </telerikDataGrid:DataGridTemplateColumn>-->
-
-                            <!--مبلغ کل-->
+                            -->
+                <!--مبلغ کل-->
+                <!--
                             <telerikDataGrid:DataGridTemplateColumn  CanUserEdit="False" CanUserFilter="False" CanUserGroup="False" CanUserSort="False">
 
                                 <telerikDataGrid:DataGridTemplateColumn.HeaderContentTemplate>
@@ -210,7 +237,9 @@
                                 </telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
                             </telerikDataGrid:DataGridTemplateColumn>
 
-                            <!--نام مشترک-->
+                            -->
+                <!--نام مشترک-->
+                <!--
                             <telerikDataGrid:DataGridTemplateColumn  CanUserEdit="False" CanUserFilter="False" CanUserGroup="False" CanUserSort="False">
                                 <telerikDataGrid:DataGridTemplateColumn.HeaderContentTemplate>
                                     <DataTemplate>
@@ -238,7 +267,9 @@
                                 </telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
                             </telerikDataGrid:DataGridTemplateColumn>
 
-                            <!--شماره فاکتور-->
+                            -->
+                <!--شماره فاکتور-->
+                <!--
                             <telerikDataGrid:DataGridTemplateColumn  CanUserEdit="False" CanUserFilter="False" CanUserGroup="False" CanUserSort="False" >
                                 <telerikDataGrid:DataGridTemplateColumn.HeaderContentTemplate>
                                     <DataTemplate>
@@ -268,7 +299,9 @@
                                 </telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
                             </telerikDataGrid:DataGridTemplateColumn>
 
-                            <!--شماره فیش-->
+                            -->
+                <!--شماره فیش-->
+                <!--
                             <telerikDataGrid:DataGridTemplateColumn  CanUserEdit="False" CanUserFilter="False" CanUserGroup="False" CanUserSort="True" >
                                 <telerikDataGrid:DataGridTemplateColumn.HeaderContentTemplate>
                                     <DataTemplate>
@@ -303,10 +336,9 @@
 
 
 
-                </Frame>
+                </Frame>-->
 
             </Grid>
         </StackLayout>
     </Grid>
-
 </ContentPage>
