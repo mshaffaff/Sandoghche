@@ -209,6 +209,10 @@
     <Reference Include="Telerik.XamarinForms.DataGrid">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for Xamarin R2 2019\Binaries\UWP\Telerik.XamarinForms.DataGrid.dll</HintPath>
     </Reference>
+    <Reference Include="Telerik.XamarinForms.Input, Version=2019.2.619.360, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for Xamarin R2 2019\Binaries\UWP\Telerik.XamarinForms.Input.dll</HintPath>
+    </Reference>
     <Reference Include="Telerik.XamarinForms.Primitives, Version=2019.2.619.360, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for Xamarin R2 2019\Binaries\UWP\Telerik.XamarinForms.Primitives.dll</HintPath>
