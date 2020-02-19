@@ -21,6 +21,7 @@ namespace Sandoghche
         public ReportPage()
         {
             InitializeComponent();
+            //ProductsDataGrid.sor
             pkrReceiptType.Items.Add("روش پرداخت : همه");
             pkrReceiptType.Items.Add("نقدی");
             pkrReceiptType.Items.Add("اعتباری");
@@ -31,7 +32,7 @@ namespace Sandoghche
         async protected override void OnAppearing()
         {
             await GetClients();
-            await GetProducts();
+            //await GetProducts();
             base.OnAppearing();
         }
 
@@ -46,15 +47,15 @@ namespace Sandoghche
         }
 
 
-        public class ProductAutoCompleteViewFilter : IAutoCompleteFilter
-        {
-            public bool Filter(object item, string searchText, CompletionMode completionMode)
-            {
-                Product product = (Product)item;
-                string productText = product.ProductText;
-                return productText.Contains(searchText);
-            }
-        }
+        //public class ProductAutoCompleteViewFilter : IAutoCompleteFilter
+        //{
+        //    public bool Filter(object item, string searchText, CompletionMode completionMode)
+        //    {
+        //        Product product = (Product)item;
+        //        string productText = product.ProductText;
+        //        return productText.Contains(searchText);
+        //    }
+        //}
 
 
         async Task GetClients()
@@ -65,13 +66,13 @@ namespace Sandoghche
             srchClients.Filter = new ClientAutoCompleteViewFilter();
         }
 
-        async Task GetProducts()
-        {
-            var query = "select Products.ProductId,Products.ProductText from Products where Products.IsDeleted!=1 ";
-            var products = await SandoghcheController.GetConnection().QueryAsync<Product>(query);
-            srchProdcuts.ItemsSource = products.ToList();
-            srchProdcuts.Filter = new ProductAutoCompleteViewFilter();
-        }
+        //async Task GetProducts()
+        //{
+        //    var query = "select Products.ProductId,Products.ProductText from Products where Products.IsDeleted!=1 ";
+        //    var products = await SandoghcheController.GetConnection().QueryAsync<Product>(query);
+        //    srchProdcuts.ItemsSource = products.ToList();
+        //    srchProdcuts.Filter = new ProductAutoCompleteViewFilter();
+        //}
 
         public class CustomOrderDetails
         {
@@ -88,13 +89,16 @@ namespace Sandoghche
             DateTime? endDate = srchEndDate.SelectedDateTime;
             int receiptType = pkrReceiptType.SelectedIndex;
 
-            if (startDate == null || endDate == null)
+            
+            if (startDate == null)
             {
-                await DisplayAlert("خطا", "تاریخ آغاز و پایان نامشخص است", "باشه");
+                await DisplayAlert("خطا", "تاریخ نامشخص است", "باشه");
                 return;
             }
 
 
+            if (endDate == null)
+                endDate = startDate;
 
 
 

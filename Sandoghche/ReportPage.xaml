@@ -8,6 +8,7 @@
              xmlns:syncfusion="clr-namespace:Syncfusion.SfNumericTextBox.XForms;assembly=Syncfusion.SfNumericTextBox.XForms"
              xmlns:telerikInput="clr-namespace:Telerik.XamarinForms.Input;assembly=Telerik.XamarinForms.Input"
              xmlns:telerikDataGrid="clr-namespace:Telerik.XamarinForms.DataGrid;assembly=Telerik.XamarinForms.DataGrid"
+             xmlns:telerikCommon="clr-namespace:Telerik.XamarinForms.Common.Data;assembly=Telerik.XamarinForms.Common"
              mc:Ignorable="d"
              x:Class="Sandoghche.ReportPage">
     <Grid ColumnSpacing="0" RowSpacing="0">
@@ -17,8 +18,6 @@
         </Grid.RowDefinitions>
         <!--منوی بالا-->
         <StackLayout Grid.Row="0" VerticalOptions="Center" >
-
-
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -64,7 +63,6 @@
 
         <!--منوی وسط-->
         <StackLayout Grid.Row="1" Padding="20,0,20,20" >
-            <!--قسمت جستجو-->
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="100"/>
@@ -76,7 +74,6 @@
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
@@ -106,26 +103,12 @@
                             <Label Grid.Row="1" Grid.Column="1" Text="حذف" VerticalOptions="Center" HorizontalOptions="StartAndExpand"/>
                         </Grid>
 
-
-                        <telerikInput:RadAutoCompleteView  SuggestionViewHeight="300" TextSearchPath="ProductText" FlowDirection="RightToLeft" x:Name="srchProdcuts" Grid.Column="2" VerticalOptions="Center" WatermarkTextColor="Black" Watermark="محصول : همه  " SuggestionItemSelected="srchProdcuts_SuggestionItemSelected" NoResultsMessage="یافت نشد" >
-                            <telerikInput:RadAutoCompleteView.SuggestionItemTemplate>
-                                <DataTemplate>
-                                    <ViewCell>
-                                        <StackLayout Orientation="Horizontal">
-                                            <Label Text="{Binding ProductText}"/>
-                                        </StackLayout>
-                                    </ViewCell>
-                                </DataTemplate>
-                            </telerikInput:RadAutoCompleteView.SuggestionItemTemplate>
-                        </telerikInput:RadAutoCompleteView>
-
-
-                        <Picker FlowDirection="RightToLeft" x:Name="pkrReceiptType" Grid.Column="3" VerticalOptions="Center" />
+                        <Picker FlowDirection="RightToLeft" x:Name="pkrReceiptType" Grid.Column="2" VerticalOptions="Center" />
 
 
 
                         <bitControls:BitDateTimePicker
-                            Grid.Column="4"
+                            Grid.Column="3"
                             x:Name="srchEndDate"
                             Text="تا تاریخ"
                             Culture="Fa"
@@ -137,7 +120,7 @@
                             WidthRequest="150" AutoClose="True"
                             />
                         <bitControls:BitDateTimePicker
-                            Grid.Column="5"
+                            Grid.Column="4"
                             x:Name="srchStartDate"
                             Text="از تاریخ"
                             Culture="Fa"
@@ -150,7 +133,7 @@
                             AutoClose="True"
                             />
 
-                        <telerikInput:RadAutoCompleteView  SuggestionViewHeight="300"  TextSearchPath="ClientName" FlowDirection="RightToLeft" x:Name="srchClients" Grid.Column="6" VerticalOptions="Center" WatermarkTextColor="Black" Watermark="مشتری : همه  " NoResultsMessage="یافت نشد"  SuggestionItemSelected="srchClients_SuggestionItemSelected" >
+                        <telerikInput:RadAutoCompleteView  SuggestionViewHeight="300"  TextSearchPath="ClientName" FlowDirection="RightToLeft" x:Name="srchClients" Grid.Column="5" VerticalOptions="Center" WatermarkTextColor="Black" Watermark="مشتری : همه  " NoResultsMessage="یافت نشد"  SuggestionItemSelected="srchClients_SuggestionItemSelected" >
                             <telerikInput:RadAutoCompleteView.SuggestionItemTemplate>
                                 <DataTemplate>
                                     <ViewCell>
@@ -166,7 +149,7 @@
                 </Frame>
 
 
-                <StackLayout Grid.Row="1" Margin="10,10,10,10"  >
+                <StackLayout Grid.Row="1" Margin="10,10,10,10" >
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
@@ -174,23 +157,35 @@
                         </Grid.RowDefinitions>
                     </Grid>
 
-                    <Grid Grid.Row="0" VerticalOptions="FillAndExpand">
-                        <telerikDataGrid:RadDataGrid x:Name="ProductsDataGrid"   UserFilterMode="Disabled" UserGroupMode="Disabled" UserSortMode="None" UserEditMode="None" AutoGenerateColumns="False"  >
+                    <Grid Grid.Row="0" VerticalOptions="FillAndExpand" >
+                        <telerikDataGrid:RadDataGrid x:Name="ProductsDataGrid" ItemsSource="CustomOrderDetails"  UserFilterMode="Disabled" UserGroupMode="Disabled" UserSortMode="Single" UserEditMode="None" AutoGenerateColumns="False"  >
 
-                            <telerikDataGrid:RadDataGrid.Columns>
+                            <telerikDataGrid:RadDataGrid.Columns >
 
                                 <!--قیمت کل-->
-                                <telerikDataGrid:DataGridTemplateColumn  CanUserEdit="False" CanUserFilter="False" CanUserGroup="False" CanUserSort="False">
-
-                                    <telerikDataGrid:DataGridTemplateColumn.HeaderContentTemplate>
+                                <telerikDataGrid:DataGridTemplateColumn   CanUserSort="True" >
+                                    <telerikDataGrid:DataGridTemplateColumn.SortDescriptor>
+                                        <telerikCommon:PropertySortDescriptor PropertyName="Number" />
+                                    </telerikDataGrid:DataGridTemplateColumn.SortDescriptor>
+                                    <telerikDataGrid:DataGridTemplateColumn.HeaderContentTemplate >
 
                                         <DataTemplate>
-                                            <Label FontSize="20" TextColor="Black" Text="قیمت کل" VerticalOptions="Center" HorizontalOptions="Center"/>
+                                            <Label
+                                                Margin="5"
+                                                FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                                                FontSize="20" 
+                                                TextColor="Black" 
+                                                Text="قیمت کل" 
+                                                VerticalOptions="Center" 
+                                                HorizontalOptions="Center"
+                                                HeightRequest="30"
+                                                   />
                                         </DataTemplate>
                                     </telerikDataGrid:DataGridTemplateColumn.HeaderContentTemplate>
 
                                     <telerikDataGrid:DataGridTemplateColumn.HeaderStyle>
-                                        <telerikDataGrid:DataGridColumnHeaderStyle OptionsButtonTextColor="Transparent"
+                                        <telerikDataGrid:DataGridColumnHeaderStyle 
+                                            OptionsButtonTextColor="Transparent"
                                                     OptionsButtonFontSize="0"
                                                     BorderColor="#D9D9D9"
                                                     BorderThickness="1" />
@@ -209,44 +204,23 @@
                                     </telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
                                 </telerikDataGrid:DataGridTemplateColumn>
 
-                                <!--قیمت واحد--><!--
-                                <telerikDataGrid:DataGridTemplateColumn  CanUserEdit="False" CanUserFilter="False" CanUserGroup="False" CanUserSort="False">
-
-                                    <telerikDataGrid:DataGridTemplateColumn.HeaderContentTemplate>
-
-                                        <DataTemplate>
-                                            <Label FontSize="20" TextColor="Black" Text="قیمت واحد" VerticalOptions="Center" HorizontalOptions="Center"/>
-                                        </DataTemplate>
-                                    </telerikDataGrid:DataGridTemplateColumn.HeaderContentTemplate>
-
-                                    <telerikDataGrid:DataGridTemplateColumn.HeaderStyle>
-                                        <telerikDataGrid:DataGridColumnHeaderStyle OptionsButtonTextColor="Transparent"
-                                                    OptionsButtonFontSize="0"
-                                                    BorderColor="#D9D9D9"
-                                                    BorderThickness="1" />
-                                    </telerikDataGrid:DataGridTemplateColumn.HeaderStyle>
-
-                                    <telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
-                                        <DataTemplate>
-                                            <Label 
-                                             VerticalOptions="Center"
-                                            TextColor="Black"
-                                            HorizontalOptions="Center"
-                                            FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
-                                            FontSize="20"
-                                            Text="{Binding Price}"/>
-                                        </DataTemplate>
-                                    </telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
-                                </telerikDataGrid:DataGridTemplateColumn>-->
-
-
                                 <!--تعداد-->
-                                <telerikDataGrid:DataGridTemplateColumn  CanUserEdit="False" CanUserFilter="False" CanUserGroup="False" CanUserSort="False">
-
+                                <telerikDataGrid:DataGridTemplateColumn  CanUserEdit="False" CanUserFilter="False" CanUserGroup="False" CanUserSort="True">
+                                    <telerikDataGrid:DataGridTemplateColumn.SortDescriptor>
+                                        <telerikCommon:PropertySortDescriptor PropertyName="Number" />
+                                    </telerikDataGrid:DataGridTemplateColumn.SortDescriptor>
                                     <telerikDataGrid:DataGridTemplateColumn.HeaderContentTemplate>
 
                                         <DataTemplate>
-                                            <Label FontSize="20" TextColor="Black" Text="تعداد" VerticalOptions="Center" HorizontalOptions="Center"/>
+                                            <Label
+                                                 Margin="5"
+                                                FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                                                FontSize="20" 
+                                                TextColor="Black" 
+                                                Text="تعداد" 
+                                                VerticalOptions="Center" 
+                                                HorizontalOptions="Center"
+                                                HeightRequest="30"/>
                                         </DataTemplate>
                                     </telerikDataGrid:DataGridTemplateColumn.HeaderContentTemplate>
 
@@ -271,16 +245,31 @@
                                     </telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
                                 </telerikDataGrid:DataGridTemplateColumn>
 
-
                                 <!--عنوان-->
-                                <telerikDataGrid:DataGridTemplateColumn  CanUserEdit="False" CanUserFilter="False" CanUserGroup="False" CanUserSort="False">
+
+                                <telerikDataGrid:DataGridTemplateColumn    CanUserEdit="False" CanUserFilter="False" CanUserGroup="False" CanUserSort="True">
+                                    <telerikDataGrid:DataGridTemplateColumn.SortDescriptor>
+                                        <telerikCommon:PropertySortDescriptor PropertyName="ProductText" />
+                                    </telerikDataGrid:DataGridTemplateColumn.SortDescriptor>
+
                                     <telerikDataGrid:DataGridTemplateColumn.HeaderContentTemplate>
                                         <DataTemplate>
-                                            <Label FontSize="20" TextColor="Black" Text="عنوان" HorizontalOptions="End"  VerticalOptions="Center"    Margin="0,0,10,0" />
+                                            <Label
+                                                 Margin="5"
+                                                FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                                                FontSize="20" 
+                                                TextColor="Black" 
+                                                Text="عنوان" 
+                                                VerticalOptions="Center" 
+                                                HorizontalOptions="End" 
+                                                HeightRequest="30"
+                                                   />
                                         </DataTemplate>
                                     </telerikDataGrid:DataGridTemplateColumn.HeaderContentTemplate>
+
                                     <telerikDataGrid:DataGridTemplateColumn.HeaderStyle>
                                         <telerikDataGrid:DataGridColumnHeaderStyle 
+                                            
                                             OptionsButtonTextColor="Transparent"
                                             OptionsButtonFontSize="0"
                                             BorderColor="#D9D9D9"
@@ -288,6 +277,7 @@
                                     </telerikDataGrid:DataGridTemplateColumn.HeaderStyle>
 
                                     <telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
+
                                         <DataTemplate>
                                             <Label VerticalOptions="Center"
                                             HorizontalOptions="End"
@@ -300,25 +290,32 @@
                                     </telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
                                 </telerikDataGrid:DataGridTemplateColumn>
 
-
                                 <!--ردیف-->
-                                <telerikDataGrid:DataGridTemplateColumn  CanUserEdit="False" CanUserFilter="False" CanUserGroup="False" CanUserSort="False" >
+                                <telerikDataGrid:DataGridTemplateColumn Width="80" SizeMode="Fixed"  CanUserEdit="False" CanUserFilter="False" CanUserGroup="False" CanUserSort="False" >
                                     <telerikDataGrid:DataGridTemplateColumn.HeaderContentTemplate>
-                                        <DataTemplate>
+                                        <DataTemplate >
                                             <Label 
-                                             FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
-                                            FontSize="20" TextColor="Black" Text="ردیف" VerticalOptions="Center" HorizontalOptions="Center" />
+                                                Margin="5"
+                                                FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                                                FontSize="20" 
+                                                TextColor="Black" 
+                                                Text="ردیف" 
+                                                VerticalOptions="Center" 
+                                                HorizontalOptions="Center"  
+                                                HeightRequest="30" />
                                         </DataTemplate>
                                     </telerikDataGrid:DataGridTemplateColumn.HeaderContentTemplate>
                                     <telerikDataGrid:DataGridTemplateColumn.HeaderStyle>
-                                        <telerikDataGrid:DataGridColumnHeaderStyle OptionsButtonTextColor="Transparent"
+                                        <telerikDataGrid:DataGridColumnHeaderStyle 
+                                            OptionsButtonTextColor="Transparent"
                                                     OptionsButtonFontSize="0"
                                                     BorderColor="#D9D9D9"
-                                                    BorderThickness="1" />
+                                                    BorderThickness="1" 
+                                            
+                                            />
                                     </telerikDataGrid:DataGridTemplateColumn.HeaderStyle>
                                     <telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
                                         <DataTemplate>
-
                                             <Label 
                                             VerticalOptions="Center"                                    
                                             TextColor="Black"
@@ -334,6 +331,7 @@
                             </telerikDataGrid:RadDataGrid.Columns>
                         </telerikDataGrid:RadDataGrid>
                     </Grid>
+
                     <StackLayout Grid.Row="1" BackgroundColor="Black" VerticalOptions="EndAndExpand" >
                         <Grid>
                             <Grid.RowDefinitions>
@@ -364,6 +362,8 @@
                             <Label FontSize="20" VerticalOptions="Center"  HorizontalOptions="End" Margin="0,0,10,0" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" Grid.Row="5" Grid.Column="1" Text="قابل پرداخت" TextColor="White" />
                         </Grid>
                     </StackLayout>
+
+
 
                 </StackLayout>
 
