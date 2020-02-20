@@ -165,7 +165,7 @@
                                 <!--قیمت کل-->
                                 <telerikDataGrid:DataGridTemplateColumn   CanUserSort="True" >
                                     <telerikDataGrid:DataGridTemplateColumn.SortDescriptor>
-                                        <telerikCommon:PropertySortDescriptor PropertyName="Number" />
+                                        <telerikCommon:PropertySortDescriptor PropertyName="TotalPrice" />
                                     </telerikDataGrid:DataGridTemplateColumn.SortDescriptor>
                                     <telerikDataGrid:DataGridTemplateColumn.HeaderContentTemplate >
 

@@ -20,7 +20,7 @@ namespace Sandoghche
         {
             InitializeComponent();
             // srchCreatedDate.SelectedDateTime = DateTime.Now;
-            
+
         }
 
         protected override async void OnAppearing()
@@ -32,7 +32,7 @@ namespace Sandoghche
         async private void btnSearch_Clicked(object sender, EventArgs e)
         {
 
-            if (srchCreatedDate.SelectedDateTime == null && (srchReceiptNumber.Value == null  || (srchReceiptNumber.Value !=null && Convert.ToInt32(srchReceiptNumber.Value) == 0)) &&  (srchOrderId.Value == null || (srchOrderId.Value != null && Convert.ToInt32(srchOrderId.Value) == 0)))
+            if (srchCreatedDate.SelectedDateTime == null && (srchReceiptNumber.Value == null || (srchReceiptNumber.Value != null && Convert.ToInt32(srchReceiptNumber.Value) == 0)) && (srchOrderId.Value == null || (srchOrderId.Value != null && Convert.ToInt32(srchOrderId.Value) == 0)))
                 await DisplayAlert("اخطار", "جهت جستجو ورود یکی از فیلد ها الزامی است", "باشه");
             else
                 await getOrders(srchCreatedDate.SelectedDateTime != null ? srchCreatedDate.SelectedDateTime.Value.Date : (DateTime?)null, srchOrderId.Value != null ? Convert.ToInt32(srchOrderId.Value) : 0, srchReceiptNumber.Value != null ? Convert.ToInt32(srchReceiptNumber.Value) : 0);
@@ -54,8 +54,15 @@ namespace Sandoghche
             OrdersDataGrid.ItemsSource = Orders;
         }
 
-
-       
+        async private void btnPrint_Clicked(object sender, EventArgs e)
+        {
+            var s = sender as Button;
+            var selectedItem = s.BindingContext;
+            var orderModel = (OrderDetailForSearchViewModel)selectedItem;
+            var order = await SandoghcheController.GetConnection().Table<Order>().FirstOrDefaultAsync(o => o.OrderId == orderModel.OrderId);
+            order.OrderDetails = await SandoghcheController.GetConnection().Table<OrderDetail>().Where(od => od.OrderId == orderModel.OrderId).ToListAsync();
+            DependencyService.Get<IPrint>().Print(order, "چاپ مجدد");
+        }
 
 
 
@@ -64,9 +71,9 @@ namespace Sandoghche
             var s = sender as Button;
             var selectedItem = s.BindingContext;
             var order = (OrderDetailForSearchViewModel)selectedItem;
-           // await DisplayAlert("test",order.OrderId.ToString(),"test");
+            // await DisplayAlert("test",order.OrderId.ToString(),"test");
             await Navigation.PushAsync(new EditOrderPage(order.OrderId));
-            
+
 
 
         }
