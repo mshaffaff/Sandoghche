@@ -1,6 +1,7 @@
 ﻿using Sandoghche.Components;
 using Sandoghche.Models;
 using Sandoghche.ViewModels;
+using SQLiteNetExtensionsAsync.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -61,6 +62,14 @@ namespace Sandoghche
             var orderModel = (OrderDetailForSearchViewModel)selectedItem;
             var order = await SandoghcheController.GetConnection().Table<Order>().FirstOrDefaultAsync(o => o.OrderId == orderModel.OrderId);
             order.OrderDetails = await SandoghcheController.GetConnection().Table<OrderDetail>().Where(od => od.OrderId == orderModel.OrderId).ToListAsync();
+            var products = await SandoghcheController.GetConnection().Table<Product>().ToListAsync();
+
+            foreach (var item in order.OrderDetails)
+            {
+                item.ProductText = products.FirstOrDefault(p => p.ProductId == item.ProductId).ProductText;
+            }
+
+
             DependencyService.Get<IPrint>().Print(order, "چاپ مجدد");
         }
 
