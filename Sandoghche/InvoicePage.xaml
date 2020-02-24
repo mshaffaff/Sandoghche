@@ -81,7 +81,7 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
                             <TapGestureRecognizer Tapped="lblClients_Tapped" />
                         </Label.GestureRecognizers>
                     </Label>
-                    <Label TextColor="Black" Text="مانده 0"
+                    <Label x:Name="lblCreditStatus" TextColor="Black" 
                            FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
                            FontSize="20" HorizontalOptions="EndAndExpand"
                            

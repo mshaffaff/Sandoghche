@@ -82,8 +82,12 @@ namespace Sandoghche
             imgSettings.Source = ImageSource.FromResource("Sandoghche.Images.Settings.png");
             imgClients.Source = ImageSource.FromResource("Sandoghche.Images.Clients.png");
 
-            if (Application.Current.Properties.ContainsKey("Email"))
-                lblUser.Text = Application.Current.Properties["Email"].ToString();
+            if (Application.Current.Properties.ContainsKey("FullName"))
+            {
+                lblUser.Text = Application.Current.Properties["FullName"].ToString();
+                lblRollName.Text = Application.Current.Properties["userRollName"].ToString() + " : " ;
+
+            }
 
         }
 

@@ -48,15 +48,34 @@ namespace Sandoghche
             await SandoghcheController.GetConnection().CreateTableAsync<Order>();
             await SandoghcheController.GetConnection().CreateTableAsync<OrderDetail>();
             await SandoghcheController.GetConnection().CreateTableAsync<SandoghcheSetting>();
+            await SandoghcheController.GetConnection().CreateTableAsync<Accounting>();
+
 
             await getCategories();
             await getSetting();
 
             await setOrderNumber();
 
+            await ClientCreditStatus(lblClientId.Text);
 
             base.OnAppearing();
         }
+
+         public class ClientCreditViewModel
+        {
+            public double Amount { get; set; }
+        }
+
+        async private Task ClientCreditStatus(string ClientId)
+        {
+            var query = "select (sum(DebtorAmount)-sum(CreditorAmount)) as 'Amount' from Accounting WHERE ClientId=" + Convert.ToInt32(ClientId);
+            var amount = await SandoghcheController.GetConnection().QueryAsync<ClientCreditViewModel>(query);
+
+            
+
+            lblCreditStatus.Text ="مانده : "+ amount.FirstOrDefault()?.Amount.ToString()??0.ToString();
+        }
+
         async Task setOrderNumber()
         {
             var lastOrder = await SandoghcheController._connection.Table<Order>().OrderByDescending(x => x.OrderId).FirstOrDefaultAsync();
@@ -459,9 +478,16 @@ namespace Sandoghche
                 }
                 else
                 {
+                    Accounting accounting = new Accounting();
+                    accounting.ClientId = order.ClientId;
+                    accounting.DebtorAmount = order.FinalPayment;
+                    accounting.CreditorAmount = 0;
+
+
                     await SandoghcheController._connection.InsertAsync(order);
                     await SandoghcheController._connection.InsertAllAsync(order.OrderDetails);
                     await SandoghcheController._connection.UpdateWithChildrenAsync(order);
+                    await SandoghcheController._connection.InsertAsync(accounting);
 
                     await DisplayAlert("صدور فاکتور", string.Format(" فاکتور {0}  شماره فیش {1} به مبلغ {2} ثبت شد", order.ReceiptNumber, order.OrderId, Convert.ToDouble(lblFinalPayment.Text)), "باشه");
                     await setOrderNumber();
@@ -476,6 +502,7 @@ namespace Sandoghche
                     ProductsDataGrid.ItemsSource = null;
                     lstProducts.ItemsSource = null;
                     await getCategories();
+                    await  ClientCreditStatus(lblClientId.Text);
                     order = new Order();
                 }
             }

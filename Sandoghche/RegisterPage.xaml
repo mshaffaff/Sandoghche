@@ -42,6 +42,7 @@
                         <StackLayout Margin="0,20,0,0" HorizontalOptions="FillAndExpand">
                             <Entry x:Name="txtFullName" Placeholder="نام و نام خانوادگی" Keyboard="Text"  />
                             <Entry x:Name="txtEmail" Placeholder=" آدرس ایمیل" Keyboard="Email"   />
+                            <Entry x:Name="txtMobileNumber" Placeholder="موبایل" Keyboard="Telephone" />
                             <Entry x:Name="txtPassword" Keyboard="Text"  Placeholder="رمز عبور" IsPassword="True"  />
                             <Entry x:Name="txtRepeatPassword" Keyboard="Text"  Placeholder="تکرار رمز عبور" IsPassword="True"  />
                             <Button

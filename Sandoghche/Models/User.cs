@@ -1,4 +1,5 @@
 ﻿using SQLite;
+using SQLiteNetExtensions.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
@@ -15,6 +16,7 @@ namespace Sandoghche.Models
         public string FullName { get; set; }
         [NotNull]
         public string Email { get; set; }
+        public string Mobile { get; set; }
         public string PasswordHash { get; set; }
         public bool IsDeleted { get; set; }
         public bool IsActive { get; set; }
@@ -29,9 +31,10 @@ namespace Sandoghche.Models
 
             set { this.dateCreated = value; }
         }
-
         private DateTime? dateCreated = null;
 
+        //[OneToMany("RollId")]
+        //public List<Roll> Rolls { get; set; }
 
 
 

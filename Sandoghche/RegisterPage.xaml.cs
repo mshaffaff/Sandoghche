@@ -33,6 +33,10 @@ namespace Sandoghche
         protected override async void OnAppearing()
         {
             await SandoghcheController._connection.CreateTableAsync<User>();
+            await SandoghcheController._connection.CreateTableAsync<Roll>();
+            await SandoghcheController._connection.CreateTableAsync<UserRoll>();
+
+
 
             //var users = await _connection.Table<User>().ToListAsync();
             base.OnAppearing();
@@ -41,6 +45,9 @@ namespace Sandoghche
         private async void btnRegister_Clicked(object sender, EventArgs e)
         {
             User user = new User();
+            Roll roll = new Roll();
+            UserRoll userRoll = new UserRoll();
+           
             var users = await SandoghcheController._connection.Table<User>().ToListAsync();
 
 
@@ -59,6 +66,7 @@ namespace Sandoghche
 
             if (string.IsNullOrWhiteSpace(txtFullName.Text) ||
                 (string.IsNullOrWhiteSpace(txtEmail.Text)) ||
+                (string.IsNullOrWhiteSpace(txtMobileNumber.Text)) ||
                 (string.IsNullOrWhiteSpace(txtPassword.Text)) ||
                 (string.IsNullOrWhiteSpace(txtRepeatPassword.Text)))
             {
@@ -79,32 +87,74 @@ namespace Sandoghche
                 var hash = new PasswordHash(txtPassword.Text.ToLower());
                 user.FullName = txtFullName.Text;
                 user.Email = txtEmail.Text.ToLower();
+                user.Mobile = txtMobileNumber.Text;
                 user.PasswordHash = Convert.ToBase64String(hash.ToArray());
                 user.IsActive = true;
 
-                var CheckIfUserExist = await SandoghcheController._connection.Table<User>().FirstOrDefaultAsync(x => x.Email.ToLower() == txtEmail.Text.ToLower());
+                var CheckIfUserExist = await SandoghcheController._connection.Table<User>().FirstOrDefaultAsync(x => x.Email.ToLower() == txtEmail.Text.ToLower() || x.Mobile == txtMobileNumber.Text);
 
+                var CheckIfUserTableIsEmpty = await SandoghcheController._connection.Table<User>().FirstOrDefaultAsync();
 
-                if (CheckIfUserExist != null)
+                if (CheckIfUserTableIsEmpty == null)
                 {
-                    await DisplayAlert("خطا", "این ایمیل قبلا ثبت شده است ", "باشه");
+                    
+                    roll.RollName = "مدیر ارشد";
+                    await SandoghcheController._connection.InsertAsync(roll);
+                    roll.RollName = "مدیر";
+                    await SandoghcheController._connection.InsertAsync(roll);
+                    roll.RollName = "صندوقدار";
+                    await SandoghcheController._connection.InsertAsync(roll);
+                    roll.RollName = "میزبان";
+                    await SandoghcheController._connection.InsertAsync(roll);
+
+                    userRoll.RollId = 1;
+                    userRoll.UserId = 1;
+
+                    await SandoghcheController._connection.InsertAsync(user);
+                    await SandoghcheController._connection.InsertAsync(userRoll);
+                    Application.Current.Properties["Email"] = txtEmail.Text.ToLower();
+                    Application.Current.Properties["Roll"] = "مدیر ارشد";
+
+                    txtFullName.Text = string.Empty;
                     txtEmail.Text = string.Empty;
-                    return;
+                    txtMobileNumber.Text = string.Empty;
+                    txtRepeatPassword.Text = string.Empty;
+                    txtPassword.Text = string.Empty;
+
+
+
+                    await Application.Current.SavePropertiesAsync();
+
+                    await Navigation.PushAsync(new SandoghcheMainPage());
+
+                }else
+                {
+                    if (CheckIfUserExist != null)
+                    {
+                        await DisplayAlert("خطا", "این شماره موبایل یا ایمیل  قبلا ثبت شده است ", "باشه");
+                        txtEmail.Text = string.Empty;
+                        txtMobileNumber.Text = string.Empty;
+                        return;
+                    }
+
+                    await SandoghcheController._connection.InsertAsync(user);
+                    Application.Current.Properties["Email"] = txtEmail.Text.ToLower();
+
+                    txtFullName.Text = string.Empty;
+                    txtEmail.Text = string.Empty;
+                    txtMobileNumber.Text = string.Empty;
+                    txtRepeatPassword.Text = string.Empty;
+                    txtPassword.Text = string.Empty;
+
+
+
+                    await Application.Current.SavePropertiesAsync();
+
+                    await Navigation.PushAsync(new MainPage());
                 }
 
-                await SandoghcheController._connection.InsertAsync(user);
-                Application.Current.Properties["Email"] = txtEmail.Text.ToLower();
 
-                txtFullName.Text = string.Empty;
-                txtEmail.Text = string.Empty;
-                txtRepeatPassword.Text = string.Empty;
-                txtPassword.Text = string.Empty;
-
-
-
-                await Application.Current.SavePropertiesAsync();
-
-                await Navigation.PushAsync(new SandoghcheMainPage());
+                
 
 
             }

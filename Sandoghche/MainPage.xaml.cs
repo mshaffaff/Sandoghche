@@ -25,7 +25,7 @@ namespace Sandoghche
 
             PersianCalendar pc = new PersianCalendar();
             DateTime thisDate = DateTime.Now;
-           
+
             lblPersianYear.Text = pc.GetYear(thisDate).ToString();
             lblPersianDay.Text = pc.GetDayOfMonth(thisDate).ToString();
 
@@ -98,8 +98,20 @@ namespace Sandoghche
             _connection = DependencyService.Get<ISQLiteDb>().GetConnection();
 
             var user = await _connection.Table<User>().FirstOrDefaultAsync(x => x.Email.ToLower() == txtEmail.Text.ToLower() && x.IsActive && !x.IsDeleted);
+            if (user == null)
+            {
+                await DisplayAlert("خطا", "نام کاربری معتبر نیست", "باشه");
+                return;
+            }
+            var userRoll = await _connection.Table<UserRoll>().FirstOrDefaultAsync(ur => ur.UserId == user.UserId);
+            if (userRoll == null)
+            {
+                await DisplayAlert("خطا", "نام کاربری معتبر نیست", "باشه");
+                return;
+            }
 
-            if (user != null)
+            var rollName = await _connection.Table<Roll>().FirstOrDefaultAsync(r => r.RollId == userRoll.RollId);
+            if (user != null && userRoll != null)
             {
                 byte[] hashBytes = Convert.FromBase64String(user.PasswordHash);
                 byte[] salt = new byte[16];
@@ -115,6 +127,9 @@ namespace Sandoghche
                     }
 
                 Application.Current.Properties["Email"] = txtEmail.Text;
+                Application.Current.Properties["FullName"] = user.FullName;
+                Application.Current.Properties["userRollName"] = rollName.RollName;
+
                 await Navigation.PushAsync(new SandoghcheMainPage());
             }
             else
