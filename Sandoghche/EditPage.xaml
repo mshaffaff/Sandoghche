@@ -42,21 +42,18 @@
 
                 <StackLayout Grid.Column="1"  HorizontalOptions="Center" VerticalOptions="Center" >
 
-                    <Label TextColor="Black"
+                    <Label x:Name="lblPersianDate" TextColor="Black"
                         FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
-                        FontSize="20" Text="چهارشنبه 23 شهریور 1398" HorizontalOptions="Center"  />
-                    <Label TextColor="Black"
-                        FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
-                        FontSize="20" Text="14:23:37" HorizontalOptions="Center" />
+                        FontSize="Small" HorizontalOptions="Center"  />
 
                 </StackLayout>
 
                 <StackLayout Margin="0,0,20,0" Grid.Column="2"  VerticalOptions="Center" >
 
                     <Label TextColor="Black"
-                        x:Name="lblClient"
+                        x:Name="lblUser"
                         FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
-                           FontSize="20"  Text="مدیر : مهدی شفاف" 
+                           FontSize="Small"  
                            HorizontalOptions="EndAndExpand"  >
                     </Label>
                 </StackLayout>

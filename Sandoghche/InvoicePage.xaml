@@ -61,10 +61,8 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
 
                     <Label x:Name="lblPersianDate" TextColor="Black"
                         FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
-                        FontSize="20" HorizontalOptions="Center"  />
-                    <!--<Label TextColor="Black"
-                        FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
-                        FontSize="20" Text="14:23:37" HorizontalOptions="Center" />-->
+                        FontSize="Small" HorizontalOptions="Center"  />
+                   
 
 
                 </StackLayout>
@@ -75,7 +73,7 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
                     <Label TextColor="Black"
                         x:Name="lblClient"
                         FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
-                           FontSize="20" 
+                           FontSize="Small" 
                            HorizontalOptions="EndAndExpand"  >
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer Tapped="lblClients_Tapped" />
@@ -83,7 +81,7 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
                     </Label>
                     <Label x:Name="lblCreditStatus" TextColor="Black" 
                            FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
-                           FontSize="20" HorizontalOptions="EndAndExpand"
+                           FontSize="Small" HorizontalOptions="EndAndExpand"
                            
                            />
                 </StackLayout>

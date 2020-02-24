@@ -20,7 +20,9 @@ namespace Sandoghche
         public EditPage()
         {
             InitializeComponent();
-            // srchCreatedDate.SelectedDateTime = DateTime.Now;
+            lblPersianDate.Text = SandoghcheController.GetPersianDate(null);
+            lblUser.Text = Application.Current.Properties["userRollName"].ToString() + " : " +  Application.Current.Properties["FullName"].ToString()  ;
+            //lblRollName.Text = Application.Current.Properties["userRollName"].ToString() + " : ";
 
         }
 

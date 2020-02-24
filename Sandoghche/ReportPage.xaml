@@ -1,14 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:bitControls="clr-namespace:Bit.View.Controls;assembly=Bit.CSharpClient.Controls"
              xmlns:noda="clr-namespace:NodaTime;assembly=NodaTime"
-             xmlns:syncfusion="clr-namespace:Syncfusion.SfNumericTextBox.XForms;assembly=Syncfusion.SfNumericTextBox.XForms"
-             xmlns:telerikInput="clr-namespace:Telerik.XamarinForms.Input;assembly=Telerik.XamarinForms.Input"
-             xmlns:telerikDataGrid="clr-namespace:Telerik.XamarinForms.DataGrid;assembly=Telerik.XamarinForms.DataGrid"
              xmlns:telerikCommon="clr-namespace:Telerik.XamarinForms.Common.Data;assembly=Telerik.XamarinForms.Common"
+             xmlns:telerikDataGrid="clr-namespace:Telerik.XamarinForms.DataGrid;assembly=Telerik.XamarinForms.DataGrid"
+             xmlns:telerikInput="clr-namespace:Telerik.XamarinForms.Input;assembly=Telerik.XamarinForms.Input"
              mc:Ignorable="d"
              x:Class="Sandoghche.ReportPage">
     <Grid ColumnSpacing="0" RowSpacing="0">
@@ -37,21 +36,19 @@
 
                 <StackLayout Grid.Column="1"  HorizontalOptions="Center" VerticalOptions="Center" >
 
-                    <Label TextColor="Black"
+                    <Label x:Name="lblPersianDate" TextColor="Black"
                         FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
-                        FontSize="20" Text="چهارشنبه 23 شهریور 1398" HorizontalOptions="Center"  />
-                    <Label TextColor="Black"
-                        FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
-                        FontSize="20" Text="14:23:37" HorizontalOptions="Center" />
+                        FontSize="Small" HorizontalOptions="Center"  />
+
 
                 </StackLayout>
 
                 <StackLayout Margin="0,0,20,0" Grid.Column="2"  VerticalOptions="Center" >
 
                     <Label TextColor="Black"
-                        x:Name="lblClient"
+                        x:Name="lblUser"
                         FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
-                           FontSize="20"  Text="مدیر : مهدی شفاف" 
+                           FontSize="Small" 
                            HorizontalOptions="EndAndExpand"  >
                     </Label>
                 </StackLayout>
@@ -371,4 +368,6 @@
             </Grid>
         </StackLayout>
     </Grid>
+
+   
 </ContentPage>

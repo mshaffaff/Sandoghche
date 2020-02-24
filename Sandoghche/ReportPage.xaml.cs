@@ -21,7 +21,8 @@ namespace Sandoghche
         public ReportPage()
         {
             InitializeComponent();
-            //ProductsDataGrid.sor
+            lblPersianDate.Text = SandoghcheController.GetPersianDate(null);
+            lblUser.Text = Application.Current.Properties["userRollName"].ToString() + " : " + Application.Current.Properties["FullName"].ToString();
             pkrReceiptType.Items.Add("روش پرداخت : همه");
             pkrReceiptType.Items.Add("نقدی");
             pkrReceiptType.Items.Add("اعتباری");

@@ -22,6 +22,36 @@ namespace Sandoghche
         public SettingsPage()
         {
             InitializeComponent();
+            lblPersianDate.Text = SandoghcheController.GetPersianDate(null);
+
+            lblUser.Text = Application.Current.Properties["userRollName"].ToString() + " : " + Application.Current.Properties["FullName"].ToString();
+
+            var userRoll = Application.Current.Properties["userRollName"].ToString();
+            switch (userRoll)
+            {
+                case "مدیر ارشد":
+                    {
+                        UserSettings.Content.IsVisible = true;
+                    }
+                    break;
+                case "مدیر":
+                    {
+                        UserSettings.Content.IsVisible = true;
+                    }
+                    break;
+                case "صندوقدار":
+                    {
+                        UserSettings.Content.IsVisible = false;
+                    }
+                    break;
+                case "میزبان":
+                    {
+                        UserSettings.Content.IsVisible = false;
+                    }
+                    break;
+                default:
+                    break;
+            }
 
         }
 

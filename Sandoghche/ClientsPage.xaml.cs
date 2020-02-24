@@ -20,6 +20,9 @@ namespace Sandoghche
         public ClientsPage()
         {
             InitializeComponent();
+            lblPersianDate.Text = SandoghcheController.GetPersianDate(null);
+
+            lblUser.Text = Application.Current.Properties["userRollName"].ToString() + " : " + Application.Current.Properties["FullName"].ToString();
 
         }
 

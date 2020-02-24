@@ -17,6 +17,8 @@ namespace Sandoghche
         public ItemsPage()
         {
             InitializeComponent();
+            lblPersianDate.Text = SandoghcheController.GetPersianDate(null);
+            lblUser.Text = Application.Current.Properties["userRollName"].ToString() + " : " + Application.Current.Properties["FullName"].ToString();
         }
 
         async protected override void OnAppearing()

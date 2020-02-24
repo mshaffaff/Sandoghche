@@ -34,7 +34,7 @@ namespace Sandoghche
             InitializeComponent();
 
             lblPersianDate.Text = SandoghcheController.GetPersianDate(null);
-            lblClient.Text = ClientName;
+            lblClient.Text = "انتخاب مشتری : " + ClientName;
             lblClientId.Text = ClientId.ToString();
             order = new Order();
 
