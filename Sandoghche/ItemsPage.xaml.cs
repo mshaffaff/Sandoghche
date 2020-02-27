@@ -23,13 +23,13 @@ namespace Sandoghche
 
         async protected override void OnAppearing()
         {
-            await SandoghcheController.GetConnection().CreateTableAsync<Category>();
-            await SandoghcheController.GetConnection().CreateTableAsync<Product>();
+            //await SandoghcheController.GetConnection().CreateTableAsync<Category>();
+            //await SandoghcheController.GetConnection().CreateTableAsync<Product>();
             await getCategories();
             base.OnAppearing();
         }
 
-        async Task getCategories(string Searchtext = null)
+        async Task getCategories(string Searchtext = "")
         {
             var categories = await SandoghcheController.GetConnection().Table<Category>().Where(c => c.IsDeleted != true).ToListAsync();
 
@@ -55,11 +55,12 @@ namespace Sandoghche
                 category.CategoryText = txtCategory.Text;
                 category.IsActive = swchCategoryStatus.IsToggled;
 
+
                 await SandoghcheController._connection.InsertAsync(category);
                 await DisplayAlert("ثبت ", "طبقه بندی جدید در سیستم با موفقیت ثبت گردید", "باشه");
 
-                txtCategory.Text = null;
-                srchCategory.Text = "";
+                txtCategory.Text = string.Empty;
+                srchCategory.Text = string.Empty;
 
                 await getCategories();
             }
@@ -230,8 +231,6 @@ namespace Sandoghche
             DataGridProduct.ItemsSource = result;
         }
 
-
-
         async private void btnAddItem_Clicked(object sender, EventArgs e)
         {
             double num;
@@ -335,7 +334,7 @@ namespace Sandoghche
         async private void srchCategory_TextChanged(object sender, TextChangedEventArgs e)
         {
             DataGridProduct.ItemsSource = null;
-            lblCategoryId.Text = "";
+            //lblCategoryId.Text = "";
             lblCategoryText.Text = "انتخاب نشده";
             txtItem.Text = "";
             txtProductPrice.Text = "";

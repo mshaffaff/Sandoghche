@@ -15,7 +15,7 @@ namespace Sandoghche.Droid
 		public SQLiteAsyncConnection GetConnection()
 		{
 			var documentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-			var path = Path.Combine(documentsPath, "SandoghcheDb.db3");
+			var path = Path.Combine(documentsPath, "SandoghcheDb1.db3");
 
 			return new SQLiteAsyncConnection(path);
 		}

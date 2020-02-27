@@ -43,12 +43,13 @@ namespace Sandoghche
 
         async protected override void OnAppearing()
         {
-            await SandoghcheController.GetConnection().CreateTableAsync<Category>();
-            await SandoghcheController.GetConnection().CreateTableAsync<Product>();
-            await SandoghcheController.GetConnection().CreateTableAsync<Order>();
-            await SandoghcheController.GetConnection().CreateTableAsync<OrderDetail>();
-            await SandoghcheController.GetConnection().CreateTableAsync<SandoghcheSetting>();
-            await SandoghcheController.GetConnection().CreateTableAsync<Accounting>();
+            //await SandoghcheController.GetConnection().CreateTableAsync<Category>();
+            //await SandoghcheController.GetConnection().CreateTableAsync<Client>();
+            //await SandoghcheController.GetConnection().CreateTableAsync<Product>();
+            //await SandoghcheController.GetConnection().CreateTableAsync<Order>();
+            //await SandoghcheController.GetConnection().CreateTableAsync<OrderDetail>();
+            //await SandoghcheController.GetConnection().CreateTableAsync<SandoghcheSetting>();
+            //await SandoghcheController.GetConnection().CreateTableAsync<Accounting>();
 
 
             await getCategories();

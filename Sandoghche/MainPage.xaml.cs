@@ -13,8 +13,6 @@ using System.Globalization;
 
 namespace Sandoghche
 {
-    // Learn more about making custom code visible in the Xamarin.Forms previewer
-    // by visiting https://aka.ms/xamarinforms-previewer
     [DesignTimeVisible(false)]
     public partial class MainPage : ContentPage
     {
@@ -69,13 +67,27 @@ namespace Sandoghche
                     break;
             }
 
-
-
             NavigationPage.SetHasBackButton(this, false);
             backgroundImage.Source = ImageSource.FromResource("Sandoghche.Images.background.jpg");
             sloganLine.Source = ImageSource.FromResource("Sandoghche.Images.sloganLine.png");
             Location.Source = ImageSource.FromResource("Sandoghche.Images.Location.png");
             mainLogo.Source = ImageSource.FromResource("Sandoghche.Images.mainLogo.png");
+        }
+        async protected override void OnAppearing()
+        {
+            await SandoghcheController.GetConnection().CreateTableAsync<User>();
+            await SandoghcheController.GetConnection().CreateTableAsync<Roll>();
+            await SandoghcheController.GetConnection().CreateTableAsync<Category>();
+            await SandoghcheController.GetConnection().CreateTableAsync<Client>();
+            await SandoghcheController.GetConnection().CreateTableAsync<Product>();
+            await SandoghcheController.GetConnection().CreateTableAsync<Order>();
+            await SandoghcheController.GetConnection().CreateTableAsync<OrderDetail>();
+            await SandoghcheController.GetConnection().CreateTableAsync<SandoghcheSetting>();
+            await SandoghcheController.GetConnection().CreateTableAsync<Accounting>();
+            await SandoghcheController.GetConnection().CreateTableAsync<UserRoll>();
+
+
+            base.OnAppearing();
         }
 
         async private void btnForgetPassword_Tapped(object sender, EventArgs e)
@@ -129,6 +141,9 @@ namespace Sandoghche
                 Application.Current.Properties["Email"] = txtEmail.Text;
                 Application.Current.Properties["FullName"] = user.FullName;
                 Application.Current.Properties["userRollName"] = rollName.RollName;
+
+                await Application.Current.SavePropertiesAsync();
+
 
                 await Navigation.PushAsync(new SandoghcheMainPage());
             }

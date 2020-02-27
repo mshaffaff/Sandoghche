@@ -30,17 +30,17 @@ namespace Sandoghche
 
         }
 
-        protected override async void OnAppearing()
-        {
-            await SandoghcheController._connection.CreateTableAsync<User>();
-            await SandoghcheController._connection.CreateTableAsync<Roll>();
-            await SandoghcheController._connection.CreateTableAsync<UserRoll>();
+        //protected override async void OnAppearing()
+        //{
+        //    await SandoghcheController._connection.CreateTableAsync<User>();
+        //    await SandoghcheController._connection.CreateTableAsync<Roll>();
+        //    await SandoghcheController._connection.CreateTableAsync<UserRoll>();
 
 
 
-            //var users = await _connection.Table<User>().ToListAsync();
-            base.OnAppearing();
-        }
+        //    //var users = await _connection.Table<User>().ToListAsync();
+        //    base.OnAppearing();
+        //}
 
         private async void btnRegister_Clicked(object sender, EventArgs e)
         {
@@ -98,6 +98,7 @@ namespace Sandoghche
                 if (CheckIfUserTableIsEmpty == null)
                 {
                     
+
                     roll.RollName = "مدیر ارشد";
                     await SandoghcheController._connection.InsertAsync(roll);
                     roll.RollName = "مدیر";
@@ -112,8 +113,13 @@ namespace Sandoghche
 
                     await SandoghcheController._connection.InsertAsync(user);
                     await SandoghcheController._connection.InsertAsync(userRoll);
-                    Application.Current.Properties["Email"] = txtEmail.Text.ToLower();
-                    Application.Current.Properties["Roll"] = "مدیر ارشد";
+                    
+                    //Application.Current.Properties["Email"] = txtEmail.Text.ToLower();
+
+                    Application.Current.Properties["FullName"] = user.FullName;
+
+                    Application.Current.Properties["userRollName"] = "مدیر ارشد";
+
 
                     txtFullName.Text = string.Empty;
                     txtEmail.Text = string.Empty;
@@ -138,7 +144,13 @@ namespace Sandoghche
                     }
 
                     await SandoghcheController._connection.InsertAsync(user);
-                    Application.Current.Properties["Email"] = txtEmail.Text.ToLower();
+                    
+                    //Application.Current.Properties["Email"] = txtEmail.Text.ToLower();
+
+                    //Application.Current.Properties["FullName"] = user.FullName;
+
+                    //Application.Current.Properties["userRollName"] = roll.RollName;
+
 
                     txtFullName.Text = string.Empty;
                     txtEmail.Text = string.Empty;

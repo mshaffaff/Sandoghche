@@ -91,6 +91,18 @@ namespace Sandoghche
 
         }
 
+        async protected override void OnAppearing()
+        {
+            //await SandoghcheController.GetConnection().CreateTableAsync<Category>();
+            //await SandoghcheController.GetConnection().CreateTableAsync<Client>();
+            //await SandoghcheController.GetConnection().CreateTableAsync<Product>();
+            //await SandoghcheController.GetConnection().CreateTableAsync<Order>();
+            //await SandoghcheController.GetConnection().CreateTableAsync<OrderDetail>();
+            //await SandoghcheController.GetConnection().CreateTableAsync<SandoghcheSetting>();
+            //await SandoghcheController.GetConnection().CreateTableAsync<Accounting>();
+
+            base.OnAppearing();
+        }
         async private void imgEdit_Tapped(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new EditPage());
@@ -98,7 +110,7 @@ namespace Sandoghche
         }
         async private void imgInvoice_Tapped(object sender, EventArgs e)
         {
-            var firstClient = await SandoghcheController.GetConnection().Table<Client>().FirstAsync();
+            var firstClient = await SandoghcheController.GetConnection().Table<Client>().FirstOrDefaultAsync();
 
             if (firstClient != null)
                 await Navigation.PushAsync(new InvoicePage(firstClient.ClientId, firstClient.ClientName));

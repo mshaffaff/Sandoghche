@@ -15,7 +15,7 @@ namespace HelloWorld.Windows
         public SQLiteAsyncConnection GetConnection()
         {
 			var documentsPath = ApplicationData.Current.LocalFolder.Path;
-        	var path = Path.Combine(documentsPath, "MySQLite.db3");
+        	var path = Path.Combine(documentsPath, "MySQLite1.db3");
         	return new SQLiteAsyncConnection(path);
         }
     }
