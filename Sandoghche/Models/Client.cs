@@ -20,19 +20,26 @@ namespace Sandoghche.Models
         public bool IsDeleted { get; set; }
         public bool IsActive { get; set; }
 
-        public DateTime DateCreated
+        public string DateCreated
         {
             get
             {
-                return this.dateCreated.HasValue
-                   ? this.dateCreated.Value
-                   : DateTime.Now;
+                return this.dateCreated != null
+                   ? Convert.ToDateTime(dateCreated).ToString("yyyy-MM-dd HH:mm:ss")
+                   : DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             }
 
-            set { this.dateCreated = value; }
+            set
+            {
+                if (this.dateCreated != null)
+                    this.dateCreated = Convert.ToDateTime(value).ToString("yyyy-MM-dd HH:mm:ss");
+                else
+                    this.dateCreated = value;
+            }
         }
 
-        private DateTime? dateCreated = null;
+        private string dateCreated = null;
+
 
 
     }

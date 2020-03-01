@@ -8,7 +8,7 @@ namespace Sandoghche.Models
     [Table("Products")]
     public class Product
     {
-        [PrimaryKey,AutoIncrement]
+        [PrimaryKey, AutoIncrement]
         public int ProductId { get; set; }
         public string ProductText { get; set; }
         public double ProductPrice { get; set; }
@@ -16,19 +16,25 @@ namespace Sandoghche.Models
         public bool IsActive { get; set; }
         public bool IsDeleted { get; set; }
 
-        public DateTime CreatedDate
-    {
+        public string CreatedDate
+        {
             get
             {
-                return this.createdDate.HasValue
-                   ? this.createdDate.Value
-                   : DateTime.Now;
+                return this.createdDate != null
+                   ? Convert.ToDateTime(createdDate).ToString("yyyy-MM-dd HH:mm:ss")
+                   : DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             }
 
-            set { this.createdDate = value; }
+            set
+            {
+                if (this.createdDate != null)
+                    this.createdDate = Convert.ToDateTime(value).ToString("yyyy-MM-dd HH:mm:ss");
+                else
+                    this.createdDate = value;
+            }
         }
 
-        private DateTime? createdDate = null;
+        private string createdDate = null;
 
 
 

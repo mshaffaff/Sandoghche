@@ -18,7 +18,7 @@ namespace Sandoghche
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SettingsPage : ContentPage
     {
-
+        private static int startFrom;
         public SettingsPage()
         {
             InitializeComponent();
@@ -76,7 +76,10 @@ namespace Sandoghche
                 txtQuote.Text = settings.QuoteText;
                 txtTax1.Value = (decimal)settings.Tax1;
                 txtTax2.Value = (decimal)settings.Tax2;
+
+                startFrom = Convert.ToInt32(txtReceiptNumberStartFrom.Value);
                 txtReceiptNumberStartFrom.Value = Convert.ToInt32(txtReceiptNumberStartFrom.Value);
+
                 pkrResetReceiptNumberTime.Time = settings.ResetReceiptTime;
             }
 
@@ -306,6 +309,11 @@ namespace Sandoghche
             }
         }
 
+        public class OrderCount
+        {
+            public int Counts { get; set; }
+
+        }
         async private void btnUpdateSettings_Clicked(object sender, EventArgs e)
         {
             var settings = await SandoghcheController.GetConnection().Table<SandoghcheSetting>().FirstOrDefaultAsync();
@@ -342,18 +350,32 @@ namespace Sandoghche
                 else
                 {
 
-                    var TodayReceipt = await SandoghcheController.GetConnection().Table<Order>().Where(x => x.DateCreated == DateTime.Today.Date.ToString("yyyy-MM-dd")).ToListAsync();
+                    if (Convert.ToInt32(txtReceiptNumberStartFrom.Value) != startFrom)
+                    {
+                        var query = "select count(OrderId) as Counts from Orders where (date(Orders.DateCreated) == date('now'))";
+                        var OrdersCount = await SandoghcheController.GetConnection().QueryAsync<OrderCount>(query);
 
-                    settings.CompanyName = txtCompanyName.Text;
-                    settings.QuoteText = txtQuote.Text;
-                    settings.Tax1 = Convert.ToDouble(txtTax1.Value);
-                    settings.Tax2 = Convert.ToDouble(txtTax2.Value);
-                    settings.ReceiptNumberStartFrom = Convert.ToInt32(txtReceiptNumberStartFrom.Value);
-                    settings.ResetReceiptTime = pkrResetReceiptNumberTime.Time;
+                        if (OrdersCount[0].Counts > 0)
+                        {
+                            await DisplayAlert("خطا", "به دلیل وجود فیش در این روز نمیتوانید شمارنده را تغییر دهید", "باشه");
+                            txtReceiptNumberStartFrom.Value = startFrom;
+                            return;
+                        }
 
-                    await SandoghcheController.GetConnection().UpdateAsync(settings);
-                    await DisplayAlert("به روز رسانی", "به روز رسانی انجام شد", "باشه");
-                    await getSettings();
+                    }
+                    else
+                    {
+                        settings.CompanyName = txtCompanyName.Text;
+                        settings.QuoteText = txtQuote.Text;
+                        settings.Tax1 = Convert.ToDouble(txtTax1.Value);
+                        settings.Tax2 = Convert.ToDouble(txtTax2.Value);
+                        settings.ReceiptNumberStartFrom = Convert.ToInt32(txtReceiptNumberStartFrom.Value);
+                        settings.ResetReceiptTime = pkrResetReceiptNumberTime.Time;
+
+                        await SandoghcheController.GetConnection().UpdateAsync(settings);
+                        await DisplayAlert("به روز رسانی", "به روز رسانی انجام شد", "باشه");
+                        await getSettings();
+                    }
                 }
 
 

@@ -42,65 +42,53 @@ namespace Sandoghche
         }
         async Task getOrders(DateTime? createdDate, int orderId, int receiptId)
         {
-            var query = "SELECT Orders.OrderId,Orders.ReceiptNumber,Orders.FinalPayment,Orders.DateCreated,Clients.ClientName from Orders LEFT  JOIN Clients ON Orders.ClientId = Clients.ClientId where Orders.isDeleted <>1";
+            var query = "SELECT Orders.OrderId,Orders.ReceiptNumber,Orders.FinalPayment,date(Orders.DateCreated),Clients.ClientName from Orders LEFT  JOIN Clients ON Orders.ClientId = Clients.ClientId where Orders.isDeleted <>1";
+            
             if (orderId != 0)
                 query += " and Orders.OrderId=" + orderId;
-            else
-            {
-                if (createdDate != null)
-                    if (createdDate.Value.Month == 3 && createdDate.Value.Day == 1 && ((createdDate.Value.Year % 4 == 0) && (createdDate.Value.Year % 100 != 0)) || (createdDate.Value.Year % 400 == 0))
-                        query += string.Concat(" and date(Orders.DateCreated /10000000, 'unixepoch', '-1969 years') = date('", createdDate.Value.ToString("yyyy-MM-dd"), "')");
-                    else
-                        query += string.Concat(" and date(Orders.DateCreated /10000000, 'unixepoch', '-1969 years', '+1 days') = date('", createdDate.Value.ToString("yyyy-MM-dd"), "')");
+            
+            if (createdDate != null)
+                query += string.Concat(" and (date(Orders.DateCreated) = date('", createdDate.Value.ToString("yyyy-MM-dd HH:mm:ss"), "'))");
 
 
-                //if (((createdDate.Value.Year % 4 == 0) && (createdDate.Value.Year % 100 != 0)) || (createdDate.Value.Year % 400 == 0))
-                //        query += string.Concat(" and date(Orders.DateCreated /10000000, 'unixepoch', '-1969 years') = date('", createdDate.Value.ToString("yyyy-MM-dd"), "')");
-                //    else
-                //        query += string.Concat(" and date(Orders.DateCreated /10000000, 'unixepoch', '-1969 years', '+1 days') = date('", createdDate.Value.ToString("yyyy-MM-dd"), "')");
+            if (receiptId != 0)
+                query += " and Orders.ReceiptNumber=" + receiptId;
+        
 
-                ////await DisplayAlert("","is a Leap Year.", "ok");
-
-
-                //query += string.Concat(" and date(Orders.DateCreated /10000000, 'unixepoch', '-1969 years', '+1 days') = date('", createdDate.Value.ToString("yyyy-MM-dd"), "')");
-
-                if (receiptId != 0)
-                    query += " and Orders.ReceiptNumber=" + receiptId;
-            }
-            var Orders = await SandoghcheController.GetConnection().QueryAsync<OrderDetailForSearchViewModel>(query);
-            OrdersDataGrid.ItemsSource = Orders;
+        var Orders = await SandoghcheController.GetConnection().QueryAsync<OrderDetailForSearchViewModel>(query);
+        OrdersDataGrid.ItemsSource = Orders;
         }
 
-        async private void btnPrint_Clicked(object sender, EventArgs e)
+    async private void btnPrint_Clicked(object sender, EventArgs e)
+    {
+        var s = sender as Button;
+        var selectedItem = s.BindingContext;
+        var orderModel = (OrderDetailForSearchViewModel)selectedItem;
+        var order = await SandoghcheController.GetConnection().Table<Order>().FirstOrDefaultAsync(o => o.OrderId == orderModel.OrderId);
+        order.OrderDetails = await SandoghcheController.GetConnection().Table<OrderDetail>().Where(od => od.OrderId == orderModel.OrderId).ToListAsync();
+        var products = await SandoghcheController.GetConnection().Table<Product>().ToListAsync();
+
+        foreach (var item in order.OrderDetails)
         {
-            var s = sender as Button;
-            var selectedItem = s.BindingContext;
-            var orderModel = (OrderDetailForSearchViewModel)selectedItem;
-            var order = await SandoghcheController.GetConnection().Table<Order>().FirstOrDefaultAsync(o => o.OrderId == orderModel.OrderId);
-            order.OrderDetails = await SandoghcheController.GetConnection().Table<OrderDetail>().Where(od => od.OrderId == orderModel.OrderId).ToListAsync();
-            var products = await SandoghcheController.GetConnection().Table<Product>().ToListAsync();
-
-            foreach (var item in order.OrderDetails)
-            {
-                item.ProductText = products.FirstOrDefault(p => p.ProductId == item.ProductId).ProductText;
-            }
-
-
-            DependencyService.Get<IPrint>().Print(order, "چاپ مجدد");
+            item.ProductText = products.FirstOrDefault(p => p.ProductId == item.ProductId).ProductText;
         }
 
 
-
-        async private void btnEdit_Clicked(object sender, EventArgs e)
-        {
-            var s = sender as Button;
-            var selectedItem = s.BindingContext;
-            var order = (OrderDetailForSearchViewModel)selectedItem;
-            // await DisplayAlert("test",order.OrderId.ToString(),"test");
-            await Navigation.PushAsync(new EditOrderPage(order.OrderId));
-
-
-
-        }
+        DependencyService.Get<IPrint>().Print(order, "چاپ مجدد");
     }
+
+
+
+    async private void btnEdit_Clicked(object sender, EventArgs e)
+    {
+        var s = sender as Button;
+        var selectedItem = s.BindingContext;
+        var order = (OrderDetailForSearchViewModel)selectedItem;
+        // await DisplayAlert("test",order.OrderId.ToString(),"test");
+        await Navigation.PushAsync(new EditOrderPage(order.OrderId));
+
+
+
+    }
+}
 }

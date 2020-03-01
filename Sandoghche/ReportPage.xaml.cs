@@ -104,7 +104,7 @@ namespace Sandoghche
 
 
 
-            string condition = string.Concat(" date(Orders.DateCreated /10000000, 'unixepoch', '-1969 years', '+1 days') >=  date('", startDate.Value.ToString("yyyy-MM-dd"), "') AND date(Orders.DateCreated /10000000, 'unixepoch', '-1969 years', '+1 days') <= date('", endDate.Value.ToString("yyyy-MM-dd"), "')");
+            string condition = string.Concat(" date(Orders.DateCreated) >=  date('", startDate.Value.ToString("yyyy-MM-dd HH:mm:ss"), "') AND date(Orders.DateCreated) <= date('", endDate.Value.ToString("yyyy-MM-dd HH:mm:ss"), "')");
 
             if (!String.IsNullOrWhiteSpace(srchClients.Text))
                 condition += (" and Orders.ClientId = " + clientId);

@@ -35,17 +35,40 @@ namespace Sandoghche.Models
 
         public double FinalPayment { get; set; }
 
+        //public string DateCreated
+        //{
+        //    get
+        //    {
+        //        return DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+        //    }
+
+        //    set { this.dateCreated = value; }
+        //}
+
+        //private string dateCreated = null;
+
+
         public string DateCreated
         {
             get
             {
-                return DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                return this.dateCreated!=null
+                   ? Convert.ToDateTime(dateCreated).ToString("yyyy-MM-dd HH:mm:ss")
+                   : DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             }
 
-            set { this.dateCreated = value; }
+            set {
+                if (this.dateCreated != null)
+                    this.dateCreated = Convert.ToDateTime(value).ToString("yyyy-MM-dd HH:mm:ss");
+                else
+                    this.dateCreated = value;
+            }
         }
 
         private string dateCreated = null;
+
+
+
 
         public DateTime? EditedTime { get; set; }
         public bool isEdited { get; set; }
