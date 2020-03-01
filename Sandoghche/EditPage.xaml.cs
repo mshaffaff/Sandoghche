@@ -21,7 +21,7 @@ namespace Sandoghche
         {
             InitializeComponent();
             lblPersianDate.Text = SandoghcheController.GetPersianDate(null);
-            lblUser.Text = Application.Current.Properties["userRollName"].ToString() + " : " +  Application.Current.Properties["FullName"].ToString()  ;
+            lblUser.Text = Application.Current.Properties["userRollName"].ToString() + " : " + Application.Current.Properties["FullName"].ToString();
             //lblRollName.Text = Application.Current.Properties["userRollName"].ToString() + " : ";
 
         }
@@ -48,7 +48,21 @@ namespace Sandoghche
             else
             {
                 if (createdDate != null)
-                    query += string.Concat(" and date(Orders.DateCreated /10000000, 'unixepoch', '-1969 years', '+1 days') = date('", createdDate.Value.ToString("yyyy-MM-dd"), "')");
+                    if (createdDate.Value.Month == 3 && createdDate.Value.Day == 1 && ((createdDate.Value.Year % 4 == 0) && (createdDate.Value.Year % 100 != 0)) || (createdDate.Value.Year % 400 == 0))
+                        query += string.Concat(" and date(Orders.DateCreated /10000000, 'unixepoch', '-1969 years') = date('", createdDate.Value.ToString("yyyy-MM-dd"), "')");
+                    else
+                        query += string.Concat(" and date(Orders.DateCreated /10000000, 'unixepoch', '-1969 years', '+1 days') = date('", createdDate.Value.ToString("yyyy-MM-dd"), "')");
+
+
+                //if (((createdDate.Value.Year % 4 == 0) && (createdDate.Value.Year % 100 != 0)) || (createdDate.Value.Year % 400 == 0))
+                //        query += string.Concat(" and date(Orders.DateCreated /10000000, 'unixepoch', '-1969 years') = date('", createdDate.Value.ToString("yyyy-MM-dd"), "')");
+                //    else
+                //        query += string.Concat(" and date(Orders.DateCreated /10000000, 'unixepoch', '-1969 years', '+1 days') = date('", createdDate.Value.ToString("yyyy-MM-dd"), "')");
+
+                ////await DisplayAlert("","is a Leap Year.", "ok");
+
+
+                //query += string.Concat(" and date(Orders.DateCreated /10000000, 'unixepoch', '-1969 years', '+1 days') = date('", createdDate.Value.ToString("yyyy-MM-dd"), "')");
 
                 if (receiptId != 0)
                     query += " and Orders.ReceiptNumber=" + receiptId;

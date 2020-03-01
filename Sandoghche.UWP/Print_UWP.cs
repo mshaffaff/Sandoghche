@@ -146,7 +146,7 @@ namespace Sandoghche.UWP
             TextBlock Time = new TextBlock
             {
                 Foreground = new SolidColorBrush(Windows.UI.Colors.Black),
-                Text = "ساعت :" + order.DateCreated.ToString("HH:mm:ss"),
+                Text = "ساعت :" + Convert.ToDateTime(order.DateCreated).ToString("HH:mm:ss"),
                 FontFamily = new FontFamily("IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"),
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center
@@ -157,7 +157,7 @@ namespace Sandoghche.UWP
             TextBlock Date = new TextBlock
             {
                 Foreground = new SolidColorBrush(Windows.UI.Colors.Black),
-                Text = "تاریخ : " + order.DateCreated.ToString("dd:MM:yyyy"),
+                Text = "تاریخ : " + Convert.ToDateTime(order.DateCreated).ToString("dd:MM:yyyy"),
                 FontFamily = new FontFamily("IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"),
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center

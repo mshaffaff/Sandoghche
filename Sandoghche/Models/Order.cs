@@ -35,19 +35,17 @@ namespace Sandoghche.Models
 
         public double FinalPayment { get; set; }
 
-        public DateTime DateCreated
+        public string DateCreated
         {
             get
             {
-                return this.dateCreated.HasValue
-                   ? this.dateCreated.Value
-                   : DateTime.Now;
+                return DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             }
 
             set { this.dateCreated = value; }
         }
 
-        private DateTime? dateCreated = null;
+        private string dateCreated = null;
 
         public DateTime? EditedTime { get; set; }
         public bool isEdited { get; set; }

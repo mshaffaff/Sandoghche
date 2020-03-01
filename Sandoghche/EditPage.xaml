@@ -36,7 +36,7 @@
                         Margin="50,0,0,0"
                         FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
                         FontSize="20"
-                        Text="معرفی محصولات" HorizontalOptions="StartAndExpand" TextColor="Black" />
+                        Text="مشاهده و به روز رسانی" HorizontalOptions="StartAndExpand" TextColor="Black" />
 
                 </StackLayout>
 

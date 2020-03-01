@@ -43,26 +43,19 @@ namespace Sandoghche
 
         async protected override void OnAppearing()
         {
-            //await SandoghcheController.GetConnection().CreateTableAsync<Category>();
-            //await SandoghcheController.GetConnection().CreateTableAsync<Client>();
-            //await SandoghcheController.GetConnection().CreateTableAsync<Product>();
-            //await SandoghcheController.GetConnection().CreateTableAsync<Order>();
-            //await SandoghcheController.GetConnection().CreateTableAsync<OrderDetail>();
-            //await SandoghcheController.GetConnection().CreateTableAsync<SandoghcheSetting>();
-            //await SandoghcheController.GetConnection().CreateTableAsync<Accounting>();
-
-
             await getCategories();
             await getSetting();
 
             await setOrderNumber();
+
+            await setReceiptNumber();
 
             await ClientCreditStatus(lblClientId.Text);
 
             base.OnAppearing();
         }
 
-         public class ClientCreditViewModel
+        public class ClientCreditViewModel
         {
             public double Amount { get; set; }
         }
@@ -72,9 +65,9 @@ namespace Sandoghche
             var query = "select (sum(DebtorAmount)-sum(CreditorAmount)) as 'Amount' from Accounting WHERE ClientId=" + Convert.ToInt32(ClientId);
             var amount = await SandoghcheController.GetConnection().QueryAsync<ClientCreditViewModel>(query);
 
-            
 
-            lblCreditStatus.Text ="مانده : "+ amount.FirstOrDefault()?.Amount.ToString()??0.ToString();
+
+            lblCreditStatus.Text = "مانده : " + amount.FirstOrDefault()?.Amount.ToString() ?? 0.ToString();
         }
 
         async Task setOrderNumber()
@@ -83,17 +76,35 @@ namespace Sandoghche
 
             if (lastOrder == null)
             {
-                //order.OrderId = 1;
-                order.ReceiptNumber = 1;
                 lblOrderId.Text = "1";
-                lblReceipNumber.Text = "1";
             }
             else
             {
                 lblOrderId.Text = (lastOrder.OrderId + 1).ToString();
-                lblReceipNumber.Text = (lastOrder.ReceiptNumber + 1).ToString();
+                // lblReceipNumber.Text = (lastOrder.ReceiptNumber + 1).ToString();
             }
         }
+
+        async Task setReceiptNumber()
+        {
+            var settings = await SandoghcheController._connection.Table<SandoghcheSetting>().FirstOrDefaultAsync();
+            var lastOrder = await SandoghcheController._connection.Table<Order>().OrderByDescending(x => x.OrderId).FirstOrDefaultAsync();
+
+            var startFrom = settings.ReceiptNumberStartFrom;
+            var resetTime = settings.ResetReceiptTime;
+
+            if (lastOrder == null)
+                lblReceipNumber.Text = startFrom.ToString();
+            else if (Convert.ToDateTime(lastOrder.DateCreated).Date == DateTime.Today.Date)
+                lblReceipNumber.Text = (lastOrder.ReceiptNumber + 1).ToString();
+            else if (DateTime.Now.TimeOfDay > resetTime)
+                lblReceipNumber.Text = startFrom.ToString();
+
+
+
+
+        }
+
 
         async Task getSetting()
         {
@@ -275,7 +286,7 @@ namespace Sandoghche
 
 
 
-            order.FinalPayment = totalPrice + order.TotalServiceFee + order.DeliveryFee + order.Tax1 + order.Tax2 -(totalDiscount);
+            order.FinalPayment = totalPrice + order.TotalServiceFee + order.DeliveryFee + order.Tax1 + order.Tax2 - (totalDiscount);
             if (order.FinalPayment < 0)
             {
                 DisplayAlert("اخطار", "مبلغ پرداختی نمیتواند منفی باشد", "باشه");
@@ -455,6 +466,7 @@ namespace Sandoghche
 
                     await DisplayAlert("صدور فاکتور", string.Format(" فاکتور {0}  شماره فیش {1} به مبلغ {2} ثبت شد", order.ReceiptNumber, order.OrderId, Convert.ToDouble(lblFinalPayment.Text)), "باشه");
                     await setOrderNumber();
+                    await setReceiptNumber();
                     lblTax.Text = "0";
                     lblDiscount.Text = "0";
                     lblService.Text = "0";
@@ -492,6 +504,8 @@ namespace Sandoghche
 
                     await DisplayAlert("صدور فاکتور", string.Format(" فاکتور {0}  شماره فیش {1} به مبلغ {2} ثبت شد", order.ReceiptNumber, order.OrderId, Convert.ToDouble(lblFinalPayment.Text)), "باشه");
                     await setOrderNumber();
+                    await setReceiptNumber();
+
                     lblTax.Text = "0";
                     lblDiscount.Text = "0";
                     lblService.Text = "0";
@@ -503,7 +517,7 @@ namespace Sandoghche
                     ProductsDataGrid.ItemsSource = null;
                     lstProducts.ItemsSource = null;
                     await getCategories();
-                    await  ClientCreditStatus(lblClientId.Text);
+                    await ClientCreditStatus(lblClientId.Text);
                     order = new Order();
                 }
             }
@@ -527,10 +541,10 @@ namespace Sandoghche
                 //lblUserPDF.Text = "صندوقدار 1";
 
                 lblReceiptNumberPDF.Text = "شماره :" + order.ReceiptNumber.ToString();
-                lblTimePDF.Text = order.DateCreated.ToString("HH:mm:ss");
-                lblDatePDF.Text = order.DateCreated.ToString("dd:MM:yyyy");
+                lblTimePDF.Text = Convert.ToDateTime(order.DateCreated).ToString("HH:mm:ss");
+                lblDatePDF.Text = Convert.ToDateTime(order.DateCreated).ToString("dd:MM:yyyy");
 
-                DependencyService.Get<IPrint>().Print(order,"فاکتور فروش");
+                DependencyService.Get<IPrint>().Print(order, "فاکتور فروش");
 
                 await setOrderNumber();
                 lblTax.Text = "0";

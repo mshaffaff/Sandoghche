@@ -49,7 +49,7 @@ namespace Sandoghche
 
             lblOrderId.Text = order.OrderId.ToString();
             lblReceipNumber.Text = order.ReceiptNumber.ToString();
-            lblPersianDate.Text = SandoghcheController.GetPersianDate(order.DateCreated);
+            lblPersianDate.Text = SandoghcheController.GetPersianDate(Convert.ToDateTime(order.DateCreated));
             lblClient.Text = client.ClientName;
             lblFinalPayment.Text = order.FinalPayment.ToString();
             lblDelivery.Text = order.DeliveryFee.ToString();

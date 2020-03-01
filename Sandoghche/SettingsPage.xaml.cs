@@ -23,9 +23,7 @@ namespace Sandoghche
         {
             InitializeComponent();
             lblPersianDate.Text = SandoghcheController.GetPersianDate(null);
-
             lblUser.Text = Application.Current.Properties["userRollName"].ToString() + " : " + Application.Current.Properties["FullName"].ToString();
-
             var userRoll = Application.Current.Properties["userRollName"].ToString();
             switch (userRoll)
             {
@@ -52,15 +50,39 @@ namespace Sandoghche
                 default:
                     break;
             }
-
         }
 
         async protected override void OnAppearing()
         {
+            await getSettings();
             await GetUsers();
             base.OnAppearing();
         }
+        async Task getSettings()
+        {
+            var settings = await SandoghcheController.GetConnection().Table<SandoghcheSetting>().FirstOrDefaultAsync();
 
+            if (settings == null)
+            {
+                txtCompanyName.Text = "";
+                txtQuote.Text = "";
+                txtTax1.Value = 0.0;
+                txtTax2.Value = 0.0;
+                txtReceiptNumberStartFrom.Value = 100;
+            }
+            else
+            {
+                txtCompanyName.Text = settings.CompanyName;
+                txtQuote.Text = settings.QuoteText;
+                txtTax1.Value = (decimal)settings.Tax1;
+                txtTax2.Value = (decimal)settings.Tax2;
+                txtReceiptNumberStartFrom.Value = Convert.ToInt32(txtReceiptNumberStartFrom.Value);
+                pkrResetReceiptNumberTime.Time = settings.ResetReceiptTime;
+            }
+
+
+
+        }
         async Task GetUsers(string Searchtext = null)
         {
             var users = await SandoghcheController.GetConnection().Table<User>().Where(u => u.IsDeleted != true).ToListAsync();
@@ -283,5 +305,70 @@ namespace Sandoghche
                 }
             }
         }
+
+        async private void btnUpdateSettings_Clicked(object sender, EventArgs e)
+        {
+            var settings = await SandoghcheController.GetConnection().Table<SandoghcheSetting>().FirstOrDefaultAsync();
+
+            if (settings == null)
+            {
+                if (string.IsNullOrWhiteSpace(txtCompanyName.Text) || (Convert.ToDouble(txtReceiptNumberStartFrom.Value) <= 0) || (Convert.ToDouble(txtTax1.Value) < 0) || (Convert.ToDouble(txtTax2.Value) < 0))
+                    await DisplayAlert("خطا", "فرم ناقص است", "باشه");
+                else
+                {
+                    SandoghcheSetting setting = new SandoghcheSetting();
+
+                    setting.CompanyName = txtCompanyName.Text;
+                    setting.QuoteText = txtQuote.Text;
+                    setting.Tax1 = Convert.ToDouble(txtTax1.Value);
+                    setting.Tax2 = Convert.ToDouble(txtTax2.Value);
+                    setting.ReceiptNumberStartFrom = Convert.ToInt32(txtReceiptNumberStartFrom.Value);
+                    setting.ResetReceiptTime = pkrResetReceiptNumberTime.Time;
+
+                    await SandoghcheController.GetConnection().InsertAsync(setting);
+                    await DisplayAlert("به روز رسانی", "به روز رسانی انجام شد", "باشه");
+                    await getSettings();
+
+
+                }
+
+
+
+            }
+            else
+            {
+                if (string.IsNullOrWhiteSpace(txtCompanyName.Text) || (Convert.ToDouble(txtReceiptNumberStartFrom.Value) <= 0) || (Convert.ToDouble(txtTax1.Value) < 0) || (Convert.ToDouble(txtTax2.Value) < 0))
+                    await DisplayAlert("خطا", "فرم ناقص است", "باشه");
+                else
+                {
+
+                    var TodayReceipt = await SandoghcheController.GetConnection().Table<Order>().Where(x => x.DateCreated == DateTime.Today.Date.ToString("yyyy-MM-dd")).ToListAsync();
+
+                    settings.CompanyName = txtCompanyName.Text;
+                    settings.QuoteText = txtQuote.Text;
+                    settings.Tax1 = Convert.ToDouble(txtTax1.Value);
+                    settings.Tax2 = Convert.ToDouble(txtTax2.Value);
+                    settings.ReceiptNumberStartFrom = Convert.ToInt32(txtReceiptNumberStartFrom.Value);
+                    settings.ResetReceiptTime = pkrResetReceiptNumberTime.Time;
+
+                    await SandoghcheController.GetConnection().UpdateAsync(settings);
+                    await DisplayAlert("به روز رسانی", "به روز رسانی انجام شد", "باشه");
+                    await getSettings();
+                }
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+        }
     }
+
 }
