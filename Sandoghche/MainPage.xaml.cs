@@ -72,6 +72,7 @@ namespace Sandoghche
             sloganLine.Source = ImageSource.FromResource("Sandoghche.Images.sloganLine.png");
             Location.Source = ImageSource.FromResource("Sandoghche.Images.Location.png");
             mainLogo.Source = ImageSource.FromResource("Sandoghche.Images.mainLogo.png");
+
         }
         async protected override void OnAppearing()
         {
@@ -85,8 +86,6 @@ namespace Sandoghche
             await SandoghcheController.GetConnection().CreateTableAsync<SandoghcheSetting>();
             await SandoghcheController.GetConnection().CreateTableAsync<Accounting>();
             await SandoghcheController.GetConnection().CreateTableAsync<UserRoll>();
-
-
             base.OnAppearing();
         }
 

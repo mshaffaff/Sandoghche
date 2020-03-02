@@ -5,10 +5,11 @@ using SQLite;
 
 namespace Sandoghche.Models
 {
+    [Table("SandoghcheSettings")]
     public class SandoghcheSetting
     {
-        [PrimaryKey]
-        public int Id { get; set; }
+        [PrimaryKey, AutoIncrement]
+        public int SettingsId { get; set; }
         public double Tax1 { get; set; }
         public double Tax2 { get; set; }
 

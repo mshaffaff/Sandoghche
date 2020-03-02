@@ -88,6 +88,12 @@ namespace Sandoghche
         async Task setReceiptNumber()
         {
             var settings = await SandoghcheController._connection.Table<SandoghcheSetting>().FirstOrDefaultAsync();
+
+            if (settings == null)
+            {
+                await DisplayAlert("خطا", "تنظیمات سیستم هنوز اعمال نشده است", "باشه");
+                return;
+            }
             var lastOrder = await SandoghcheController._connection.Table<Order>().OrderByDescending(x => x.OrderId).FirstOrDefaultAsync();
 
             var startFrom = settings.ReceiptNumberStartFrom;

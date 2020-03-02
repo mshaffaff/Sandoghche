@@ -93,13 +93,13 @@ namespace Sandoghche
 
         async protected override void OnAppearing()
         {
-            //await SandoghcheController.GetConnection().CreateTableAsync<Category>();
-            //await SandoghcheController.GetConnection().CreateTableAsync<Client>();
-            //await SandoghcheController.GetConnection().CreateTableAsync<Product>();
-            //await SandoghcheController.GetConnection().CreateTableAsync<Order>();
-            //await SandoghcheController.GetConnection().CreateTableAsync<OrderDetail>();
-            //await SandoghcheController.GetConnection().CreateTableAsync<SandoghcheSetting>();
-            //await SandoghcheController.GetConnection().CreateTableAsync<Accounting>();
+            var settings = await SandoghcheController.GetConnection().Table<SandoghcheSetting>().FirstOrDefaultAsync();
+            if (settings == null)
+            {
+                await DisplayAlert("خطا", "تنظیمات سیستم هنوز اعمال نشده است", "باشه");
+                await Navigation.PushAsync(new SettingsPage());
+            }
+
 
             base.OnAppearing();
         }
