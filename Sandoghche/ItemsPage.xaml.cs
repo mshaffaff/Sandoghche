@@ -29,7 +29,7 @@ namespace Sandoghche
             base.OnAppearing();
         }
 
-        async Task getCategories(string Searchtext = "")
+        async Task getCategories(string Searchtext = null)
         {
             var categories = await SandoghcheController.GetConnection().Table<Category>().Where(c => c.IsDeleted != true).ToListAsync();
 
@@ -334,7 +334,7 @@ namespace Sandoghche
         async private void srchCategory_TextChanged(object sender, TextChangedEventArgs e)
         {
             DataGridProduct.ItemsSource = null;
-            //lblCategoryId.Text = "";
+            lblCategoryId.Text = null;
             lblCategoryText.Text = "انتخاب نشده";
             txtItem.Text = "";
             txtProductPrice.Text = "";
@@ -425,8 +425,6 @@ namespace Sandoghche
 
         async private void srchProduct_TextChanged(object sender, TextChangedEventArgs e)
         {
-
-
             txtItem.Text = "";
             txtProductPrice.Text = "";
             btnAddItem.IsVisible = true;

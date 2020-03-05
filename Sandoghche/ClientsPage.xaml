@@ -6,7 +6,8 @@ xmlns:telerikGrid="clr-namespace:Telerik.XamarinForms.DataGrid;assembly=Telerik.
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:local="clr-namespace:Sandoghche.MarkupExtentions"
-             mc:Ignorable="d"
+              xmlns:syncfusion="clr-namespace:Syncfusion.SfNumericTextBox.XForms;assembly=Syncfusion.SfNumericTextBox.XForms"
+              mc:Ignorable="d"
              x:Class="Sandoghche.ClientsPage">
 
     <Grid ColumnSpacing="0" RowSpacing="0">
@@ -150,6 +151,49 @@ xmlns:telerikGrid="clr-namespace:Telerik.XamarinForms.DataGrid;assembly=Telerik.
                         </StackLayout>
 
                     </StackLayout>
+                </Frame>
+                <Frame Grid.Column="0" Grid.Row="1" BorderColor="Black" Margin="0,0,5,0" >
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="35"/>
+                            <RowDefinition Height="35"/>
+                            <RowDefinition Height="35"/>
+
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="*" />
+
+                        </Grid.ColumnDefinitions>
+                        <Label HorizontalOptions="EndAndExpand" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="دریافت از طرف حساب" FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"/>
+                        <Entry  x:Name="txtDebtAmount" Text="0" Grid.Row="1" Grid.Column="0" FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" IsEnabled="False"/>
+                        <Label Grid.Row="1" Grid.Column="1" Text="میزان بدهی" FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"/>
+                        <syncfusion:SfNumericTextBox
+                            x:Name="txtCreditAmount"
+                            Grid.Row="2" Grid.Column="0"    
+                            MaximumNumberDecimalDigits="2"  
+                            FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
+                            TextColor="Black"
+                            />
+                        <Label Text="مبلغ پرداختی" Grid.Row="2" Grid.Column="1" FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" />
+                        <Button
+                            Grid.Row="3"
+                VerticalOptions="Center"
+                HeightRequest="35"
+                x:Name="btnPayCredit"
+                Padding="0,-8,0,0"
+                FontSize="20"
+                CornerRadius="5"
+                Text="ثبت" 
+                BackgroundColor="#0078D7"
+                FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                Clicked="btnPayCredit_Clicked"
+                />
+                    </Grid>
+
+
                 </Frame>
                 <!--جدول مشتریان-->
                 <Frame Grid.Column="1" BorderColor="Black" Margin="5,0,0,0"   >

@@ -110,15 +110,13 @@ namespace Sandoghche
 
 
         }
-
-
         async Task getSetting()
         {
             var tax = await SandoghcheController._connection.Table<SandoghcheSetting>().FirstOrDefaultAsync();
             if (tax == null)
             {
-                Tax1 = 0;
-                Tax2 = 0;
+                await DisplayAlert("خطا", "تنظیمات سیستم هنوز اعمال نشده است", "باشه");
+                await Navigation.PushAsync(new SettingsPage());
             }
             else
             {
@@ -201,32 +199,36 @@ namespace Sandoghche
         private void lstProducts_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             var product = (Product)e.Item;
-
-            order.ClientId = Convert.ToInt32(lblClientId.Text);
-
-            order.ReceiptNumber = Convert.ToInt32(lblReceipNumber.Text);
-
-            //order.PaymentType = 1;
-
-            //جمع کل یه محصول
-            if (order.OrderDetails == null)
-                order.OrderDetails = new List<OrderDetail>();
-
-            var detail = order.OrderDetails?.FirstOrDefault(x => x.ProductId == product.ProductId);
-            if (detail != null)
+            if (product.IsActive)
             {
-                var n = detail.Number + 1;
-                detail.Number = n;
-                detail.TotalPrice = n * detail.Price;
+                order.ClientId = Convert.ToInt32(lblClientId.Text);
+
+                order.ReceiptNumber = Convert.ToInt32(lblReceipNumber.Text);
+
+
+                //جمع کل یه محصول
+                if (order.OrderDetails == null)
+                    order.OrderDetails = new List<OrderDetail>();
+
+                var detail = order.OrderDetails?.FirstOrDefault(x => x.ProductId == product.ProductId);
+
+                if (detail != null)
+                {
+                    var n = detail.Number + 1;
+                    detail.Number = n;
+                    detail.TotalPrice = n * detail.Price;
+                }
+                else
+                    order.OrderDetails.Add(new OrderDetail { RowNumber = order.OrderDetails.Count + 1, ProductId = product.ProductId, ProductText = product.ProductText, Number = 1, Price = product.ProductPrice, CategoryId = product.CategoryId, TotalPrice = product.ProductPrice });
+
+
+                ProductsDataGrid.ItemsSource = null;
+                ProductsDataGrid.ItemsSource = order.OrderDetails;
+
+                TotalPriceCalculator();
             }
-            else
-                order.OrderDetails.Add(new OrderDetail { RowNumber = order.OrderDetails.Count + 1, ProductId = product.ProductId, ProductText = product.ProductText, Number = 1, Price = product.ProductPrice, CategoryId = product.CategoryId, TotalPrice = product.ProductPrice });
-
-
-            ProductsDataGrid.ItemsSource = null;
-            ProductsDataGrid.ItemsSource = order.OrderDetails;
-
-            TotalPriceCalculator();
+            
+           
 
 
         }
@@ -247,9 +249,11 @@ namespace Sandoghche
 
 
             ///////
+            
             order.Tax1 = order.TotalPrice * (Tax1 * 0.01);
+            order.Tax1Percent = Tax1;
             order.Tax2 = order.TotalPrice * (Tax2 * 0.01);
-
+            order.Tax2Percent = Tax2;
             lblTax.Text = (order.Tax1 + order.Tax2).ToString();
 
             ///////////////////

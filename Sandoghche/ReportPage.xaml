@@ -30,7 +30,7 @@
                         Margin="50,0,0,0"
                         FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
                         FontSize="20"
-                        Text="گزارش" HorizontalOptions="StartAndExpand" TextColor="Black" />
+                        Text="گزارش صندوق" HorizontalOptions="StartAndExpand" TextColor="Black" />
 
                 </StackLayout>
 
@@ -94,10 +94,10 @@
                         <Grid Grid.Column="1" VerticalOptions="Center" RowSpacing="0" ColumnSpacing="0" >
                             <CheckBox Grid.Column="0" x:Name="isEdited" VerticalOptions="Center" HorizontalOptions="End"></CheckBox>
 
-                            <Label Grid.Row="0" Grid.Column="1" Text="ویرایش شده" VerticalOptions="Center" HorizontalOptions="StartAndExpand"  />
+                            <Label Grid.Row="0" Grid.Column="1" x:Name="lblIsEdited" Text="ویرایش شده" VerticalOptions="Center" HorizontalOptions="StartAndExpand"  />
 
                             <CheckBox Grid.Row="1" Grid.Column="0" x:Name="isDeleted" VerticalOptions="Center" HorizontalOptions="End"></CheckBox>
-                            <Label Grid.Row="1" Grid.Column="1" Text="حذف" VerticalOptions="Center" HorizontalOptions="StartAndExpand"/>
+                            <Label Grid.Row="1" Grid.Column="1" Text="حذف" x:Name="lblIsDeleted" VerticalOptions="Center" HorizontalOptions="StartAndExpand"/>
                         </Grid>
 
                         <Picker FlowDirection="RightToLeft" x:Name="pkrReceiptType" Grid.Column="2" VerticalOptions="Center" />
@@ -338,6 +338,8 @@
                                 <RowDefinition Height="30"/>
                                 <RowDefinition Height="30"/>
                                 <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+
                             </Grid.RowDefinitions>
 
                             <Label x:Name="lblTotalPrice" FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"  FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" Grid.Row="0" Grid.Column="0" Text="0" TextColor="White" />
@@ -355,8 +357,11 @@
                             <Label x:Name="lblDiscount" FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"  FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" Grid.Row="4" Grid.Column="0" Text="0" TextColor="White" />
                             <Label FontSize="20" VerticalOptions="Center"  HorizontalOptions="End" Margin="0,0,10,0"  FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" Grid.Row="4" Grid.Column="1" Text="تخفیف" TextColor="White" />
 
-                            <Label x:Name="lblFinalPayment" FontSize="20" VerticalOptions="Center"  HorizontalOptions="Center"   FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" Grid.Row="5" Grid.Column="0" Text="0" TextColor="White" />
-                            <Label FontSize="20" VerticalOptions="Center"  HorizontalOptions="End" Margin="0,0,10,0" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" Grid.Row="5" Grid.Column="1" Text="قابل پرداخت" TextColor="White" />
+                            <Label x:Name="lblReceivedCredit" FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"  FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" Grid.Row="5" Grid.Column="0" Text="0" TextColor="White" />
+                            <Label FontSize="20" VerticalOptions="Center"  HorizontalOptions="End" Margin="0,0,10,0"  FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" Grid.Row="5" Grid.Column="1" Text="دریافت از طرف حساب اعتباری" TextColor="White" />
+
+                            <Label x:Name="lblFinalPayment" FontSize="20" VerticalOptions="Center"  HorizontalOptions="Center"   FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" Grid.Row="6" Grid.Column="0" Text="0" TextColor="White" />
+                            <Label FontSize="20" VerticalOptions="Center"  HorizontalOptions="End" Margin="0,0,10,0" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" Grid.Row="6" Grid.Column="1" Text="قابل پرداخت" TextColor="White" />
                         </Grid>
                     </StackLayout>
 

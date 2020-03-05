@@ -12,5 +12,8 @@ namespace Sandoghche.ViewModels
         public DateTime DateCreated { get; set; }
         public string ClientName { get; set; }
 
+        public bool isEdited { get; set; }
+        public bool isDeleted { get; set; }
+        public string IsEditedDeleted { get; set; }
     }
 }

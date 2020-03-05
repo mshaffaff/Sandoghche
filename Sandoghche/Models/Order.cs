@@ -16,8 +16,9 @@ namespace Sandoghche.Models
         public int ClientId { get; set; }
 
         public double Tax1 { get; set; }
+        public double Tax1Percent { get; set; }
         public double Tax2 { get; set; }
-
+        public double Tax2Percent { get; set; }
         public double DeliveryFee { get; set; }
 
         public short ServiceType { get; set; }
@@ -70,11 +71,13 @@ namespace Sandoghche.Models
 
 
 
-        public DateTime? EditedTime { get; set; }
+        public string EditedTime { get; set; }
+
         public bool isEdited { get; set; }
 
         public bool isDeleted { get; set; }
-        public DateTime? DeletedTime { get; set; }
+
+        public string DeletedTime { get; set; }
 
 
 

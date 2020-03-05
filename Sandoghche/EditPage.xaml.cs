@@ -17,13 +17,13 @@ namespace Sandoghche
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class EditPage : ContentPage
     {
+        private string userRoll;
         public EditPage()
         {
             InitializeComponent();
             lblPersianDate.Text = SandoghcheController.GetPersianDate(null);
             lblUser.Text = Application.Current.Properties["userRollName"].ToString() + " : " + Application.Current.Properties["FullName"].ToString();
-            //lblRollName.Text = Application.Current.Properties["userRollName"].ToString() + " : ";
-
+            userRoll = Application.Current.Properties["userRollName"].ToString();
         }
 
         protected override async void OnAppearing()
@@ -42,53 +42,65 @@ namespace Sandoghche
         }
         async Task getOrders(DateTime? createdDate, int orderId, int receiptId)
         {
-            var query = "SELECT Orders.OrderId,Orders.ReceiptNumber,Orders.FinalPayment,date(Orders.DateCreated),Clients.ClientName from Orders LEFT  JOIN Clients ON Orders.ClientId = Clients.ClientId where Orders.isDeleted <>1";
-            
+            //var query = "SELECT Orders.OrderId,Orders.ReceiptNumber,Orders.FinalPayment,date(Orders.DateCreated),Orders.isDeleted,Orders.isEditedClients.ClientName from Orders LEFT  JOIN Clients ON Orders.ClientId = Clients.ClientId where Orders.isDeleted <>1";
+            var query = "SELECT Orders.OrderId,Orders.ReceiptNumber,Orders.FinalPayment,date(Orders.DateCreated),Orders.isDeleted,Orders.isEdited,Clients.ClientName from Orders LEFT  JOIN Clients ON Orders.ClientId = Clients.ClientId where ";
+
+            if (createdDate != null)
+                query += string.Concat(" (date(Orders.DateCreated) = date('", createdDate.Value.ToString("yyyy-MM-dd HH:mm:ss"), "'))");
+
             if (orderId != 0)
                 query += " and Orders.OrderId=" + orderId;
-            
-            if (createdDate != null)
-                query += string.Concat(" and (date(Orders.DateCreated) = date('", createdDate.Value.ToString("yyyy-MM-dd HH:mm:ss"), "'))");
-
 
             if (receiptId != 0)
                 query += " and Orders.ReceiptNumber=" + receiptId;
-        
 
-        var Orders = await SandoghcheController.GetConnection().QueryAsync<OrderDetailForSearchViewModel>(query);
-        OrdersDataGrid.ItemsSource = Orders;
+
+            if (!(userRoll == "مدیر ارشد" || userRoll == "مدیر"))
+                query += (" and Orders.isDeleted = " + 0);
+
+
+
+
+
+            var Orders = await SandoghcheController.GetConnection().QueryAsync<OrderDetailForSearchViewModel>(query);
+            foreach (var order in Orders)
+            {
+                order.IsEditedDeleted = order.isDeleted + "#" + order.isEdited;
+            }
+
+            OrdersDataGrid.ItemsSource = Orders;
         }
 
-    async private void btnPrint_Clicked(object sender, EventArgs e)
-    {
-        var s = sender as Button;
-        var selectedItem = s.BindingContext;
-        var orderModel = (OrderDetailForSearchViewModel)selectedItem;
-        var order = await SandoghcheController.GetConnection().Table<Order>().FirstOrDefaultAsync(o => o.OrderId == orderModel.OrderId);
-        order.OrderDetails = await SandoghcheController.GetConnection().Table<OrderDetail>().Where(od => od.OrderId == orderModel.OrderId).ToListAsync();
-        var products = await SandoghcheController.GetConnection().Table<Product>().ToListAsync();
-
-        foreach (var item in order.OrderDetails)
+        async private void btnPrint_Clicked(object sender, EventArgs e)
         {
-            item.ProductText = products.FirstOrDefault(p => p.ProductId == item.ProductId).ProductText;
+            var s = sender as Button;
+            var selectedItem = s.BindingContext;
+            var orderModel = (OrderDetailForSearchViewModel)selectedItem;
+            var order = await SandoghcheController.GetConnection().Table<Order>().FirstOrDefaultAsync(o => o.OrderId == orderModel.OrderId);
+            order.OrderDetails = await SandoghcheController.GetConnection().Table<OrderDetail>().Where(od => od.OrderId == orderModel.OrderId).ToListAsync();
+            var products = await SandoghcheController.GetConnection().Table<Product>().ToListAsync();
+
+            foreach (var item in order.OrderDetails)
+            {
+                item.ProductText = products.FirstOrDefault(p => p.ProductId == item.ProductId).ProductText;
+            }
+
+
+            DependencyService.Get<IPrint>().Print(order, "چاپ مجدد");
         }
 
 
-        DependencyService.Get<IPrint>().Print(order, "چاپ مجدد");
+
+        async private void btnEdit_Clicked(object sender, EventArgs e)
+        {
+            var s = sender as Button;
+            var selectedItem = s.BindingContext;
+            var order = (OrderDetailForSearchViewModel)selectedItem;
+            // await DisplayAlert("test",order.OrderId.ToString(),"test");
+            await Navigation.PushAsync(new EditOrderPage(order.OrderId));
+
+
+
+        }
     }
-
-
-
-    async private void btnEdit_Clicked(object sender, EventArgs e)
-    {
-        var s = sender as Button;
-        var selectedItem = s.BindingContext;
-        var order = (OrderDetailForSearchViewModel)selectedItem;
-        // await DisplayAlert("test",order.OrderId.ToString(),"test");
-        await Navigation.PushAsync(new EditOrderPage(order.OrderId));
-
-
-
-    }
-}
 }

@@ -36,6 +36,20 @@ namespace Sandoghche
 
             order = await SandoghcheController.GetConnection().Table<Order>().FirstOrDefaultAsync(o => o.OrderId == OrderId);
 
+            if (order.PaymentType == 1)
+            {
+                btnSaveInvoiceUpdate.IsVisible = false;
+                btnPrintInvoiceUpdate.IsVisible = false;
+
+
+            }
+            else
+            {
+                btnSaveInvoiceUpdate.IsVisible = true;
+                btnPrintInvoiceUpdate.IsVisible = true;
+            }
+
+
             var client = await SandoghcheController.GetConnection().Table<Client>().FirstOrDefaultAsync(c => c.ClientId == order.ClientId);
             var orderDetail = await SandoghcheController.GetConnection().Table<OrderDetail>().Where(d => d.OrderId == order.OrderId).ToListAsync();
             var products = await SandoghcheController.GetConnection().Table<Product>().ToListAsync();
@@ -70,9 +84,23 @@ namespace Sandoghche
 
             ProductsDataGrid.ItemsSource = orderDetail;
 
+            await ClientCreditStatus(order.ClientId.ToString());
 
 
 
+        }
+        public class ClientCreditViewModel
+        {
+            public double Amount { get; set; }
+        }
+        async private Task ClientCreditStatus(string ClientId)
+        {
+            var query = "select (sum(DebtorAmount)-sum(CreditorAmount)) as 'Amount' from Accounting WHERE ClientId=" + Convert.ToInt32(ClientId);
+            var amount = await SandoghcheController.GetConnection().QueryAsync<ClientCreditViewModel>(query);
+
+
+
+            lblCreditStatus.Text = "مانده : " + amount.FirstOrDefault()?.Amount.ToString() ?? 0.ToString();
         }
 
         async Task SaveInvoice(int InvoiceType)
@@ -81,7 +109,7 @@ namespace Sandoghche
             {
                 order.PaymentType = 0;
                 order.isEdited = true;
-                order.EditedTime = DateTime.Now;
+                order.EditedTime = Convert.ToDateTime(DateTime.Now).ToString("yyyy-MM-dd HH:mm:ss");
                 double finalPayment = Convert.ToDouble(lblFinalPayment.Text);
                 if (finalPayment <= 0)
                 {
@@ -114,7 +142,7 @@ namespace Sandoghche
             {
                 order.PaymentType = 1;
                 order.isEdited = true;
-                order.EditedTime = DateTime.Now;
+                order.EditedTime = Convert.ToDateTime(DateTime.Now).ToString("yyyy-MM-dd HH:mm:ss"); ;
                 double finalPayment = Convert.ToDouble(lblFinalPayment.Text);
                 if (finalPayment <= 0)
                 {
@@ -122,9 +150,19 @@ namespace Sandoghche
                 }
                 else
                 {
+                    Accounting accounting = new Accounting();
+                    accounting.ClientId = order.ClientId;
+                    accounting.DebtorAmount = order.FinalPayment;
+                    accounting.CreditorAmount = 0;
+
+
+
                     await SandoghcheController._connection.UpdateAsync(order);
                     await SandoghcheController._connection.UpdateAllAsync(order.OrderDetails);
                     await SandoghcheController._connection.UpdateWithChildrenAsync(order);
+
+                    await SandoghcheController._connection.InsertAsync(accounting);
+
 
                     await DisplayAlert(",ویرایش فاکتور", string.Format(" فاکتور {0}  شماره فیش {1} به مبلغ {2} ویرایش شد", order.ReceiptNumber, order.OrderId, Convert.ToDouble(lblFinalPayment.Text)), "باشه");
                     lblTax.Text = "0";
@@ -146,8 +184,14 @@ namespace Sandoghche
                 bool result = await DisplayAlert("حذف فاکتور", "آیا از حذف این فاکتور اطمینان دارید", "بله", "خیر");
                 if (result)
                 {
+                    if (order.PaymentType == 1)
+                    {
+                        await DisplayAlert("خطا", "به دلیل وجود بدهی امکان حذف نمی باشد", "باشه");
+                        return;
+                    }
                     order.isDeleted = true;
-                    order.DeletedTime = DateTime.Now;
+                    order.DeletedTime = order.DeletedTime = Convert.ToDateTime(DateTime.Now).ToString("yyyy-MM-dd HH:mm:ss");
+                    ;
                     await SandoghcheController._connection.UpdateAsync(order);
                     await SandoghcheController._connection.UpdateAllAsync(order.OrderDetails);
                     await SandoghcheController._connection.UpdateWithChildrenAsync(order);
@@ -156,22 +200,23 @@ namespace Sandoghche
 
             }
         }
-        
+
         async Task getSetting()
         {
             var tax = await SandoghcheController._connection.Table<SandoghcheSetting>().FirstOrDefaultAsync();
+
             if (tax == null)
             {
-                Tax1 = 0;
-                Tax2 = 0;
+                await DisplayAlert("خطا", "تنظیمات سیستم هنوز اعمال نشده است", "باشه");
+                await Navigation.PushAsync(new SettingsPage());
             }
             else
             {
-                Tax1 = tax.Tax1;
-                Tax2 = tax.Tax2;
+                Tax1 = order.Tax1Percent;
+                Tax2 = order.Tax2Percent;
             }
         }
-        
+
         async Task getCategories(string Searchtext = null)
         {
             var categories = await SandoghcheController._connection.Table<Category>().Where(c => c.IsDeleted != true).ToListAsync();
@@ -393,7 +438,7 @@ namespace Sandoghche
                 PopupNavigation.Instance.PushAsync(new ServicePopupPage(order.TotalPrice.ToString(), order.ServiceType, order.ServicePercent, order.TotalServiceFee));
             }
         }
-        
+
         private void btnDelivey_Tapped(object sender, EventArgs e)
         {
             if (lblFinalPayment.Text == "0")
@@ -447,7 +492,7 @@ namespace Sandoghche
                 PopupNavigation.Instance.PushAsync(new DiscountPopupPage(order.TotalPrice.ToString(), order.DiscountType, order.DiscountPercent, order.TotalDiscount));
             }
         }
-        
+
         private void btnNote_Clicked(object sender, EventArgs e)
         {
             if (lblFinalPayment.Text == "0")
@@ -467,17 +512,17 @@ namespace Sandoghche
         {
             await SaveInvoice(1);
         }
-        
+
         async private void btnSaveInvoiceUpdate_Tapped(object sender, EventArgs e)
         {
             await SaveInvoice(0);
         }
-        
+
         async private void PrintInvoiceUpdate_Tapped(object sender, EventArgs e)
         {
             order.PaymentType = 0;
             order.isEdited = true;
-            order.EditedTime = DateTime.Now;
+            order.EditedTime = Convert.ToDateTime(DateTime.Now).ToString("yyyy-MM-dd HH:mm:ss"); ;
 
             double finalPayment = Convert.ToDouble(lblFinalPayment.Text);
             if (finalPayment == 0)
@@ -508,7 +553,7 @@ namespace Sandoghche
 
             }
         }
-        
+
         async private void btnDeleteOrder_Tapped(object sender, EventArgs e)
         {
             await SaveInvoice(3);

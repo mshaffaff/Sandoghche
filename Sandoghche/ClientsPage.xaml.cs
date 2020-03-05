@@ -29,9 +29,10 @@ namespace Sandoghche
         async protected override void OnAppearing()
         {
             //await SandoghcheController.GetConnection().CreateTableAsync<Client>();
-         
-        
+
+
             await GetClients();
+            btnPayCredit.IsEnabled = false;
             base.OnAppearing();
         }
 
@@ -50,12 +51,6 @@ namespace Sandoghche
 
             ClientDataGrid.ItemsSource = result;
         }
-
-
-        //public ListView lstclients { get { return lstClientsView; } }
-
-        // public Telerik.XamarinForms.DataGrid.RadDataGrid clientDataGrid { get { return ClientDataGrid; } }
-
 
         private async void srchClients_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -106,17 +101,19 @@ namespace Sandoghche
             btnClientDelete.IsVisible = false;
             btnClientUpdate.IsVisible = false;
             btnClientRegister.IsVisible = true;
+            txtDebtAmount.Text = "";
+            btnPayCredit.IsEnabled = false;
 
         }
 
-       async private void btnClientUpdate_Clicked(object sender, EventArgs e)
+        async private void btnClientUpdate_Clicked(object sender, EventArgs e)
         {
             var client = (Client)ClientDataGrid.SelectedItems[0];
-            
+
             if (String.IsNullOrWhiteSpace(txtClientFullName.Text))
-              await  DisplayAlert("خطا", "نام مشترک نمیتواند خالی باشد", "باشه");
+                await DisplayAlert("خطا", "نام مشترک نمیتواند خالی باشد", "باشه");
             else
-            { 
+            {
                 client.ClientName = txtClientFullName.Text;
                 client.PhoneNumber = txtClientPhoneNumber.Text;
                 client.MobileNumber = txtClientMobileNumber.Text;
@@ -136,7 +133,7 @@ namespace Sandoghche
                 btnClientDelete.IsVisible = false;
                 btnClientUpdate.IsVisible = false;
                 btnClientRegister.IsVisible = true;
-                
+
                 ClientDataGrid.ItemsSource = null;
 
                 await GetClients();
@@ -155,7 +152,18 @@ namespace Sandoghche
 
             if (action)
             {
-                client.IsDeleted = true;
+
+               // var query = "select (sum(DebtorAmount)-sum(CreditorAmount)) as 'Amount' from Accounting WHERE ClientId=" + Convert.ToInt32(client.ClientId);
+                var query = "select Count(OrderId) as 'Amount' from Orders WHERE ClientId=" + Convert.ToInt32(client.ClientId);
+                var amount = await SandoghcheController.GetConnection().QueryAsync<ClientCreditViewModel>(query);
+               
+                if (amount[0].Amount > 0)
+                {
+                    await DisplayAlert("اخطار", "امکان حذف به دلیل سابقه خرید در سیستم وجود ندارد ", "باشه");
+                    return;
+                }
+
+                    client.IsDeleted = true;
                 await SandoghcheController._connection.UpdateAsync(client);
 
                 txtClientFullName.Text = "";
@@ -170,17 +178,17 @@ namespace Sandoghche
 
                 await GetClients();
             }
-                
+
 
 
 
         }
 
-        private void ClientDataGrid_SelectionChanged(object sender, Telerik.XamarinForms.DataGrid.DataGridSelectionChangedEventArgs e)
+        async private void ClientDataGrid_SelectionChanged(object sender, Telerik.XamarinForms.DataGrid.DataGridSelectionChangedEventArgs e)
         {
 
 
-            if (ClientDataGrid.SelectedItems!=null && ClientDataGrid.SelectedItems.Count>0 && ClientDataGrid.SelectedItems[0] != null)
+            if (ClientDataGrid.SelectedItems != null && ClientDataGrid.SelectedItems.Count > 0 && ClientDataGrid.SelectedItems[0] != null)
             {
                 var client = (Client)ClientDataGrid.SelectedItems[0];
                 txtClientFullName.Text = client.ClientName;
@@ -192,7 +200,28 @@ namespace Sandoghche
                 btnClientCancel.IsVisible = true;
                 btnClientUpdate.IsVisible = true;
                 btnClientDelete.IsVisible = true;
+                txtDebtAmount.Text = "0";
+                txtCreditAmount.Value = null;
+                await ClientCreditStatus(client.ClientId.ToString());
+
             }
+        }
+        public class ClientCreditViewModel
+        {
+            public double Amount { get; set; }
+        }
+        async private Task ClientCreditStatus(string ClientId)
+        {
+            var query = "select (sum(DebtorAmount)-sum(CreditorAmount)) as 'Amount' from Accounting WHERE ClientId=" + Convert.ToInt32(ClientId);
+            var amount = await SandoghcheController.GetConnection().QueryAsync<ClientCreditViewModel>(query);
+            if (amount[0].Amount > 0)
+            {
+                txtDebtAmount.Text = amount.FirstOrDefault()?.Amount.ToString() ?? 0.ToString(); ;
+                btnPayCredit.IsEnabled = true;
+            }
+            else
+                btnPayCredit.IsEnabled = false;
+
         }
 
         async private void imgSelectClient_Tapped(object sender, EventArgs e)
@@ -200,7 +229,36 @@ namespace Sandoghche
             var s = sender as Image;
             var selectedItem = s.BindingContext;
             var client = (Client)selectedItem;
-            await Navigation.PushAsync(new InvoicePage(client.ClientId,client.ClientName));
+            await Navigation.PushAsync(new InvoicePage(client.ClientId, client.ClientName));
         }
+
+        async private void btnPayCredit_Clicked(object sender, EventArgs e)
+        {
+            var client = (Client)ClientDataGrid.SelectedItems[0];
+
+            Accounting accounting = new Accounting();
+            accounting.ClientId = client.ClientId;
+
+            accounting.CreditorAmount = Convert.ToDouble(txtCreditAmount.Value);
+            accounting.DebtorAmount = 0;
+
+
+            if (Convert.ToDouble(txtCreditAmount.Value) > Convert.ToDouble(txtDebtAmount.Text))
+            {
+                await DisplayAlert("خطا", "مبلغ پرداختی از مبلغ بدهی بیشتر است", "باشه");
+                return;
+            }                
+            await SandoghcheController._connection.InsertAsync(accounting);
+            txtCreditAmount.Value = null;
+            await ClientCreditStatus(client.ClientId.ToString());
+        }
+
+       
+        
+
+      
+
+        
+
     }
 }

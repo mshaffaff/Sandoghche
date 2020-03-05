@@ -7,16 +7,17 @@ using Xamarin.Forms.Xaml;
 
 namespace Sandoghche.Helpers
 {
-    public class DisabledLabel : IValueConverter, IMarkupExtension
+    public class LabelStrikethroughForReport : IValueConverter, IMarkupExtension
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (!(bool)value ? Color.Gray : Color.Black);
+           return ((bool)value ? TextDecorations.Strikethrough : TextDecorations.None);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return value;
+            //throw new NotImplementedException();
         }
 
         public object ProvideValue(IServiceProvider serviceProvider)

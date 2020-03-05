@@ -69,7 +69,7 @@
                            FontSize="20" 
                            HorizontalOptions="EndAndExpand"  >
                     </Label>
-                    <Label TextColor="Black" Text="مانده 0"
+                    <Label TextColor="Black" x:Name="lblCreditStatus" 
                            FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
                            FontSize="20" HorizontalOptions="EndAndExpand"
                            
@@ -431,13 +431,13 @@
                     </Image.GestureRecognizers>
                 </Image>
 
-                <Image Grid.Column="7" Source="{local:EmbeddedImage Sandoghche.Images.SaveInvoiceUpdate.png}">
+                <Image x:Name="btnSaveInvoiceUpdate" Grid.Column="7" Source="{local:EmbeddedImage Sandoghche.Images.SaveInvoiceUpdate.png}">
                     <Image.GestureRecognizers>
                         <TapGestureRecognizer Tapped="btnSaveInvoiceUpdate_Tapped" />
                     </Image.GestureRecognizers>
                 </Image>
 
-                <Image Grid.Column="8" Source="{local:EmbeddedImage Sandoghche.Images.PrintInvoiceUpdate.png}">
+                <Image x:Name="btnPrintInvoiceUpdate" Grid.Column="8" Source="{local:EmbeddedImage Sandoghche.Images.PrintInvoiceUpdate.png}">
                     <Image.GestureRecognizers>
                         <TapGestureRecognizer Tapped="PrintInvoiceUpdate_Tapped" />
                     </Image.GestureRecognizers>

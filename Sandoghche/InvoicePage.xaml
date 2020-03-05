@@ -8,6 +8,7 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:telerikDataGrid="clr-namespace:Telerik.XamarinForms.DataGrid;assembly=Telerik.XamarinForms.DataGrid"
              xmlns:local="clr-namespace:Sandoghche.MarkupExtentions"
+             xmlns:helpers="clr-namespace:Sandoghche.Helpers"
              mc:Ignorable="d"
              x:Class="Sandoghche.InvoicePage">
 
@@ -343,11 +344,14 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
+                                   
                                     <Label 
+                                        TextColor="{Binding IsActive,Converter={helpers:DisabledLabel}}"
+                                                TextDecorations="{Binding IsActive,Converter={helpers:LabelStrikethrough}}"
+                                                IsEnabled="{Binding IsActive,Converter={helpers:InverseBoolConverter}}"
                                         Margin="0,10,0,0"
                                         HorizontalOptions="EndAndExpand"
                                         VerticalOptions="Center"
-                                        TextColor="Black"
                                         FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
                                         FontSize="20" Text="{Binding ProductText}"/>
                                 </ViewCell>
