@@ -332,7 +332,13 @@ namespace Sandoghche
                     setting.Tax2 = Convert.ToDouble(txtTax2.Value);
                     setting.ReceiptNumberStartFrom = Convert.ToInt32(txtReceiptNumberStartFrom.Value);
                     setting.ResetReceiptTime = pkrResetReceiptNumberTime.Time;
+                    if ((Convert.ToInt32(txtEditDelayTime.Value)) > 15 || (Convert.ToInt32(txtEditDelayTime.Value)) < 1)
+                    { 
+                        await DisplayAlert("خطا", "مدت زمان ویرایش بایستی در بازه 1 تا 15 دقیقه باشد", "باشه");
+                        return;
+                    }
 
+                    setting.EditDelayTime = Convert.ToInt32(txtEditDelayTime.Value);
                     await SandoghcheController.GetConnection().InsertAsync(setting);
                     await DisplayAlert("به روز رسانی", "به روز رسانی انجام شد", "باشه");
                     await getSettings();
@@ -369,6 +375,15 @@ namespace Sandoghche
                         settings.Tax2 = Convert.ToDouble(txtTax2.Value);
                         settings.ReceiptNumberStartFrom = Convert.ToInt32(txtReceiptNumberStartFrom.Value);
                         settings.ResetReceiptTime = pkrResetReceiptNumberTime.Time;
+
+                        if ((Convert.ToInt32(txtEditDelayTime.Value)) > 15 || (Convert.ToInt32(txtEditDelayTime.Value)) < 1)
+                        {
+                            await DisplayAlert("خطا", "مدت زمان ویرایش بایستی در بازه 1 تا 15 دقیقه باشد", "باشه");
+                            return;
+                        }
+
+                        settings.EditDelayTime = Convert.ToInt32(txtEditDelayTime.Value);
+
 
                         await SandoghcheController.GetConnection().UpdateAsync(settings);
                         await DisplayAlert("به روز رسانی", "به روز رسانی انجام شد", "باشه");

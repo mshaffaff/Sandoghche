@@ -19,6 +19,9 @@ namespace Sandoghche.Models
 
         public int ReceiptNumberStartFrom { get; set; }
 
+        public int EditDelayTime { get; set; }
+
+
 
 
 

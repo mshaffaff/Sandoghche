@@ -23,8 +23,6 @@ namespace Sandoghche
 
         async protected override void OnAppearing()
         {
-            //await SandoghcheController.GetConnection().CreateTableAsync<Category>();
-            //await SandoghcheController.GetConnection().CreateTableAsync<Product>();
             await getCategories();
             base.OnAppearing();
         }

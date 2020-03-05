@@ -336,7 +336,7 @@
 
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="250" />
-                                <ColumnDefinition Width="200" />
+                                <ColumnDefinition Width="250" />
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="35"/>
@@ -346,6 +346,8 @@
                                 <RowDefinition Height="35"/>
                                 <RowDefinition Height="35"/>
                                 <RowDefinition Height="35"/>
+                                <RowDefinition Height="35"/>
+
 
 
                             </Grid.RowDefinitions>
@@ -369,7 +371,12 @@
                             <TimePicker Time="03:00:00" x:Name="pkrResetReceiptNumberTime" Grid.Row="5" Grid.Column="0"  FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" />
                             <Label Text="زمان ریست شدن شماره فیش در روز بعد" Grid.Row="5" Grid.Column="1" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="EndAndExpand"/>
 
-                            <Button Clicked="btnUpdateSettings_Clicked" x:Name="btnUpdateSettings" CornerRadius="5"  BackgroundColor="#00c695" Text="به روز رسانی" Grid.Row="6" Grid.Column="0" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" />
+                            <syncfusion:SfNumericTextBox Value="2" VerticalOptions="Center" x:Name="txtEditDelayTime" Grid.Row="6" Grid.Column="0"  MaximumNumberDecimalDigits="0"  FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" TextColor="Black"/>
+                            <Label Text="زمان مجاز جهت ویرایش فیش (دقیقه)" Grid.Row="6" Grid.Column="1" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="EndAndExpand" />
+
+
+
+                            <Button Clicked="btnUpdateSettings_Clicked" x:Name="btnUpdateSettings" CornerRadius="5"  BackgroundColor="#00c695" Text="به روز رسانی" Grid.Row="7" Grid.Column="0" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" />
 
                         </Grid>
                         <!--<StackLayout HorizontalOptions="EndAndExpand" >

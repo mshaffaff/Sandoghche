@@ -425,7 +425,7 @@
                 </Image>
 
 
-                <Image Grid.Column="6" Source="{local:EmbeddedImage Sandoghche.Images.CreditInvoiceUpdate.png}">
+                <Image x:Name="btnCreditInvoiceUpdate" Grid.Column="6" Source="{local:EmbeddedImage Sandoghche.Images.CreditInvoiceUpdate.png}">
                     <Image.GestureRecognizers>
                         <TapGestureRecognizer Tapped="btnCreditInvoiceUpdate_Tapped" />
                     </Image.GestureRecognizers>

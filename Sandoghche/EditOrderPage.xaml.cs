@@ -21,18 +21,17 @@ namespace Sandoghche
         static Order order;
         static OrderDetail orderDetail;
         private static double Tax1, Tax2;
+        private static int EditDelayTime;
 
         public EditOrderPage(int orderId)
         {
             InitializeComponent();
             OrderId = orderId;
-
-
         }
 
         protected override async void OnAppearing()
         {
-            base.OnAppearing();
+           
 
             order = await SandoghcheController.GetConnection().Table<Order>().FirstOrDefaultAsync(o => o.OrderId == OrderId);
 
@@ -56,11 +55,9 @@ namespace Sandoghche
 
             order.OrderDetails = orderDetail;
 
-            await SandoghcheController.GetConnection().CreateTableAsync<SandoghcheSetting>();
+            //await SandoghcheController.GetConnection().CreateTableAsync<SandoghcheSetting>();
             await getSetting();
-
-
-
+                                          
             lblOrderId.Text = order.OrderId.ToString();
             lblReceipNumber.Text = order.ReceiptNumber.ToString();
             lblPersianDate.Text = SandoghcheController.GetPersianDate(Convert.ToDateTime(order.DateCreated));
@@ -86,7 +83,17 @@ namespace Sandoghche
 
             await ClientCreditStatus(order.ClientId.ToString());
 
+            var EditAlloweTime = Convert.ToDateTime(order.DateCreated).AddMinutes(EditDelayTime);
+            
+            if (DateTime.Now > EditAlloweTime)
+            {
+                btnSaveInvoiceUpdate.IsVisible = false;
+                btnPrintInvoiceUpdate.IsVisible = false;
+                btnCreditInvoiceUpdate.IsVisible = false;
+                await DisplayAlert("خطا", "زمان ویرایش به اتمام رسیده است", "باشه");
+            }
 
+            base.OnAppearing();
 
         }
         public class ClientCreditViewModel
@@ -204,7 +211,7 @@ namespace Sandoghche
         async Task getSetting()
         {
             var tax = await SandoghcheController._connection.Table<SandoghcheSetting>().FirstOrDefaultAsync();
-
+            EditDelayTime = tax.EditDelayTime;
             if (tax == null)
             {
                 await DisplayAlert("خطا", "تنظیمات سیستم هنوز اعمال نشده است", "باشه");

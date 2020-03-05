@@ -36,19 +36,6 @@ namespace Sandoghche.Models
 
         public double FinalPayment { get; set; }
 
-        //public string DateCreated
-        //{
-        //    get
-        //    {
-        //        return DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-        //    }
-
-        //    set { this.dateCreated = value; }
-        //}
-
-        //private string dateCreated = null;
-
-
         public string DateCreated
         {
             get
@@ -79,21 +66,8 @@ namespace Sandoghche.Models
 
         public string DeletedTime { get; set; }
 
-
-
-
         [OneToMany("OrderId")] 
         public List<OrderDetail> OrderDetails { get; set; }
-
-
-
-
-
-
-
-
-
-
 
     }
     
