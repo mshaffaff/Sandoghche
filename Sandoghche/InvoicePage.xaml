@@ -339,7 +339,7 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
                 <!--اجناس-->
 
                 <StackLayout Grid.Column="1" Margin="10,10,10,10" >
-                    <SearchBar x:Name="srchProduct" TextChanged="srchProduct_TextChanged" FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" Placeholder="محصول" PlaceholderColor="Black" FlowDirection="RightToLeft"  TextColor="Black"/>
+                    <SearchBar x:Name="srchProduct" TextChanged="srchProduct_TextChanged" FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" Placeholder="محصول" PlaceholderColor="Black"  TextColor="Black"/>
                     <ListView FlowDirection="RightToLeft" x:Name="lstProducts" HorizontalOptions="EndAndExpand" ItemTapped="lstProducts_ItemTapped" ItemSelected="lstProducts_ItemSelected">
                         <ListView.ItemTemplate>
                             <DataTemplate>
@@ -600,7 +600,7 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
 
                 <!--طبقه بندی-->
                 <StackLayout Grid.Column="2" Margin="10,10,10,10" >
-                    <SearchBar x:Name="srchCategory" TextChanged="srchCategory_TextChanged" FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" Placeholder="طبقه بندی" PlaceholderColor="Black" FlowDirection="RightToLeft"  TextColor="Black"/>
+                    <SearchBar x:Name="srchCategory" TextChanged="srchCategory_TextChanged" FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" Placeholder="طبقه بندی" PlaceholderColor="Black"  TextColor="Black"/>
                     <Label x:Name="lblCategoryId" IsVisible="False" />
                     <ListView FlowDirection="RightToLeft" x:Name="lstCategory" HorizontalOptions="EndAndExpand" ItemSelected="lstCategory_ItemSelected">
                         <ListView.ItemTemplate>

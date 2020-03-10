@@ -83,6 +83,8 @@ namespace Sandoghche
             await SandoghcheController.GetConnection().CreateTableAsync<Product>();
             await SandoghcheController.GetConnection().CreateTableAsync<Order>();
             await SandoghcheController.GetConnection().CreateTableAsync<OrderDetail>();
+            await SandoghcheController.GetConnection().CreateTableAsync<EditedOrdersLogs>();
+            await SandoghcheController.GetConnection().CreateTableAsync<EditedOrderDetailsLogs>();
             await SandoghcheController.GetConnection().CreateTableAsync<SandoghcheSetting>();
             await SandoghcheController.GetConnection().CreateTableAsync<Accounting>();
             await SandoghcheController.GetConnection().CreateTableAsync<UserRoll>();

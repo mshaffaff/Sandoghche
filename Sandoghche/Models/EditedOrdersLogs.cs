@@ -5,12 +5,15 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
+
 namespace Sandoghche.Models
 {
-    [Table("Orders")]
-    public class Order
+
+    public class EditedOrdersLogs
     {
-        [PrimaryKey, AutoIncrement]
+        [PrimaryKey,AutoIncrement]
+        public int EditedLogId { get; set; }
+
         public int OrderId { get; set; }
         public int ReceiptNumber { get; set; }
         public int ClientId { get; set; }
@@ -36,36 +39,15 @@ namespace Sandoghche.Models
 
         public double FinalPayment { get; set; }
 
-        public string DateCreated
-        {
-            get
-            {
-                return this.dateCreated!=null
-                   ? Convert.ToDateTime(dateCreated).ToString("yyyy-MM-dd HH:mm:ss")
-                   : DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-            }
+        public string DateCreated { get; set; }
 
-            set {
-                if (this.dateCreated != null)
-                    this.dateCreated = Convert.ToDateTime(value).ToString("yyyy-MM-dd HH:mm:ss");
-                else
-                    this.dateCreated = value;
-            }
-        }
 
-        private string dateCreated = null;
+        public string EditedDate { get; set; }
 
-        public string EditedTime { get; set; }
+        [OneToMany("EditedLogId")]
+        public List<EditedOrderDetailsLogs> EditedOrderDetailsLogs { get; set; }
 
-        public bool isEdited { get; set; }
-
-        public bool isDeleted { get; set; }
-
-        public string DeletedTime { get; set; }
-
-        [OneToMany("OrderId")] 
-        public List<OrderDetail> OrderDetails { get; set; }
 
     }
-    
+
 }

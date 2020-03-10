@@ -31,11 +31,27 @@ namespace Sandoghche
 
         protected override async void OnAppearing()
         {
-           
+
 
             order = await SandoghcheController.GetConnection().Table<Order>().FirstOrDefaultAsync(o => o.OrderId == OrderId);
 
-            if (order.PaymentType == 1)
+            if (order.isDeleted)
+            {
+                btnSaveInvoiceUpdate.IsVisible = false;
+                btnPrintInvoiceUpdate.IsVisible = false;
+                btnCreditInvoiceUpdate.IsVisible = false;
+                btnDeleteOrder.IsVisible = false;
+            }
+            else
+            {
+                btnSaveInvoiceUpdate.IsVisible = true;
+                btnPrintInvoiceUpdate.IsVisible = true;
+                btnCreditInvoiceUpdate.IsVisible = true;
+                btnDeleteOrder.IsVisible = true;
+            }
+
+
+            if (order.PaymentType == 1 || order.isDeleted)
             {
                 btnSaveInvoiceUpdate.IsVisible = false;
                 btnPrintInvoiceUpdate.IsVisible = false;
@@ -49,15 +65,16 @@ namespace Sandoghche
             }
 
 
+
+
             var client = await SandoghcheController.GetConnection().Table<Client>().FirstOrDefaultAsync(c => c.ClientId == order.ClientId);
             var orderDetail = await SandoghcheController.GetConnection().Table<OrderDetail>().Where(d => d.OrderId == order.OrderId).ToListAsync();
             var products = await SandoghcheController.GetConnection().Table<Product>().ToListAsync();
 
             order.OrderDetails = orderDetail;
 
-            //await SandoghcheController.GetConnection().CreateTableAsync<SandoghcheSetting>();
             await getSetting();
-                                          
+
             lblOrderId.Text = order.OrderId.ToString();
             lblReceipNumber.Text = order.ReceiptNumber.ToString();
             lblPersianDate.Text = SandoghcheController.GetPersianDate(Convert.ToDateTime(order.DateCreated));
@@ -84,7 +101,7 @@ namespace Sandoghche
             await ClientCreditStatus(order.ClientId.ToString());
 
             var EditAlloweTime = Convert.ToDateTime(order.DateCreated).AddMinutes(EditDelayTime);
-            
+
             if (DateTime.Now > EditAlloweTime)
             {
                 btnSaveInvoiceUpdate.IsVisible = false;
@@ -124,9 +141,65 @@ namespace Sandoghche
                 }
                 else
                 {
+
+                    var OriginalOrder = await SandoghcheController.GetConnection().Table<Order>().FirstOrDefaultAsync(o => o.OrderId == OrderId);
+                    var OriginalOrderDetails = await SandoghcheController.GetConnection().Table<OrderDetail>().Where(d => d.OrderId == order.OrderId).ToListAsync();
+
+
+                    await SandoghcheController._connection.DeleteAllAsync(OriginalOrderDetails);
+                    await SandoghcheController._connection.InsertAllAsync(order.OrderDetails);
                     await SandoghcheController._connection.UpdateAsync(order);
-                    await SandoghcheController._connection.UpdateAllAsync(order.OrderDetails);
                     await SandoghcheController._connection.UpdateWithChildrenAsync(order);
+
+
+
+                    EditedOrdersLogs edited = new EditedOrdersLogs()
+                    {
+                        ClientId = OriginalOrder.ClientId,
+                        Comment = OriginalOrder.Comment,
+                        DateCreated = OriginalOrder.DateCreated,
+                        DeliveryFee = OriginalOrder.DeliveryFee,
+                        DiscountPercent = OriginalOrder.DiscountPercent,
+                        DiscountType = OriginalOrder.DiscountType,
+                        EditedDate = Convert.ToDateTime(DateTime.Now).ToString("yyyy-MM-dd HH:mm:ss"),
+                        FinalPayment = OriginalOrder.FinalPayment,
+                        OrderId = OriginalOrder.OrderId,
+                        PaymentType = OriginalOrder.PaymentType,
+                        ReceiptNumber = OriginalOrder.ReceiptNumber,
+                        ServicePercent = OriginalOrder.ServicePercent,
+                        ServiceType = OriginalOrder.ServiceType,
+                        Tax1 = OriginalOrder.Tax1,
+                        Tax1Percent = OriginalOrder.Tax1Percent,
+                        Tax2 = OriginalOrder.Tax2,
+                        Tax2Percent = OriginalOrder.Tax2Percent,
+                        TotalDiscount = OriginalOrder.TotalDiscount,
+                        TotalPrice = OriginalOrder.TotalPrice,
+                        TotalServiceFee = OriginalOrder.TotalServiceFee,
+                    };
+
+                    edited.EditedOrderDetailsLogs = new List<EditedOrderDetailsLogs>();
+                    foreach (var item in OriginalOrderDetails)
+                    {
+                        edited.EditedOrderDetailsLogs.Add(new EditedOrderDetailsLogs
+                        {
+                            //EditedLogId = edited.EditedLogId,
+                            CategoryId = item.CategoryId,
+                            DetailId = item.DetailId,
+                            Number = item.Number,
+                            OrderId = item.OrderId,
+                            Price = item.Price,
+                            ProductId = item.ProductId,
+                            TotalPrice = item.TotalPrice
+                        });
+
+                    }
+
+                    await SandoghcheController._connection.InsertAsync(edited);
+                    await SandoghcheController._connection.InsertAllAsync(edited.EditedOrderDetailsLogs);
+                    await SandoghcheController._connection.UpdateWithChildrenAsync(edited);
+
+
+
 
                     await DisplayAlert("ویرایش فاکتور", string.Format(" فاکتور {0}  شماره فیش {1} به مبلغ {2} ویرایش شد", order.ReceiptNumber, order.OrderId, Convert.ToDouble(lblFinalPayment.Text)), "باشه");
                     //await setOrderNumber();
@@ -157,18 +230,83 @@ namespace Sandoghche
                 }
                 else
                 {
+
+
                     Accounting accounting = new Accounting();
                     accounting.ClientId = order.ClientId;
-                    accounting.DebtorAmount = order.FinalPayment;
+
+                    // accounting.DebtorAmount = order.FinalPayment;
+
                     accounting.CreditorAmount = 0;
 
 
+                    var OriginalOrder = await SandoghcheController.GetConnection().Table<Order>().FirstOrDefaultAsync(o => o.OrderId == OrderId);
+                    var OriginalOrderDetails = await SandoghcheController.GetConnection().Table<OrderDetail>().Where(d => d.OrderId == order.OrderId).ToListAsync();
 
+                    if (OriginalOrder.PaymentType == 0)
+                        accounting.DebtorAmount = order.FinalPayment;
+                    else if (OriginalOrder.PaymentType == 1)
+                        accounting.DebtorAmount = order.FinalPayment - OriginalOrder.FinalPayment;
+
+
+
+
+
+                    await SandoghcheController._connection.DeleteAllAsync(OriginalOrderDetails);
+                    await SandoghcheController._connection.InsertAllAsync(order.OrderDetails);
                     await SandoghcheController._connection.UpdateAsync(order);
-                    await SandoghcheController._connection.UpdateAllAsync(order.OrderDetails);
                     await SandoghcheController._connection.UpdateWithChildrenAsync(order);
 
                     await SandoghcheController._connection.InsertAsync(accounting);
+
+
+
+                    EditedOrdersLogs edited = new EditedOrdersLogs()
+                    {
+                        ClientId = OriginalOrder.ClientId,
+                        Comment = OriginalOrder.Comment,
+                        DateCreated = OriginalOrder.DateCreated,
+                        DeliveryFee = OriginalOrder.DeliveryFee,
+                        DiscountPercent = OriginalOrder.DiscountPercent,
+                        DiscountType = OriginalOrder.DiscountType,
+                        EditedDate = Convert.ToDateTime(DateTime.Now).ToString("yyyy-MM-dd HH:mm:ss"),
+                        FinalPayment = OriginalOrder.FinalPayment,
+                        OrderId = OriginalOrder.OrderId,
+                        PaymentType = OriginalOrder.PaymentType,
+                        ReceiptNumber = OriginalOrder.ReceiptNumber,
+                        ServicePercent = OriginalOrder.ServicePercent,
+                        ServiceType = OriginalOrder.ServiceType,
+                        Tax1 = OriginalOrder.Tax1,
+                        Tax1Percent = OriginalOrder.Tax1Percent,
+                        Tax2 = OriginalOrder.Tax2,
+                        Tax2Percent = OriginalOrder.Tax2Percent,
+                        TotalDiscount = OriginalOrder.TotalDiscount,
+                        TotalPrice = OriginalOrder.TotalPrice,
+                        TotalServiceFee = OriginalOrder.TotalServiceFee,
+                    };
+
+                    edited.EditedOrderDetailsLogs = new List<EditedOrderDetailsLogs>();
+                    foreach (var item in OriginalOrderDetails)
+                    {
+                        edited.EditedOrderDetailsLogs.Add(new EditedOrderDetailsLogs
+                        {
+                            //EditedLogId = edited.EditedLogId,
+                            CategoryId = item.CategoryId,
+                            DetailId = item.DetailId,
+                            Number = item.Number,
+                            OrderId = item.OrderId,
+                            Price = item.Price,
+                            ProductId = item.ProductId,
+                            TotalPrice = item.TotalPrice
+                        });
+
+                    }
+
+                    await SandoghcheController._connection.InsertAsync(edited);
+                    await SandoghcheController._connection.InsertAllAsync(edited.EditedOrderDetailsLogs);
+                    await SandoghcheController._connection.UpdateWithChildrenAsync(edited);
+
+
 
 
                     await DisplayAlert(",ویرایش فاکتور", string.Format(" فاکتور {0}  شماره فیش {1} به مبلغ {2} ویرایش شد", order.ReceiptNumber, order.OrderId, Convert.ToDouble(lblFinalPayment.Text)), "باشه");
@@ -193,15 +331,17 @@ namespace Sandoghche
                 {
                     if (order.PaymentType == 1)
                     {
-                        await DisplayAlert("خطا", "به دلیل وجود بدهی امکان حذف نمی باشد", "باشه");
+                        await DisplayAlert("خطا", "به دلیل وجود اطلاعات مرتبط یا  بدهی امکان حذف نمی باشد", "باشه");
                         return;
                     }
-                    order.isDeleted = true;
-                    order.DeletedTime = order.DeletedTime = Convert.ToDateTime(DateTime.Now).ToString("yyyy-MM-dd HH:mm:ss");
+
+                    var OriginalOrder = await SandoghcheController.GetConnection().Table<Order>().FirstOrDefaultAsync(o => o.OrderId == OrderId);
+                    OriginalOrder.isDeleted = true;
+                    OriginalOrder.DeletedTime = OriginalOrder.DeletedTime = Convert.ToDateTime(DateTime.Now).ToString("yyyy-MM-dd HH:mm:ss");
                     ;
-                    await SandoghcheController._connection.UpdateAsync(order);
-                    await SandoghcheController._connection.UpdateAllAsync(order.OrderDetails);
-                    await SandoghcheController._connection.UpdateWithChildrenAsync(order);
+
+                    await SandoghcheController._connection.UpdateAsync(OriginalOrder);
+
                     await Navigation.PushAsync(new SandoghcheMainPage());
                 }
 
@@ -353,7 +493,6 @@ namespace Sandoghche
         {
 
         }
-
 
         private void lstProducts_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
@@ -538,10 +677,62 @@ namespace Sandoghche
             }
             else
             {
+                var OriginalOrder = await SandoghcheController.GetConnection().Table<Order>().FirstOrDefaultAsync(o => o.OrderId == OrderId);
+                var OriginalOrderDetails = await SandoghcheController.GetConnection().Table<OrderDetail>().Where(d => d.OrderId == order.OrderId).ToListAsync();
+
+
+                await SandoghcheController._connection.DeleteAllAsync(OriginalOrderDetails);
+                await SandoghcheController._connection.InsertAllAsync(order.OrderDetails);
                 await SandoghcheController._connection.UpdateAsync(order);
-                await SandoghcheController._connection.UpdateAllAsync(order.OrderDetails);
                 await SandoghcheController._connection.UpdateWithChildrenAsync(order);
 
+
+                EditedOrdersLogs edited = new EditedOrdersLogs()
+                {
+                    ClientId = OriginalOrder.ClientId,
+                    Comment = OriginalOrder.Comment,
+                    DateCreated = OriginalOrder.DateCreated,
+
+                    DeliveryFee = OriginalOrder.DeliveryFee,
+                    DiscountPercent = OriginalOrder.DiscountPercent,
+                    DiscountType = OriginalOrder.DiscountType,
+                    EditedDate = Convert.ToDateTime(DateTime.Now).ToString("yyyy-MM-dd HH:mm:ss"),
+                    FinalPayment = OriginalOrder.FinalPayment,
+                    OrderId = OriginalOrder.OrderId,
+                    PaymentType = OriginalOrder.PaymentType,
+                    ReceiptNumber = OriginalOrder.ReceiptNumber,
+                    ServicePercent = OriginalOrder.ServicePercent,
+                    ServiceType = OriginalOrder.ServiceType,
+                    Tax1 = OriginalOrder.Tax1,
+                    Tax1Percent = OriginalOrder.Tax1Percent,
+                    Tax2 = OriginalOrder.Tax2,
+                    Tax2Percent = OriginalOrder.Tax2Percent,
+                    TotalDiscount = OriginalOrder.TotalDiscount,
+                    TotalPrice = OriginalOrder.TotalPrice,
+                    TotalServiceFee = OriginalOrder.TotalServiceFee,
+                };
+
+                var editedOrderDetailsLogs = new List<EditedOrderDetailsLogs>();
+
+                foreach (var item in OriginalOrderDetails)
+                {
+                    editedOrderDetailsLogs.Add(new EditedOrderDetailsLogs
+                    {
+
+                        CategoryId = item.CategoryId,
+                        DetailId = item.DetailId,
+                        Number = item.Number,
+                        OrderId = item.OrderId,
+                        Price = item.Price,
+                        ProductId = item.ProductId,
+                        TotalPrice = item.TotalPrice
+                    });
+
+                }
+
+                await SandoghcheController._connection.InsertAsync(edited);
+                await SandoghcheController._connection.InsertAllAsync(editedOrderDetailsLogs);
+                await SandoghcheController._connection.UpdateWithChildrenAsync(edited);
 
 
                 DependencyService.Get<IPrint>().Print(order, "فاکتور فروش - ویرایش شده");

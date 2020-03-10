@@ -418,7 +418,7 @@
                     </Image.GestureRecognizers>
                 </Image>
 
-                <Image Grid.Column="5" Source="{local:EmbeddedImage Sandoghche.Images.DeleteOrder.png}">
+                <Image x:Name="btnDeleteOrder" Grid.Column="5" Source="{local:EmbeddedImage Sandoghche.Images.DeleteOrder.png}">
                     <Image.GestureRecognizers>
                         <TapGestureRecognizer Tapped="btnDeleteOrder_Tapped" />
                     </Image.GestureRecognizers>

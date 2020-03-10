@@ -5,11 +5,6 @@ using Sandoghche.Models;
 
 namespace Sandoghche.ModelView
 {
-   public class OrderViewModel
-    {
-       
-
-    }
 
  
     public class OrderDetailForSearchViewModel
