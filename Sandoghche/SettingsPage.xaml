@@ -11,113 +11,119 @@
     xmlns:syncfusion="clr-namespace:Syncfusion.SfNumericTextBox.XForms;assembly=Syncfusion.SfNumericTextBox.XForms"
     mc:Ignorable="d"
              x:Class="Sandoghche.SettingsPage">
+    <!--منوی بالا-->
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
-    <telerikPrimitives:RadTabView x:Name="tabView">
-        <telerikPrimitives:RadTabView.Items>
-            <telerikPrimitives:TabViewItem x:Name="UserSettings" >
-                <telerikPrimitives:TabViewItem.Header>
-                    <telerikPrimitives:TabViewHeaderItem>
-                        <telerikPrimitives:TabViewHeaderItem.Content>
-                            <StackLayout  Margin="10" Orientation="Horizontal" HorizontalOptions="Center">
-                                <Label Text="تنظیمات نام کاربری و سطوح دسترسی" FontSize="Small" TextColor="Black"
-                        FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"/>
-                            </StackLayout>
-                        </telerikPrimitives:TabViewHeaderItem.Content>
-                    </telerikPrimitives:TabViewHeaderItem>
-                </telerikPrimitives:TabViewItem.Header>
-                <telerikPrimitives:TabViewItem.Content>
-                    <Grid ColumnSpacing="0" RowSpacing="0">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="100" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
 
-                        <!--منوی بالا-->
-                        <StackLayout Grid.Row="0" VerticalOptions="Center" >
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
+            <StackLayout Grid.Column="0"   VerticalOptions="Center" >
 
-                                <StackLayout Grid.Column="0"   VerticalOptions="Center" >
-
-                                    <Label 
+                <Label 
                         Margin="50,0,0,0"
                         FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
                         FontSize="20"
                         Text="تنظیمات" HorizontalOptions="StartAndExpand" TextColor="Black" />
 
-                                </StackLayout>
+            </StackLayout>
 
-                                <StackLayout Grid.Column="1"  HorizontalOptions="Center" VerticalOptions="Center" >
+            <StackLayout Grid.Column="1"  HorizontalOptions="Center" VerticalOptions="Center" >
 
-                                    <Label x:Name="lblPersianDate" TextColor="Black"
+                <Label x:Name="lblPersianDate" TextColor="Black"
                         FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
                         FontSize="Small" HorizontalOptions="Center"  />
-                                </StackLayout>
+            </StackLayout>
 
-                                <StackLayout Margin="0,0,20,0" Grid.Column="2"  VerticalOptions="Center" >
+            <StackLayout Margin="0,0,20,0" Grid.Column="2"  VerticalOptions="Center" >
 
-                                    <Label TextColor="Black"
+                <Label TextColor="Black"
                         x:Name="lblUser"
                         FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
                            FontSize="Small" 
                            HorizontalOptions="EndAndExpand"  >
-                                    </Label>
-                                </StackLayout>
+                </Label>
+            </StackLayout>
 
-                            </Grid>
-                        </StackLayout>
+        </Grid>
 
-                        <!--منوی وسط-->
-                        <StackLayout Grid.Row="1" Padding="20,0,20,20"  >
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="400"/>
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
+        <Frame BorderColor="Black" CornerRadius="5" Grid.Row="1" Margin="10">
+            <telerikPrimitives:RadTabView x:Name="tabView">
+                <telerikPrimitives:RadTabView.Items>
+                    <telerikPrimitives:TabViewItem x:Name="UserSettings" >
+                        <telerikPrimitives:TabViewItem.Header>
+                            <telerikPrimitives:TabViewHeaderItem>
+                                <telerikPrimitives:TabViewHeaderItem.Content>
+                                    <StackLayout  Margin="10" Orientation="Horizontal" HorizontalOptions="Center">
+                                        <Label Text="تنظیمات نام کاربری و سطوح دسترسی" FontSize="Small" TextColor="Black"
+                        FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"/>
+                                    </StackLayout>
+                                </telerikPrimitives:TabViewHeaderItem.Content>
+                            </telerikPrimitives:TabViewHeaderItem>
+                        </telerikPrimitives:TabViewItem.Header>
+                        <telerikPrimitives:TabViewItem.Content>
+                            <Grid ColumnSpacing="0" RowSpacing="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
 
-                                <!--فرم-->
-                                <Frame Grid.Column="0" BorderColor="Black" Margin="0,0,5,0"  >
-                                    <StackLayout   Margin="10,10,10,0" >
-                                        <Label  Text="مشخصات کاربر"  HorizontalOptions="EndAndExpand"/>
-                                        <Entry x:Name="txtUserFullName"  FlowDirection="RightToLeft" Placeholder="نام" HorizontalOptions="FillAndExpand" />
-                                        <Entry x:Name="txtUserEmail" Keyboard="Email" FlowDirection="LeftToRight" Placeholder="ایمیل" HorizontalOptions="FillAndExpand" />
-                                        <Entry x:Name="txtUserMobile" Keyboard="Telephone" FlowDirection="RightToLeft" Placeholder="شماره موبایل" HorizontalOptions="FillAndExpand" />
-                                        <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">
-                                            <Switch x:Name="swtUserIsActive" IsToggled="True" IsVisible="True"/>
-                                            <Label Text="فعال / غیر فعال" />
-                                        </StackLayout>
-                                        <Label Text="سطح دسترسی" HorizontalOptions="EndAndExpand" />
-
-                                        <Grid>
-
-                                            <CheckBox x:Name="chboxSuperUser" Grid.Row="0" Grid.Column="0" HorizontalOptions="End"></CheckBox>
-                                            <Label x:Name="lblSuperUser" Text="مدیر ارشد" Grid.Row="0" Grid.Column="1" HorizontalOptions="EndAndExpand"/>
-
-                                            <CheckBox x:Name="chboxAdmin"  Grid.Row="1" Grid.Column="0" HorizontalOptions="End"></CheckBox>
-                                            <Label Text="مدیر" Grid.Row="1" Grid.Column="1" HorizontalOptions="EndAndExpand"/>
-
-                                            <CheckBox x:Name="chboxCashier"  Grid.Row="2" Grid.Column="0" HorizontalOptions="End"></CheckBox>
-                                            <Label Text="صندوقدار" Grid.Row="2" Grid.Column="1" HorizontalOptions="EndAndExpand"/>
-
-                                            <CheckBox x:Name="chboxHost" Grid.Row="3" Grid.Column="0" HorizontalOptions="End"></CheckBox>
-                                            <Label Text="میزبان" Grid.Row="3" Grid.Column="1" HorizontalOptions="EndAndExpand"/>
-                                        </Grid>
+                                <!--منوی بالا-->
 
 
+                                <!--منوی وسط-->
+                                <StackLayout Grid.Row="0" Padding="20,0,20,20"  >
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="400"/>
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
 
-                                        <StackLayout Orientation="Horizontal" >
-                                            <Grid ColumnSpacing="0" RowSpacing="0"  HorizontalOptions="FillAndExpand" >
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*" />
-                                                    <ColumnDefinition Width="*" />
-                                                    <ColumnDefinition Width="*" />
-                                                </Grid.ColumnDefinitions>
+                                        <!--فرم-->
+                                        <Frame Grid.Column="0" BorderColor="Black" Margin="10"  >
+                                            <StackLayout   Margin="10,10,10,0" >
+                                                <Label  Text="مشخصات کاربر"  HorizontalOptions="EndAndExpand"/>
+                                                <Entry x:Name="txtUserFullName"  FlowDirection="RightToLeft" Placeholder="نام" HorizontalOptions="FillAndExpand" />
+                                                <Entry x:Name="txtUserEmail" Keyboard="Email" FlowDirection="LeftToRight" Placeholder="ایمیل" HorizontalOptions="FillAndExpand" />
+                                                <Entry x:Name="txtUserMobile" Keyboard="Telephone" FlowDirection="RightToLeft" Placeholder="شماره موبایل" HorizontalOptions="FillAndExpand" />
+                                                <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">
+                                                    <Switch x:Name="swtUserIsActive" IsToggled="True" IsVisible="True"/>
+                                                    <Label Text="فعال / غیر فعال" />
+                                                </StackLayout>
+                                                <Label Text="سطح دسترسی" HorizontalOptions="EndAndExpand" />
 
-                                                <Button 
+                                                <Grid>
+
+                                                    <CheckBox x:Name="chboxSuperUser" Grid.Row="0" Grid.Column="0" HorizontalOptions="End"></CheckBox>
+                                                    <Label x:Name="lblSuperUser" Text="مدیر ارشد" Grid.Row="0" Grid.Column="1" HorizontalOptions="EndAndExpand"/>
+
+                                                    <CheckBox x:Name="chboxAdmin"  Grid.Row="1" Grid.Column="0" HorizontalOptions="End"></CheckBox>
+                                                    <Label Text="مدیر" Grid.Row="1" Grid.Column="1" HorizontalOptions="EndAndExpand"/>
+
+                                                    <CheckBox x:Name="chboxCashier"  Grid.Row="2" Grid.Column="0" HorizontalOptions="End"></CheckBox>
+                                                    <Label Text="صندوقدار" Grid.Row="2" Grid.Column="1" HorizontalOptions="EndAndExpand"/>
+
+                                                    <CheckBox x:Name="chboxHost" Grid.Row="3" Grid.Column="0" HorizontalOptions="End"></CheckBox>
+                                                    <Label Text="میزبان" Grid.Row="3" Grid.Column="1" HorizontalOptions="EndAndExpand"/>
+                                                </Grid>
+
+
+
+                                                <StackLayout Orientation="Horizontal" >
+                                                    <Grid ColumnSpacing="0" RowSpacing="0"  HorizontalOptions="FillAndExpand" >
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="*" />
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <Button 
                     HorizontalOptions="FillAndExpand"
                     Grid.Column="0"
                     VerticalOptions="Center"
@@ -133,7 +139,7 @@
                     Margin="5"
                 />
 
-                                                <Button
+                                                        <Button
                     HorizontalOptions="FillAndExpand"
                     Grid.Column="1"
                     VerticalOptions="Center"
@@ -149,7 +155,7 @@
                     Margin="5"
 />
 
-                                                <Button
+                                                        <Button
                     HorizontalOptions="FillAndExpand"
                     Grid.Column="2"
                     VerticalOptions="Center"
@@ -164,28 +170,28 @@
                     IsVisible="False"
                     Margin="5"
 />
-                                            </Grid>
+                                                    </Grid>
 
 
-                                        </StackLayout>
+                                                </StackLayout>
 
-                                    </StackLayout>
-                                </Frame>
-                                <!--جدول مشتریان-->
-                                <Frame Grid.Column="1" BorderColor="Black" Margin="5,0,0,0"   >
-                                    <StackLayout  Margin="10,10,10,0">
-                                        <SearchBar x:Name="srchUsers"   Placeholder="... جستجوی کاربر بر اساس ایمیل " TextChanged="srchUsers_TextChanged" />
-                                        <Grid Grid.Row="0">
-                                            <telerikGrid:RadDataGrid   FlowDirection="RightToLeft"  SelectionUnit="Row" SelectionChanged="UserDataGrid_SelectionChanged"   x:Name="UserDataGrid"  UserFilterMode="Disabled" UserGroupMode="Disabled" UserSortMode="None" UserEditMode="None" AutoGenerateColumns="False"  SelectionMode="Single" >
+                                            </StackLayout>
+                                        </Frame>
+                                        <!--جدول مشتریان-->
+                                        <Frame Grid.Column="1" BorderColor="Black" Margin="10"   >
+                                            <StackLayout  Margin="10,10,10,0">
+                                                <SearchBar x:Name="srchUsers"   Placeholder="... جستجوی کاربر بر اساس ایمیل " TextChanged="srchUsers_TextChanged" />
+                                                <Grid Grid.Row="0">
+                                                    <telerikGrid:RadDataGrid   FlowDirection="RightToLeft"  SelectionUnit="Row" SelectionChanged="UserDataGrid_SelectionChanged"   x:Name="UserDataGrid"  UserFilterMode="Disabled" UserGroupMode="Disabled" UserSortMode="None" UserEditMode="None" AutoGenerateColumns="False"  SelectionMode="Single" >
 
-                                                <telerikGrid:RadDataGrid.Columns>
-                                                    <!--موبایل-->
-                                                    <telerikGrid:DataGridTemplateColumn  CanUserEdit="False" CanUserFilter="False" CanUserGroup="False" CanUserSort="False">
+                                                        <telerikGrid:RadDataGrid.Columns>
+                                                            <!--موبایل-->
+                                                            <telerikGrid:DataGridTemplateColumn  CanUserEdit="False" CanUserFilter="False" CanUserGroup="False" CanUserSort="False">
 
-                                                        <telerikGrid:DataGridTemplateColumn.HeaderContentTemplate>
+                                                                <telerikGrid:DataGridTemplateColumn.HeaderContentTemplate>
 
-                                                            <DataTemplate>
-                                                                <Label Margin="5"
+                                                                    <DataTemplate>
+                                                                        <Label Margin="5"
                                                 FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
                                                 FontSize="Small" 
                                                 TextColor="Black" 
@@ -193,19 +199,19 @@
                                                 VerticalOptions="Center" 
                                                 HorizontalOptions="Center"
                                                 HeightRequest="30"/>
-                                                            </DataTemplate>
-                                                        </telerikGrid:DataGridTemplateColumn.HeaderContentTemplate>
+                                                                    </DataTemplate>
+                                                                </telerikGrid:DataGridTemplateColumn.HeaderContentTemplate>
 
-                                                        <telerikGrid:DataGridTemplateColumn.HeaderStyle>
-                                                            <telerikGrid:DataGridColumnHeaderStyle OptionsButtonTextColor="Transparent"
+                                                                <telerikGrid:DataGridTemplateColumn.HeaderStyle>
+                                                                    <telerikGrid:DataGridColumnHeaderStyle OptionsButtonTextColor="Transparent"
                                                     OptionsButtonFontSize="0"
                                                     BorderColor="#D9D9D9"
                                                     BorderThickness="1" />
-                                                        </telerikGrid:DataGridTemplateColumn.HeaderStyle>
+                                                                </telerikGrid:DataGridTemplateColumn.HeaderStyle>
 
-                                                        <telerikGrid:DataGridTemplateColumn.CellContentTemplate>
-                                                            <DataTemplate>
-                                                                <Label
+                                                                <telerikGrid:DataGridTemplateColumn.CellContentTemplate>
+                                                                    <DataTemplate>
+                                                                        <Label
                                             VerticalOptions="Center"                                    
                                             TextColor="Black"
                                             FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
@@ -213,17 +219,17 @@
                                             Text="{Binding Mobile}"
                                             HorizontalOptions="Center"
                                             Margin="0,0,10,0" />
-                                                            </DataTemplate>
-                                                        </telerikGrid:DataGridTemplateColumn.CellContentTemplate>
-                                                    </telerikGrid:DataGridTemplateColumn>
+                                                                    </DataTemplate>
+                                                                </telerikGrid:DataGridTemplateColumn.CellContentTemplate>
+                                                            </telerikGrid:DataGridTemplateColumn>
 
-                                                    <!--ایمیل-->
-                                                    <telerikGrid:DataGridTemplateColumn  CanUserEdit="False" CanUserFilter="False" CanUserGroup="False" CanUserSort="False">
+                                                            <!--ایمیل-->
+                                                            <telerikGrid:DataGridTemplateColumn  CanUserEdit="False" CanUserFilter="False" CanUserGroup="False" CanUserSort="False">
 
-                                                        <telerikGrid:DataGridTemplateColumn.HeaderContentTemplate>
+                                                                <telerikGrid:DataGridTemplateColumn.HeaderContentTemplate>
 
-                                                            <DataTemplate>
-                                                                <Label Margin="5"
+                                                                    <DataTemplate>
+                                                                        <Label Margin="5"
                                                 FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
                                                 FontSize="Small" 
                                                 TextColor="Black" 
@@ -231,19 +237,19 @@
                                                 VerticalOptions="Center" 
                                                 HorizontalOptions="Center"
                                                 HeightRequest="30"/>
-                                                            </DataTemplate>
-                                                        </telerikGrid:DataGridTemplateColumn.HeaderContentTemplate>
+                                                                    </DataTemplate>
+                                                                </telerikGrid:DataGridTemplateColumn.HeaderContentTemplate>
 
-                                                        <telerikGrid:DataGridTemplateColumn.HeaderStyle>
-                                                            <telerikGrid:DataGridColumnHeaderStyle OptionsButtonTextColor="Transparent"
+                                                                <telerikGrid:DataGridTemplateColumn.HeaderStyle>
+                                                                    <telerikGrid:DataGridColumnHeaderStyle OptionsButtonTextColor="Transparent"
                                                     OptionsButtonFontSize="0"
                                                     BorderColor="#D9D9D9"
                                                     BorderThickness="1" />
-                                                        </telerikGrid:DataGridTemplateColumn.HeaderStyle>
+                                                                </telerikGrid:DataGridTemplateColumn.HeaderStyle>
 
-                                                        <telerikGrid:DataGridTemplateColumn.CellContentTemplate>
-                                                            <DataTemplate>
-                                                                <Label
+                                                                <telerikGrid:DataGridTemplateColumn.CellContentTemplate>
+                                                                    <DataTemplate>
+                                                                        <Label
                                             VerticalOptions="Center"                                    
                                             TextColor="Black"
                                             FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
@@ -251,15 +257,15 @@
                                             Text="{Binding Email}"
                                             HorizontalOptions="Center"
                                             Margin="0,0,10,0" />
-                                                            </DataTemplate>
-                                                        </telerikGrid:DataGridTemplateColumn.CellContentTemplate>
-                                                    </telerikGrid:DataGridTemplateColumn>
+                                                                    </DataTemplate>
+                                                                </telerikGrid:DataGridTemplateColumn.CellContentTemplate>
+                                                            </telerikGrid:DataGridTemplateColumn>
 
-                                                    <!--نام کاربر-->
-                                                    <telerikGrid:DataGridTemplateColumn  CanUserEdit="False" CanUserFilter="False" CanUserGroup="False" CanUserSort="False">
-                                                        <telerikGrid:DataGridTemplateColumn.HeaderContentTemplate>
-                                                            <DataTemplate>
-                                                                <Label Margin="5"
+                                                            <!--نام کاربر-->
+                                                            <telerikGrid:DataGridTemplateColumn  CanUserEdit="False" CanUserFilter="False" CanUserGroup="False" CanUserSort="False">
+                                                                <telerikGrid:DataGridTemplateColumn.HeaderContentTemplate>
+                                                                    <DataTemplate>
+                                                                        <Label Margin="5"
                                                 FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
                                                 FontSize="Small" 
                                                 TextColor="Black" 
@@ -267,19 +273,19 @@
                                                 VerticalOptions="Center" 
                                                 HorizontalOptions="Center"
                                                 HeightRequest="30"/>
-                                                            </DataTemplate>
-                                                        </telerikGrid:DataGridTemplateColumn.HeaderContentTemplate>
-                                                        <telerikGrid:DataGridTemplateColumn.HeaderStyle>
-                                                            <telerikGrid:DataGridColumnHeaderStyle 
+                                                                    </DataTemplate>
+                                                                </telerikGrid:DataGridTemplateColumn.HeaderContentTemplate>
+                                                                <telerikGrid:DataGridTemplateColumn.HeaderStyle>
+                                                                    <telerikGrid:DataGridColumnHeaderStyle 
                                             OptionsButtonTextColor="Transparent"
                                             OptionsButtonFontSize="0"
                                             BorderColor="#D9D9D9"
                                             BorderThickness="1" />
-                                                        </telerikGrid:DataGridTemplateColumn.HeaderStyle>
+                                                                </telerikGrid:DataGridTemplateColumn.HeaderStyle>
 
-                                                        <telerikGrid:DataGridTemplateColumn.CellContentTemplate>
-                                                            <DataTemplate>
-                                                                <Label
+                                                                <telerikGrid:DataGridTemplateColumn.CellContentTemplate>
+                                                                    <DataTemplate>
+                                                                        <Label
                                             VerticalOptions="Center"                                    
                                             TextColor="Black"
                                             FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
@@ -287,109 +293,114 @@
                                             Text="{Binding FullName}"
                                             HorizontalOptions="Center"
                                             Margin="0,0,10,0" />
-                                                            </DataTemplate>
-                                                        </telerikGrid:DataGridTemplateColumn.CellContentTemplate>
-                                                    </telerikGrid:DataGridTemplateColumn>
+                                                                    </DataTemplate>
+                                                                </telerikGrid:DataGridTemplateColumn.CellContentTemplate>
+                                                            </telerikGrid:DataGridTemplateColumn>
 
-                                                </telerikGrid:RadDataGrid.Columns>
+                                                        </telerikGrid:RadDataGrid.Columns>
 
-                                            </telerikGrid:RadDataGrid>
-                                        </Grid>
-                                    </StackLayout>
-                                </Frame>
+                                                    </telerikGrid:RadDataGrid>
+                                                </Grid>
+                                            </StackLayout>
+                                        </Frame>
+
+                                    </Grid>
+                                </StackLayout>
 
                             </Grid>
-                        </StackLayout>
-
-                    </Grid>
-                </telerikPrimitives:TabViewItem.Content>
-            </telerikPrimitives:TabViewItem>
-            <telerikPrimitives:TabViewItem>
-                <telerikPrimitives:TabViewItem.Header>
-                    <telerikPrimitives:TabViewHeaderItem>
-                        <telerikPrimitives:TabViewHeaderItem.Content>
-                            <StackLayout Margin="10" Orientation="Horizontal" HorizontalOptions="Center">
-                                <Label Text="تنظیمات چاپگر" FontSize="Small" TextColor="Black"
+                        </telerikPrimitives:TabViewItem.Content>
+                    </telerikPrimitives:TabViewItem>
+                    <telerikPrimitives:TabViewItem>
+                        <telerikPrimitives:TabViewItem.Header>
+                            <telerikPrimitives:TabViewHeaderItem>
+                                <telerikPrimitives:TabViewHeaderItem.Content>
+                                    <StackLayout Margin="10" Orientation="Horizontal" HorizontalOptions="Center">
+                                        <Label Text="تنظیمات چاپگر" FontSize="Small" TextColor="Black"
                         FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"/>
-                            </StackLayout>
-                        </telerikPrimitives:TabViewHeaderItem.Content>
-                    </telerikPrimitives:TabViewHeaderItem>
-                </telerikPrimitives:TabViewItem.Header>
-                <telerikPrimitives:TabViewItem.Content>
-                    <Label Margin="10" Text="تنظیمات مربوط به چاپگر در اینجا نمایش داده میشود" />
-                </telerikPrimitives:TabViewItem.Content>
-            </telerikPrimitives:TabViewItem>
-            <telerikPrimitives:TabViewItem >
-                <telerikPrimitives:TabViewItem.Header>
-                    <telerikPrimitives:TabViewHeaderItem>
-                        <telerikPrimitives:TabViewHeaderItem.Content>
-                            <StackLayout Margin="10" Orientation="Horizontal" HorizontalOptions="Center">
-                                <Label Text="تنظیمات برنامه" FontSize="Small" TextColor="Black"
+                                    </StackLayout>
+                                </telerikPrimitives:TabViewHeaderItem.Content>
+                            </telerikPrimitives:TabViewHeaderItem>
+                        </telerikPrimitives:TabViewItem.Header>
+                        <telerikPrimitives:TabViewItem.Content>
+                            <Label Margin="10" Text="تنظیمات مربوط به چاپگر در اینجا نمایش داده میشود" />
+                        </telerikPrimitives:TabViewItem.Content>
+                    </telerikPrimitives:TabViewItem>
+                    <telerikPrimitives:TabViewItem IsSelected="True"  >
+                        <telerikPrimitives:TabViewItem.Header>
+                            <telerikPrimitives:TabViewHeaderItem>
+                                <telerikPrimitives:TabViewHeaderItem.Content>
+                                    <StackLayout Margin="10" Orientation="Horizontal" HorizontalOptions="Center">
+                                        <Label Text="تنظیمات برنامه" FontSize="Small" TextColor="Black"
                         FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"/>
-                            </StackLayout>
-                        </telerikPrimitives:TabViewHeaderItem.Content>
-                    </telerikPrimitives:TabViewHeaderItem>
-                </telerikPrimitives:TabViewItem.Header>
-                <telerikPrimitives:TabViewItem.Content>
-                    <Frame Margin="10" CornerRadius="5" BorderColor="Black" HorizontalOptions="End">
-                        <Grid HorizontalOptions="EndAndExpand">
+                                    </StackLayout>
+                                </telerikPrimitives:TabViewHeaderItem.Content>
+                            </telerikPrimitives:TabViewHeaderItem>
+                        </telerikPrimitives:TabViewItem.Header>
+                        <telerikPrimitives:TabViewItem.Content>
+                            <Frame Margin="10" CornerRadius="5" BorderColor="Black" HorizontalOptions="End">
+                                <Grid HorizontalOptions="EndAndExpand">
 
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="250" />
-                                <ColumnDefinition Width="250" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="35"/>
-                                <RowDefinition Height="150"/>
-                                <RowDefinition Height="35"/>
-                                <RowDefinition Height="35"/>
-                                <RowDefinition Height="35"/>
-                                <RowDefinition Height="35"/>
-                                <RowDefinition Height="35"/>
-                                <RowDefinition Height="35"/>
-
-
-
-                            </Grid.RowDefinitions>
-
-
-                            <Entry x:Name="txtCompanyName" Grid.Row="0" Grid.Column="0" Text="صندوقچه"  />
-                            <Label Grid.Row="0" Grid.Column="1" Text="نام فروشگاه" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="EndAndExpand" />
-
-                            <Editor x:Name="txtQuote" Grid.Row="1" Grid.Column="0" FlowDirection="RightToLeft"   HeightRequest="150" Text="راز پیشرفت در آغاز کردن است. راز آغاز کردن در آن است که وظایف سخت و پیچیده ی خود را به وظایف کوچکی که قابل مدیریت کردن باشند، بشکنید و سپس از نخستین آنها آغاز کنید" />
-                            <Label Grid.Row="1" Grid.Column="1" Text="سخن ابتدایی" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="EndAndExpand"/>
-
-                            <syncfusion:SfNumericTextBox x:Name="txtTax1" Grid.Row="2" Grid.Column="0" VerticalOptions="Center"   MaximumNumberDecimalDigits="2"  FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" TextColor="Black"/>
-                            <Label Text="مالیات اول" Grid.Row="2" Grid.Column="1" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="EndAndExpand"/>
-
-                            <syncfusion:SfNumericTextBox VerticalOptions="Center" x:Name="txtTax2" Grid.Row="3" Grid.Column="0"  MaximumNumberDecimalDigits="2"  FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" TextColor="Black"/>
-                            <Label Text="مالیات دوم" Grid.Row="3" Grid.Column="1" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="EndAndExpand"/>
-
-                            <syncfusion:SfNumericTextBox Value="100" VerticalOptions="Center" x:Name="txtReceiptNumberStartFrom" Grid.Row="4" Grid.Column="0"  MaximumNumberDecimalDigits="0"  FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" TextColor="Black"/>
-                            <Label Text="شماره فیش از" Grid.Row="4" Grid.Column="1" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="EndAndExpand" />
-
-                            <TimePicker Time="03:00:00" x:Name="pkrResetReceiptNumberTime" Grid.Row="5" Grid.Column="0"  FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" />
-                            <Label Text="زمان ریست شدن شماره فیش در روز بعد" Grid.Row="5" Grid.Column="1" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="EndAndExpand"/>
-
-                            <syncfusion:SfNumericTextBox Value="2" VerticalOptions="Center" x:Name="txtEditDelayTime" Grid.Row="6" Grid.Column="0"  MaximumNumberDecimalDigits="0"  FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" TextColor="Black"/>
-                            <Label Text="زمان مجاز جهت ویرایش فیش (دقیقه)" Grid.Row="6" Grid.Column="1" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="EndAndExpand" />
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="250" />
+                                        <ColumnDefinition Width="250" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="35"/>
+                                        <RowDefinition Height="150"/>
+                                        <RowDefinition Height="35"/>
+                                        <RowDefinition Height="35"/>
+                                        <RowDefinition Height="35"/>
+                                        <RowDefinition Height="35"/>
+                                        <RowDefinition Height="35"/>
+                                        <RowDefinition Height="35"/>
 
 
 
-                            <Button Clicked="btnUpdateSettings_Clicked" x:Name="btnUpdateSettings" CornerRadius="5"  BackgroundColor="#00c695" Text="به روز رسانی" Grid.Row="7" Grid.Column="0" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" />
+                                    </Grid.RowDefinitions>
 
-                        </Grid>
-                        <!--<StackLayout HorizontalOptions="EndAndExpand" >
+
+                                    <Entry x:Name="txtCompanyName" Grid.Row="0" Grid.Column="0" Text="صندوقچه"  />
+                                    <Label Grid.Row="0" Grid.Column="1" Text="نام فروشگاه" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="EndAndExpand" />
+
+                                    <Editor x:Name="txtQuote" Grid.Row="1" Grid.Column="0" FlowDirection="RightToLeft"   HeightRequest="150" Text="راز پیشرفت در آغاز کردن است. راز آغاز کردن در آن است که وظایف سخت و پیچیده ی خود را به وظایف کوچکی که قابل مدیریت کردن باشند، بشکنید و سپس از نخستین آنها آغاز کنید" />
+                                    <Label Grid.Row="1" Grid.Column="1" Text="سخن ابتدایی" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="EndAndExpand"/>
+
+                                    <syncfusion:SfNumericTextBox x:Name="txtTax1" Grid.Row="2" Grid.Column="0" VerticalOptions="Center"   MaximumNumberDecimalDigits="2"  FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" TextColor="Black"/>
+                                    <Label Text="مالیات اول" Grid.Row="2" Grid.Column="1" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="EndAndExpand"/>
+
+                                    <syncfusion:SfNumericTextBox VerticalOptions="Center" x:Name="txtTax2" Grid.Row="3" Grid.Column="0"  MaximumNumberDecimalDigits="2"  FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" TextColor="Black"/>
+                                    <Label Text="مالیات دوم" Grid.Row="3" Grid.Column="1" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="EndAndExpand"/>
+
+                                    <syncfusion:SfNumericTextBox Value="100" VerticalOptions="Center" x:Name="txtReceiptNumberStartFrom" Grid.Row="4" Grid.Column="0"  MaximumNumberDecimalDigits="0"  FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" TextColor="Black"/>
+                                    <Label Text="شماره فیش از" Grid.Row="4" Grid.Column="1" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="EndAndExpand" />
+
+                                    <TimePicker Time="03:00:00" x:Name="pkrResetReceiptNumberTime" Grid.Row="5" Grid.Column="0"  FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" />
+                                    <Label Text="زمان ریست شدن شماره فیش در روز بعد" Grid.Row="5" Grid.Column="1" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="EndAndExpand"/>
+
+                                    <syncfusion:SfNumericTextBox Value="2" VerticalOptions="Center" x:Name="txtEditDelayTime" Grid.Row="6" Grid.Column="0"  MaximumNumberDecimalDigits="0"  FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" TextColor="Black"/>
+                                    <Label Text="زمان مجاز جهت ویرایش فیش (دقیقه)" Grid.Row="6" Grid.Column="1" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="EndAndExpand" />
+
+
+
+                                    <Button Clicked="btnUpdateSettings_Clicked" x:Name="btnUpdateSettings" CornerRadius="5"  BackgroundColor="#00c695" Text="به روز رسانی" Grid.Row="7" Grid.Column="0" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" />
+
+                                </Grid>
+                                <!--<StackLayout HorizontalOptions="EndAndExpand" >
                            
 
 
 
                         </StackLayout>-->
-                    </Frame>
-                </telerikPrimitives:TabViewItem.Content>
-            </telerikPrimitives:TabViewItem>
-        </telerikPrimitives:RadTabView.Items>
-    </telerikPrimitives:RadTabView>
+                            </Frame>
+                        </telerikPrimitives:TabViewItem.Content>
+                    </telerikPrimitives:TabViewItem>
+                </telerikPrimitives:RadTabView.Items>
+            </telerikPrimitives:RadTabView>
+        </Frame>
+
+
+    </Grid>
+
 
 
 

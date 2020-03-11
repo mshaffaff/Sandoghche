@@ -32,6 +32,9 @@ namespace Sandoghche.Models
         public double Price { get; set; }
         public double TotalPrice { get; set; }
 
+        [Ignore]
+        public bool isEnabled { get; set; }
+
     }
 
 }

@@ -1,18 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage NavigationPage.HasNavigationBar="False" xmlns="http://xamarin.com/schemas/2014/forms"
+<ContentPage
+    NavigationPage.HasNavigationBar="False"
+    xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:datagrid="clr-namespace:Syncfusion.SfDataGrid.XForms;assembly=Syncfusion.SfDataGrid.XForms"
-             xmlns:telerikDataGrid="clr-namespace:Telerik.XamarinForms.DataGrid;assembly=Telerik.XamarinForms.DataGrid"
-             xmlns:local="clr-namespace:Sandoghche.MarkupExtentions"
              xmlns:helpers="clr-namespace:Sandoghche.Helpers"
-             mc:Ignorable="d"
-             x:Class="Sandoghche.EditPage"
              xmlns:bitControls="clr-namespace:Bit.View.Controls;assembly=Bit.CSharpClient.Controls"
-             xmlns:noda="clr-namespace:NodaTime;assembly=NodaTime"
+             xmlns:telerikDataGrid="clr-namespace:Telerik.XamarinForms.DataGrid;assembly=Telerik.XamarinForms.DataGrid"
+             xmlns:telerikCommon="clr-namespace:Telerik.XamarinForms.Common.Data;assembly=Telerik.XamarinForms.Common"
              xmlns:syncfusion="clr-namespace:Syncfusion.SfNumericTextBox.XForms;assembly=Syncfusion.SfNumericTextBox.XForms"
-             xmlns:telerikCommon="clr-namespace:Telerik.XamarinForms.Common.Data;assembly=Telerik.XamarinForms.Common">
+             mc:Ignorable="d"
+             x:Class="Sandoghche.OrderHistoryPage">
 
     <Grid ColumnSpacing="0" RowSpacing="0">
         <Grid.RowDefinitions>
@@ -36,7 +35,7 @@
                         Margin="50,0,0,0"
                         FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
                         FontSize="20"
-                        Text="مشاهده و به روز رسانی" HorizontalOptions="StartAndExpand" TextColor="Black" />
+                        Text="تاریخچه عملیات" HorizontalOptions="StartAndExpand" TextColor="Black" />
 
                 </StackLayout>
 
@@ -68,12 +67,12 @@
             <!--قسمت جستجو-->
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="100"/>
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
                 <!--فیلدهای جستجو-->
-                <Frame x:Name="frmSearchBar" Grid.Row="0" Margin="5" CornerRadius="5" BorderColor="Black">
+
+                <!--<Frame x:Name="frmSearchBar" Grid.Row="0" Margin="5" CornerRadius="5" BorderColor="Black">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="100" />
@@ -116,10 +115,10 @@
                         <Label Text="شماره فاکتور" Grid.Column="5" VerticalOptions="Center" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"/>
 
                     </Grid>
-                </Frame>
+                </Frame>-->
 
                 <!--نمایش فاکتورها-->
-                <Frame Grid.Row="1" Margin="5" BorderColor="Black"  >
+                <Frame Grid.Row="0" Margin="5" BorderColor="Black"  >
 
 
                     <telerikDataGrid:RadDataGrid x:Name="OrdersDataGrid"  UserFilterMode="Disabled" UserGroupMode="Disabled"  UserSortMode="Single" UserEditMode="None" AutoGenerateColumns="False"   >
@@ -154,7 +153,7 @@
                                 </telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
                             </telerikDataGrid:DataGridTemplateColumn>
 
-                            <!--ویراش-->
+                            <!--مشاهده-->
                             <telerikDataGrid:DataGridTemplateColumn  CanUserEdit="False" CanUserFilter="False" CanUserGroup="False" CanUserSort="False">
 
                                 <telerikDataGrid:DataGridTemplateColumn.HeaderStyle>
@@ -170,13 +169,13 @@
                                     HorizontalOptions="FillAndExpand"
                                     VerticalOptions="Center"
                                     HeightRequest="40"
-                                    x:Name="btnEdit"
+                                    x:Name="btnShow"
                                     FontSize="Small"
                                     CornerRadius="5"
-                                    Text="مشاهده یا ویرایش" 
+                                    Text="مشاهده" 
                                     BackgroundColor="#00c695"
                                     FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
-                                    Clicked="btnEdit_Clicked"
+                                    Clicked="btnShow_Clicked"
                                     IsVisible="True" Margin="5"
                                     />
                                     </DataTemplate>
@@ -336,11 +335,9 @@
                                             Text="{Binding ReceiptNumber}"
                                             HorizontalOptions="Center"
                                             Margin="0,0,10,0">
-                                            <Label.GestureRecognizers>
-                                                <TapGestureRecognizer Tapped="btnOrderHistory" />
-                                            </Label.GestureRecognizers>
+                                           
                                         </Label>
-                                        
+
                                     </DataTemplate>
                                 </telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
                             </telerikDataGrid:DataGridTemplateColumn>

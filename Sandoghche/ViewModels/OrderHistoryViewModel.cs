@@ -1,27 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Sandoghche.Models;
 
-namespace Sandoghche.ModelView
+namespace Sandoghche.ViewModels
 {
-
- 
-    public class OrderDetailForSearchViewModel
+    public class OrderHistoryViewModel
     {
         public int RowNumber { get; set; }
-        public int ReceiptId { get; set; }
+        public int ReceiptNumber { get; set; }
         public int OrderId { get; set; }
         public string ClientName { get; set; }
         public double FinalPayment { get; set; }
         public DateTime DateCreated { get; internal set; }
+        public int EditedLogId { get; set; }
+
 
     }
-
-    //public class Test5
-    //{
-    //    public int OrderId { get; set; }
-    //    public double FinalPayment { get; set; }
-    //}
-
 }

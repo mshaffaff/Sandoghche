@@ -18,97 +18,150 @@ namespace Sandoghche
     public partial class EditOrderPage : ContentPage
     {
         private int OrderId = -1;
+        private static int EditedLogId;
         static Order order;
+        static EditedOrdersLogs EditedOrder;
         static OrderDetail orderDetail;
         private static double Tax1, Tax2;
         private static int EditDelayTime;
+        private static bool ForHistory;
 
-        public EditOrderPage(int orderId)
+        public EditOrderPage(int orderId, bool forHistory = false, int editedLogId = 0)
         {
             InitializeComponent();
             OrderId = orderId;
+            ForHistory = forHistory;
+            EditedLogId = editedLogId;
+            
         }
 
         protected override async void OnAppearing()
         {
-
-
-            order = await SandoghcheController.GetConnection().Table<Order>().FirstOrDefaultAsync(o => o.OrderId == OrderId);
-
-            if (order.isDeleted)
+            
+            if (ForHistory)
             {
+                EditedOrder = await SandoghcheController.GetConnection().Table<EditedOrdersLogs>().FirstOrDefaultAsync(o => o.EditedLogId == EditedLogId);
                 btnSaveInvoiceUpdate.IsVisible = false;
                 btnPrintInvoiceUpdate.IsVisible = false;
                 btnCreditInvoiceUpdate.IsVisible = false;
                 btnDeleteOrder.IsVisible = false;
+                
+
+
+                var client = await SandoghcheController.GetConnection().Table<Client>().FirstOrDefaultAsync(c => c.ClientId == EditedOrder.ClientId);
+                var EditedOrderDetail = await SandoghcheController.GetConnection().Table<EditedOrderDetailsLogs>().Where(d => d.EditedLogId == EditedLogId).ToListAsync();
+                var products = await SandoghcheController.GetConnection().Table<Product>().ToListAsync();
+                
+                EditedOrder.EditedOrderDetailsLogs = EditedOrderDetail;
+
+
+                lblOrderId.Text = EditedOrder.OrderId.ToString();
+                lblReceipNumber.Text = EditedOrder.ReceiptNumber.ToString();
+                lblPersianDate.Text = SandoghcheController.GetPersianDate(Convert.ToDateTime(EditedOrder.DateCreated));
+                lblClient.Text = client.ClientName;
+                lblFinalPayment.Text = EditedOrder.FinalPayment.ToString();
+                lblDelivery.Text = EditedOrder.DeliveryFee.ToString();
+                lblDiscount.Text = EditedOrder.TotalDiscount.ToString();
+                lblService.Text = EditedOrder.TotalServiceFee.ToString();
+                lblTax.Text = (EditedOrder.Tax1 + EditedOrder.Tax2).ToString();
+                lblTotalPrice.Text = EditedOrder.TotalPrice.ToString();
+
+
+                int rowNumber = 1;
+                foreach (var item in EditedOrderDetail)
+                {
+                    item.ProductText = products.FirstOrDefault(p => p.ProductId == item.ProductId).ProductText;
+                    item.RowNumber = rowNumber;
+                    item.isEnabled = false;
+                    rowNumber++;
+                }
+
+                ProductsDataGrid.ItemsSource = EditedOrderDetail;
+
             }
             else
             {
-                btnSaveInvoiceUpdate.IsVisible = true;
-                btnPrintInvoiceUpdate.IsVisible = true;
-                btnCreditInvoiceUpdate.IsVisible = true;
-                btnDeleteOrder.IsVisible = true;
+                order = await SandoghcheController.GetConnection().Table<Order>().FirstOrDefaultAsync(o => o.OrderId == OrderId);
+
+                if (order.isDeleted)
+                {
+                    btnSaveInvoiceUpdate.IsVisible = false;
+                    btnPrintInvoiceUpdate.IsVisible = false;
+                    btnCreditInvoiceUpdate.IsVisible = false;
+                    btnDeleteOrder.IsVisible = false;
+                }
+                else
+                {
+                    btnSaveInvoiceUpdate.IsVisible = true;
+                    btnPrintInvoiceUpdate.IsVisible = true;
+                    btnCreditInvoiceUpdate.IsVisible = true;
+                    btnDeleteOrder.IsVisible = true;
+                }
+
+
+                if (order.PaymentType == 1 || order.isDeleted)
+                {
+                    btnSaveInvoiceUpdate.IsVisible = false;
+                    btnPrintInvoiceUpdate.IsVisible = false;
+
+
+                }
+                else
+                {
+                    btnSaveInvoiceUpdate.IsVisible = true;
+                    btnPrintInvoiceUpdate.IsVisible = true;
+                }
+
+
+
+
+                var client = await SandoghcheController.GetConnection().Table<Client>().FirstOrDefaultAsync(c => c.ClientId == order.ClientId);
+                var orderDetail = await SandoghcheController.GetConnection().Table<OrderDetail>().Where(d => d.OrderId == order.OrderId).ToListAsync();
+                var products = await SandoghcheController.GetConnection().Table<Product>().ToListAsync();
+
+                order.OrderDetails = orderDetail;
+
+                await getSetting();
+
+                lblOrderId.Text = order.OrderId.ToString();
+                lblReceipNumber.Text = order.ReceiptNumber.ToString();
+                lblPersianDate.Text = SandoghcheController.GetPersianDate(Convert.ToDateTime(order.DateCreated));
+                lblClient.Text = client.ClientName;
+                lblFinalPayment.Text = order.FinalPayment.ToString();
+                lblDelivery.Text = order.DeliveryFee.ToString();
+                lblDiscount.Text = order.TotalDiscount.ToString();
+                lblService.Text = order.TotalServiceFee.ToString();
+                lblTax.Text = (order.Tax1 + order.Tax2).ToString();
+                lblTotalPrice.Text = order.TotalPrice.ToString();
+
+                int rowNumber = 1;
+                foreach (var item in orderDetail)
+                {
+                    item.ProductText = products.FirstOrDefault(p => p.ProductId == item.ProductId).ProductText;
+                    item.RowNumber = rowNumber;
+                    
+                    rowNumber++;
+                    
+                }
+
+                await getCategories();
+
+
+                ProductsDataGrid.ItemsSource = orderDetail;
+
+                await ClientCreditStatus(order.ClientId.ToString());
+
+                var EditAlloweTime = Convert.ToDateTime(order.DateCreated).AddMinutes(EditDelayTime);
+
+                if (DateTime.Now > EditAlloweTime)
+                {
+                    btnSaveInvoiceUpdate.IsVisible = false;
+                    btnPrintInvoiceUpdate.IsVisible = false;
+                    btnCreditInvoiceUpdate.IsVisible = false;
+                    await DisplayAlert("خطا", "زمان ویرایش به اتمام رسیده است", "باشه");
+                }
             }
 
-
-            if (order.PaymentType == 1 || order.isDeleted)
-            {
-                btnSaveInvoiceUpdate.IsVisible = false;
-                btnPrintInvoiceUpdate.IsVisible = false;
-
-
-            }
-            else
-            {
-                btnSaveInvoiceUpdate.IsVisible = true;
-                btnPrintInvoiceUpdate.IsVisible = true;
-            }
-
-
-
-
-            var client = await SandoghcheController.GetConnection().Table<Client>().FirstOrDefaultAsync(c => c.ClientId == order.ClientId);
-            var orderDetail = await SandoghcheController.GetConnection().Table<OrderDetail>().Where(d => d.OrderId == order.OrderId).ToListAsync();
-            var products = await SandoghcheController.GetConnection().Table<Product>().ToListAsync();
-
-            order.OrderDetails = orderDetail;
-
-            await getSetting();
-
-            lblOrderId.Text = order.OrderId.ToString();
-            lblReceipNumber.Text = order.ReceiptNumber.ToString();
-            lblPersianDate.Text = SandoghcheController.GetPersianDate(Convert.ToDateTime(order.DateCreated));
-            lblClient.Text = client.ClientName;
-            lblFinalPayment.Text = order.FinalPayment.ToString();
-            lblDelivery.Text = order.DeliveryFee.ToString();
-            lblDiscount.Text = order.TotalDiscount.ToString();
-            lblService.Text = order.TotalServiceFee.ToString();
-            lblTax.Text = (order.Tax1 + order.Tax2).ToString();
-            lblTotalPrice.Text = order.TotalPrice.ToString();
-
-            int rowNumber = 1;
-            foreach (var item in orderDetail)
-            {
-                item.ProductText = products.FirstOrDefault(p => p.ProductId == item.ProductId).ProductText;
-                item.RowNumber = rowNumber;
-                rowNumber++;
-            }
-            await getCategories();
-
-
-            ProductsDataGrid.ItemsSource = orderDetail;
-
-            await ClientCreditStatus(order.ClientId.ToString());
-
-            var EditAlloweTime = Convert.ToDateTime(order.DateCreated).AddMinutes(EditDelayTime);
-
-            if (DateTime.Now > EditAlloweTime)
-            {
-                btnSaveInvoiceUpdate.IsVisible = false;
-                btnPrintInvoiceUpdate.IsVisible = false;
-                btnCreditInvoiceUpdate.IsVisible = false;
-                await DisplayAlert("خطا", "زمان ویرایش به اتمام رسیده است", "باشه");
-            }
 
             base.OnAppearing();
 
@@ -548,7 +601,11 @@ namespace Sandoghche
 
         async private void btnCancelEdit_Tapped(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new EditPage());
+            if (ForHistory)
+                await Navigation.PushAsync(new OrderHistoryPage(EditedOrder.OrderId));
+            else
+                await Navigation.PushAsync(new EditPage());
+
         }
 
         private void btnService_Tapped(object sender, EventArgs e)
@@ -580,8 +637,10 @@ namespace Sandoghche
 
 
                 });
-
-                PopupNavigation.Instance.PushAsync(new ServicePopupPage(order.TotalPrice.ToString(), order.ServiceType, order.ServicePercent, order.TotalServiceFee));
+                if (ForHistory)
+                    PopupNavigation.Instance.PushAsync(new ServicePopupPage(EditedOrder.TotalPrice.ToString(), EditedOrder.ServiceType, EditedOrder.ServicePercent, EditedOrder.TotalServiceFee,true));
+                else
+                    PopupNavigation.Instance.PushAsync(new ServicePopupPage(order.TotalPrice.ToString(), order.ServiceType, order.ServicePercent, order.TotalServiceFee));
             }
         }
 
@@ -598,8 +657,10 @@ namespace Sandoghche
                     TotalPriceCalculator();
 
                 });
-
-                PopupNavigation.Instance.PushAsync(new DeliveryPopupPage(order.DeliveryFee));
+                if (ForHistory)
+                    PopupNavigation.Instance.PushAsync(new DeliveryPopupPage(EditedOrder.DeliveryFee , true));
+                else
+                    PopupNavigation.Instance.PushAsync(new DeliveryPopupPage(order.DeliveryFee));
             }
         }
 
@@ -610,6 +671,7 @@ namespace Sandoghche
                 DisplayAlert("اخطار", "برای فاکتور به مبلغ صفر نمیتوان تخفیفی اضافه نمود", "باشه");
             else
             {
+
                 MessagingCenter.Subscribe<PopupViewModel>(this, "Discount", (value) =>
                 {
                     if (Convert.ToInt16(value.DiscountType) == 0)
@@ -634,8 +696,10 @@ namespace Sandoghche
 
 
                 });
-
-                PopupNavigation.Instance.PushAsync(new DiscountPopupPage(order.TotalPrice.ToString(), order.DiscountType, order.DiscountPercent, order.TotalDiscount));
+                if (ForHistory)
+                    PopupNavigation.Instance.PushAsync(new DiscountPopupPage(EditedOrder.TotalPrice.ToString(), EditedOrder.DiscountType, EditedOrder.DiscountPercent, EditedOrder.TotalDiscount,true));
+                else
+                    PopupNavigation.Instance.PushAsync(new DiscountPopupPage(order.TotalPrice.ToString(), order.DiscountType, order.DiscountPercent, order.TotalDiscount));
             }
         }
 
@@ -649,8 +713,10 @@ namespace Sandoghche
                 {
                     order.Comment = value.CommentText;
                 });
-
-                PopupNavigation.Instance.PushAsync(new NotePopupPage(order.Comment));
+                if (ForHistory)
+                    PopupNavigation.Instance.PushAsync(new NotePopupPage(EditedOrder.Comment,true));
+                else
+                    PopupNavigation.Instance.PushAsync(new NotePopupPage(order.Comment));
             }
         }
 

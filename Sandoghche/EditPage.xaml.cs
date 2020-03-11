@@ -102,5 +102,16 @@ namespace Sandoghche
 
 
         }
+
+        private void btnOrderHistory(object sender, EventArgs e)
+        {
+            var s = sender as Label;
+            var selectedOrder = s.BindingContext;
+            var order = (OrderDetailForSearchViewModel)selectedOrder;
+            if (order.isEdited || order.isDeleted)
+                Navigation.PushAsync(new OrderHistoryPage(order.OrderId));
+
+
+        }
     }
 }
