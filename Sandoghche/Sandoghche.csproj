@@ -20,6 +20,7 @@
     <None Remove="Images\Delivery.png" />
     <None Remove="Images\Discount.png" />
     <None Remove="Images\Edit.png" />
+    <None Remove="Images\Home.png" />
     <None Remove="Images\Invoice.png" />
     <None Remove="Images\items.png" />
     <None Remove="Images\Location.png" />
@@ -48,6 +49,7 @@
     <EmbeddedResource Include="Images\DeleteOrder.png" />
     <EmbeddedResource Include="Images\Delivery.png" />
     <EmbeddedResource Include="Images\Discount.png" />
+    <EmbeddedResource Include="Images\Home.png" />
     <EmbeddedResource Include="Images\Location.png" />
     <EmbeddedResource Include="Images\mainLogo.png" />
     <EmbeddedResource Include="Images\MainMenu.png" />

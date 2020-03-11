@@ -10,12 +10,15 @@
              xmlns:telerikCommon="clr-namespace:Telerik.XamarinForms.Common.Data;assembly=Telerik.XamarinForms.Common"
              xmlns:telerikDataGrid="clr-namespace:Telerik.XamarinForms.DataGrid;assembly=Telerik.XamarinForms.DataGrid"
              xmlns:telerikInput="clr-namespace:Telerik.XamarinForms.Input;assembly=Telerik.XamarinForms.Input"
-             mc:Ignorable="d"
+    xmlns:local="clr-namespace:Sandoghche.MarkupExtentions"
+    mc:Ignorable="d"
              x:Class="Sandoghche.ReportPage">
     <Grid ColumnSpacing="0" RowSpacing="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="100"/>
             <RowDefinition Height="*" />
+            <RowDefinition Height="100"/>
+
         </Grid.RowDefinitions>
         <!--منوی بالا-->
         <StackLayout Grid.Row="0" VerticalOptions="Center" >
@@ -373,6 +376,16 @@
 
 
             </Grid>
+        </StackLayout>
+
+        <StackLayout Grid.Row="2" VerticalOptions="Center">
+            <!--صفحه هوم-->
+            <Image x:Name="btnHome" Source="{local:EmbeddedImage Sandoghche.Images.Home.png}"  HeightRequest="90" VerticalOptions="End">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="btnHome_Tapped" />
+                </Image.GestureRecognizers>
+            </Image>
+
         </StackLayout>
     </Grid>
 

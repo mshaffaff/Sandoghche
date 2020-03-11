@@ -145,7 +145,7 @@ namespace Sandoghche
 
                 await Application.Current.SavePropertiesAsync();
 
-
+                
                 await Navigation.PushAsync(new SandoghcheMainPage());
             }
             else

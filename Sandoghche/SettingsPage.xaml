@@ -16,6 +16,8 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="100" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="100" />
+
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
@@ -398,7 +400,15 @@
             </telerikPrimitives:RadTabView>
         </Frame>
 
+        <StackLayout Grid.Row="2" VerticalOptions="Center">
+            <!--صفحه هوم-->
+            <Image x:Name="btnHome" Source="{local:EmbeddedImage Sandoghche.Images.Home.png}"  HeightRequest="90" VerticalOptions="End">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="btnHome_Tapped" />
+                </Image.GestureRecognizers>
+            </Image>
 
+        </StackLayout>
     </Grid>
 
 

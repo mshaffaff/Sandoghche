@@ -21,6 +21,9 @@ namespace Sandoghche
         public ReportPage()
         {
             InitializeComponent();
+
+            NavigationPage.SetHasBackButton(this, false);
+
             lblPersianDate.Text = SandoghcheController.GetPersianDate(null);
             lblUser.Text = Application.Current.Properties["userRollName"].ToString() + " : " + Application.Current.Properties["FullName"].ToString();
             pkrReceiptType.Items.Add("روش پرداخت : همه");
@@ -71,15 +74,10 @@ namespace Sandoghche
                     break;
             }
 
-
-
-
-
         }
         async protected override void OnAppearing()
         {
             await GetClients();
-            //await GetProducts();
             base.OnAppearing();
         }
 
@@ -92,10 +90,7 @@ namespace Sandoghche
                 return clientName.Contains(searchText);
             }
         }
-
-
-
-
+                     
         async Task GetClients()
         {
             var query = "select  Clients.ClientId,Clients.ClientName from Clients where Clients.IsDeleted!=1 AND Clients.IsActive=1";
@@ -201,5 +196,16 @@ namespace Sandoghche
             var product = (Product)e.DataItem;
             productId = product.ProductId;
         }
+
+
+        private void btnHome_Tapped(object sender, EventArgs e)
+        {
+            Navigation.PushAsync(new SandoghcheMainPage());
+        }
+        protected override bool OnBackButtonPressed()
+        {
+            return true;
+        }
+
     }
 }

@@ -14,6 +14,8 @@ xmlns:telerikGrid="clr-namespace:Telerik.XamarinForms.DataGrid;assembly=Telerik.
         <Grid.RowDefinitions>
             <RowDefinition Height="100" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="100" />
+
         </Grid.RowDefinitions>
 
         <!--منوی بالا-->
@@ -63,12 +65,15 @@ xmlns:telerikGrid="clr-namespace:Telerik.XamarinForms.DataGrid;assembly=Telerik.
                     <ColumnDefinition Width="400"/>
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="200" />
+
+                </Grid.RowDefinitions>
 
                 <!--فرم-->
                 <Frame Grid.Column="0" BorderColor="Black" Margin="0,0,5,0"  >
                     <StackLayout   Margin="10,10,10,0" >
-
-
                         <Label  Text="مشخصات مشترک"  HorizontalOptions="EndAndExpand"/>
                         <Entry x:Name="txtClientFullName"  FlowDirection="RightToLeft" Placeholder="نام مشترک" HorizontalOptions="FillAndExpand" />
                         <Entry x:Name="txtClientPhoneNumber" Keyboard="Telephone"  FlowDirection="RightToLeft" Placeholder="تلفن ثابت" HorizontalOptions="FillAndExpand"  />
@@ -76,7 +81,6 @@ xmlns:telerikGrid="clr-namespace:Telerik.XamarinForms.DataGrid;assembly=Telerik.
                         <Entry x:Name="txtClientEmail" Keyboard="Email" FlowDirection="LeftToRight" Placeholder="ایمیل" HorizontalOptions="FillAndExpand" />
                         <Entry  x:Name="txtClientAddress" FlowDirection="RightToLeft" Placeholder="آدرس" HorizontalOptions="FillAndExpand" />
                         <Switch x:Name="swtClientIsActive" IsToggled="True" IsVisible="False"/>
-
                         <Button
                 VerticalOptions="Center"
                 HeightRequest="35"
@@ -152,11 +156,12 @@ xmlns:telerikGrid="clr-namespace:Telerik.XamarinForms.DataGrid;assembly=Telerik.
 
                     </StackLayout>
                 </Frame>
+               
                 <Frame Grid.Column="0" Grid.Row="1" BorderColor="Black" Margin="0,0,5,0" >
 
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="35"/>
                             <RowDefinition Height="35"/>
                             <RowDefinition Height="35"/>
                             <RowDefinition Height="35"/>
@@ -195,6 +200,7 @@ xmlns:telerikGrid="clr-namespace:Telerik.XamarinForms.DataGrid;assembly=Telerik.
 
 
                 </Frame>
+              
                 <!--جدول مشتریان-->
                 <Frame Grid.Column="1" BorderColor="Black" Margin="5,0,0,0"   >
                     <StackLayout  Margin="10,10,10,0">
@@ -365,6 +371,18 @@ xmlns:telerikGrid="clr-namespace:Telerik.XamarinForms.DataGrid;assembly=Telerik.
                 </Frame>
 
             </Grid>
+        </StackLayout>
+
+        <!--منوی پایین-->
+        <StackLayout Grid.Row="2" VerticalOptions="Center">
+            <!--منوی اصلی-->
+
+            <Image x:Name="btnHome" Source="{local:EmbeddedImage Sandoghche.Images.Home.png}"  HeightRequest="90" VerticalOptions="Center">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="btnHome_Tapped" />
+                </Image.GestureRecognizers>
+            </Image>
+
         </StackLayout>
 
     </Grid>

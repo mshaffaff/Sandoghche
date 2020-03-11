@@ -21,7 +21,9 @@ namespace Sandoghche
         //private SQLiteAsyncConnection _connection;
         public RegisterPage()
         {
+
             InitializeComponent();
+            NavigationPage.SetHasBackButton(this, false);
             backgroundImage.Source = ImageSource.FromResource("Sandoghche.Images.background.jpg");
             sloganLine.Source = ImageSource.FromResource("Sandoghche.Images.sloganLine.png");
             Location.Source = ImageSource.FromResource("Sandoghche.Images.Location.png");
@@ -173,6 +175,10 @@ namespace Sandoghche
 
 
 
+        }
+        protected override bool OnBackButtonPressed()
+        {
+            return true;
         }
     }
 }

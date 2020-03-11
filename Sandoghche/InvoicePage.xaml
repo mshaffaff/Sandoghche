@@ -30,8 +30,10 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
+
                 </Grid.ColumnDefinitions>
 
+               
                 <!--شماره فاکتور و فیش-->
                 <StackLayout Grid.Column="0"   VerticalOptions="Center" >
 
@@ -63,11 +65,10 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
                     <Label x:Name="lblPersianDate" TextColor="Black"
                         FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
                         FontSize="Small" HorizontalOptions="Center"  />
-                   
+
 
 
                 </StackLayout>
-
                 <!--نام مشتری-->
                 <StackLayout Margin="0,0,20,0" Grid.Column="2"   VerticalOptions="Center" >
                     <Label  IsVisible="False" x:Name="lblClientId" />
@@ -344,7 +345,7 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
-                                   
+
                                     <Label 
                                         TextColor="{Binding IsActive,Converter={helpers:DisabledLabel}}"
                                                 TextDecorations="{Binding IsActive,Converter={helpers:LabelStrikethrough}}"
@@ -435,7 +436,7 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
                                 </DataTemplate>
                             </datagrid:GridTemplateColumn.CellTemplate>
                         </datagrid:GridTemplateColumn>-->
-               
+
                 <Grid x:Name="PrintPDF" IsVisible="False" >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="20" />

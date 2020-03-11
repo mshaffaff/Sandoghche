@@ -18,6 +18,8 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="100"/>
             <RowDefinition Height="*" />
+            <RowDefinition Height="100"/>
+
         </Grid.RowDefinitions>
         <!--منوی بالا-->
         <StackLayout Grid.Row="0" VerticalOptions="Center" >
@@ -355,6 +357,18 @@
                 </Frame>
 
             </Grid>
+        </StackLayout>
+
+        <!--منوی پایین-->
+        <StackLayout Grid.Row="2" VerticalOptions="Center">
+            <!--منوی اصلی-->
+
+            <Image x:Name="btnHome" Source="{local:EmbeddedImage Sandoghche.Images.Home.png}"  HeightRequest="90" VerticalOptions="Center">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="btnHome_Tapped" />
+                </Image.GestureRecognizers>
+            </Image>
+
         </StackLayout>
     </Grid>
 

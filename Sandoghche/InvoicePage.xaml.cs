@@ -32,7 +32,7 @@ namespace Sandoghche
         public InvoicePage(int ClientId, string ClientName)
         {
             InitializeComponent();
-
+            NavigationPage.SetHasBackButton(this, false);
             lblPersianDate.Text = SandoghcheController.GetPersianDate(null);
             lblClient.Text = "انتخاب مشتری : " + ClientName;
             lblClientId.Text = ClientId.ToString();
@@ -572,6 +572,7 @@ namespace Sandoghche
             }
         }
 
+        
         private void btnMainMenu_Tapped(object sender, EventArgs e)
         {
             Navigation.PushAsync(new SandoghcheMainPage());
@@ -579,7 +580,10 @@ namespace Sandoghche
         }
 
 
-
+        protected override bool OnBackButtonPressed()
+        {
+            return true;
+        }
 
 
     }

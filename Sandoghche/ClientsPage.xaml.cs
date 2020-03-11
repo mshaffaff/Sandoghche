@@ -20,6 +20,8 @@ namespace Sandoghche
         public ClientsPage()
         {
             InitializeComponent();
+            NavigationPage.SetHasBackButton(this, false);
+
             lblPersianDate.Text = SandoghcheController.GetPersianDate(null);
 
             lblUser.Text = Application.Current.Properties["userRollName"].ToString() + " : " + Application.Current.Properties["FullName"].ToString();
@@ -253,12 +255,18 @@ namespace Sandoghche
             await ClientCreditStatus(client.ClientId.ToString());
         }
 
-       
-        
+        private void btnHome_Tapped(object sender, EventArgs e)
+        {
+            Navigation.PopAsync();
+        }
 
-      
 
-        
+        protected override bool OnBackButtonPressed()
+        {
+            return true;
+        }
+
+
 
     }
 }

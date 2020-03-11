@@ -17,6 +17,8 @@ namespace Sandoghche
         public ItemsPage()
         {
             InitializeComponent();
+            NavigationPage.SetHasBackButton(this, false);
+
             lblPersianDate.Text = SandoghcheController.GetPersianDate(null);
             lblUser.Text = Application.Current.Properties["userRollName"].ToString() + " : " + Application.Current.Properties["FullName"].ToString();
         }
@@ -433,5 +435,15 @@ namespace Sandoghche
 
 
         }
+
+        private void btnHome_Tapped(object sender, EventArgs e)
+        {
+            Navigation.PopAsync();
+        }
+        protected override bool OnBackButtonPressed()
+        {
+            return true;
+        }
+
     }
 }

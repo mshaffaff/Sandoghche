@@ -21,6 +21,9 @@ namespace Sandoghche
         public EditPage()
         {
             InitializeComponent();
+
+            NavigationPage.SetHasBackButton(this, false);
+
             lblPersianDate.Text = SandoghcheController.GetPersianDate(null);
             lblUser.Text = Application.Current.Properties["userRollName"].ToString() + " : " + Application.Current.Properties["FullName"].ToString();
             userRoll = Application.Current.Properties["userRollName"].ToString();
@@ -111,7 +114,17 @@ namespace Sandoghche
             if (order.isEdited || order.isDeleted)
                 Navigation.PushAsync(new OrderHistoryPage(order.OrderId));
 
+        }
+        private void btnHome_Tapped(object sender, EventArgs e)
+        {
+            Navigation.PushAsync(new SandoghcheMainPage());
+        }
 
+
+        protected override bool OnBackButtonPressed()
+        {
+            return true;
         }
     }
+   
 }

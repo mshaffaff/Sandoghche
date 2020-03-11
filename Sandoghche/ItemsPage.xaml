@@ -8,12 +8,15 @@
              xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;assembly=Telerik.XamarinForms.DataControls"
               xmlns:helpers="clr-namespace:Sandoghche.Helpers"
               xmlns:telerikDataGrid="clr-namespace:Telerik.XamarinForms.DataGrid;assembly=Telerik.XamarinForms.DataGrid"
+              xmlns:local="clr-namespace:Sandoghche.MarkupExtentions"
               mc:Ignorable="d"
              x:Class="Sandoghche.ItemsPage">
     <Grid ColumnSpacing="0" RowSpacing="0">
         <Grid.RowDefinitions>
             <RowDefinition Height="100"/>
             <RowDefinition Height="*" />
+            <RowDefinition Height="100"/>
+
         </Grid.RowDefinitions>
         <!--منوی بالا-->
         <StackLayout Grid.Row="0" VerticalOptions="Center" >
@@ -71,7 +74,7 @@
                 </Grid.ColumnDefinitions>
 
                 <!--ستون اجناس-->
-                
+
                 <Frame x:Name="frmItems" IsEnabled="False" Opacity="0.3"  Margin="0,0,5,0" CornerRadius="5" Grid.Column="0"  BorderColor="Black">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -97,32 +100,32 @@
                                     FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
                                     FontSize="20" />
                             </StackLayout>
-                            
+
                             <SearchBar x:Name="srchProduct" TextChanged="srchProduct_TextChanged"  Placeholder="اجناس" FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" TextColor="Black" PlaceholderColor="Black" />
                             <ScrollView>
-                            <telerikDataGrid:RadDataGrid   x:Name="DataGridProduct" SelectionChanged="DataGridProduct_SelectionChanged"   UserFilterMode="Disabled" UserGroupMode="Disabled" UserSortMode="None" UserEditMode="None" AutoGenerateColumns="False"  >
+                                <telerikDataGrid:RadDataGrid   x:Name="DataGridProduct" SelectionChanged="DataGridProduct_SelectionChanged"   UserFilterMode="Disabled" UserGroupMode="Disabled" UserSortMode="None" UserEditMode="None" AutoGenerateColumns="False"  >
 
-                                <telerikDataGrid:RadDataGrid.Columns>
+                                    <telerikDataGrid:RadDataGrid.Columns>
 
-                                   
-                                    <!--قیمت-->
-                                    <telerikDataGrid:DataGridTemplateColumn  CanUserEdit="False" CanUserFilter="False" CanUserGroup="False" CanUserSort="False">
-                                        <telerikDataGrid:DataGridTemplateColumn.HeaderContentTemplate>
-                                            <DataTemplate>
-                                                <Label FontSize="20" TextColor="Black" Text="قیمت" HorizontalOptions="End"  VerticalOptions="Center" HeightRequest="35"    Margin="0,0,10,0" />
-                                            </DataTemplate>
-                                        </telerikDataGrid:DataGridTemplateColumn.HeaderContentTemplate>
-                                        <telerikDataGrid:DataGridTemplateColumn.HeaderStyle>
-                                            <telerikDataGrid:DataGridColumnHeaderStyle 
+
+                                        <!--قیمت-->
+                                        <telerikDataGrid:DataGridTemplateColumn  CanUserEdit="False" CanUserFilter="False" CanUserGroup="False" CanUserSort="False">
+                                            <telerikDataGrid:DataGridTemplateColumn.HeaderContentTemplate>
+                                                <DataTemplate>
+                                                    <Label FontSize="20" TextColor="Black" Text="قیمت" HorizontalOptions="End"  VerticalOptions="Center" HeightRequest="35"    Margin="0,0,10,0" />
+                                                </DataTemplate>
+                                            </telerikDataGrid:DataGridTemplateColumn.HeaderContentTemplate>
+                                            <telerikDataGrid:DataGridTemplateColumn.HeaderStyle>
+                                                <telerikDataGrid:DataGridColumnHeaderStyle 
                                             OptionsButtonTextColor="Transparent"
                                             OptionsButtonFontSize="0"
                                             BorderColor="#D9D9D9"
                                             BorderThickness="1" />
-                                        </telerikDataGrid:DataGridTemplateColumn.HeaderStyle>
+                                            </telerikDataGrid:DataGridTemplateColumn.HeaderStyle>
 
-                                        <telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
-                                            <DataTemplate>
-                                                <Label 
+                                            <telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
+                                                <DataTemplate>
+                                                    <Label 
                                                     TextColor="{Binding IsActive,Converter={helpers:DisabledLabel}}"
                                                 TextDecorations="{Binding IsActive,Converter={helpers:LabelStrikethrough}}"
                                                 IsEnabled="{Binding IsActive,Converter={helpers:InverseBoolConverter}}"
@@ -133,29 +136,29 @@
                                             FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
                                             FontSize="20"
                                             Text="{Binding ProductPrice}"/>
-                                            </DataTemplate>
-                                        </telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
-                                    </telerikDataGrid:DataGridTemplateColumn>
+                                                </DataTemplate>
+                                            </telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
+                                        </telerikDataGrid:DataGridTemplateColumn>
 
-                                    <!--////محصول-->
-                                    <telerikDataGrid:DataGridTemplateColumn  CanUserEdit="False" CanUserFilter="False" CanUserGroup="False" CanUserSort="False">
-                                        <telerikDataGrid:DataGridTemplateColumn.HeaderContentTemplate>
-                                            <DataTemplate>
-                                                <Label FontSize="20" TextColor="Black" Text="محصول" HorizontalOptions="End"  VerticalOptions="Center" HeightRequest="35" Margin="0,0,10,0" />
-                                            </DataTemplate>
-                                        </telerikDataGrid:DataGridTemplateColumn.HeaderContentTemplate>
-                                        <telerikDataGrid:DataGridTemplateColumn.HeaderStyle>
-                                            <telerikDataGrid:DataGridColumnHeaderStyle 
+                                        <!--////محصول-->
+                                        <telerikDataGrid:DataGridTemplateColumn  CanUserEdit="False" CanUserFilter="False" CanUserGroup="False" CanUserSort="False">
+                                            <telerikDataGrid:DataGridTemplateColumn.HeaderContentTemplate>
+                                                <DataTemplate>
+                                                    <Label FontSize="20" TextColor="Black" Text="محصول" HorizontalOptions="End"  VerticalOptions="Center" HeightRequest="35" Margin="0,0,10,0" />
+                                                </DataTemplate>
+                                            </telerikDataGrid:DataGridTemplateColumn.HeaderContentTemplate>
+                                            <telerikDataGrid:DataGridTemplateColumn.HeaderStyle>
+                                                <telerikDataGrid:DataGridColumnHeaderStyle 
                                             OptionsButtonTextColor="Transparent"
                                             OptionsButtonFontSize="0"
                                             BorderColor="#D9D9D9"
                                             BorderThickness="1" />
-                                        </telerikDataGrid:DataGridTemplateColumn.HeaderStyle>
+                                            </telerikDataGrid:DataGridTemplateColumn.HeaderStyle>
 
-                                        <telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
-                                            <DataTemplate>
-                                                
-                                                <Label 
+                                            <telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
+                                                <DataTemplate>
+
+                                                    <Label 
                                                     TextColor="{Binding IsActive,Converter={helpers:DisabledLabel}}"
                                                 TextDecorations="{Binding IsActive,Converter={helpers:LabelStrikethrough}}"
                                                 IsEnabled="{Binding IsActive,Converter={helpers:InverseBoolConverter}}"
@@ -166,13 +169,13 @@
                                             FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
                                             FontSize="20"
                                             Text="{Binding ProductText}"/>
-                                            </DataTemplate>
-                                        </telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
-                                    </telerikDataGrid:DataGridTemplateColumn>
+                                                </DataTemplate>
+                                            </telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
+                                        </telerikDataGrid:DataGridTemplateColumn>
 
 
-                                </telerikDataGrid:RadDataGrid.Columns>
-                            </telerikDataGrid:RadDataGrid>
+                                    </telerikDataGrid:RadDataGrid.Columns>
+                                </telerikDataGrid:RadDataGrid>
 
                             </ScrollView>
 
@@ -183,7 +186,7 @@
                             <StackLayout HorizontalOptions="EndAndExpand" Orientation="Horizontal">
                                 <Entry Placeholder="قیمت محصول" Keyboard="Numeric" x:Name="txtProductPrice" FlowDirection="RightToLeft" WidthRequest="200"  />
                                 <Entry Placeholder="نام محصول" Keyboard="Plain" x:Name="txtItem" FlowDirection="RightToLeft" WidthRequest="200" />
-                                
+
                             </StackLayout>
                             <Switch FlowDirection="RightToLeft"  x:Name="swchItemStatus" IsToggled="True" />
 
@@ -266,7 +269,7 @@
                 </Frame>
 
                 <!--ستون طبقه بندی-->
-       
+
                 <Frame  Margin="5,0,0,0" CornerRadius="5" BorderColor="Black" Grid.Column="1" >
                     <Grid>
                         <Grid.RowDefinitions>
@@ -390,6 +393,18 @@
 
 
             </Grid>
+        </StackLayout>
+
+        <!--منوی پایین-->
+        <StackLayout Grid.Row="2" VerticalOptions="Center">
+            <!--منوی اصلی-->
+
+            <Image x:Name="btnHome" Source="{local:EmbeddedImage Sandoghche.Images.Home.png}"  HeightRequest="90" VerticalOptions="Center">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="btnHome_Tapped" />
+                </Image.GestureRecognizers>
+            </Image>
+
         </StackLayout>
     </Grid>
 </ContentPage>

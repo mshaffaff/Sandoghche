@@ -29,6 +29,8 @@ namespace Sandoghche
         public EditOrderPage(int orderId, bool forHistory = false, int editedLogId = 0)
         {
             InitializeComponent();
+            NavigationPage.SetHasBackButton(this, false);
+
             OrderId = orderId;
             ForHistory = forHistory;
             EditedLogId = editedLogId;
@@ -824,7 +826,10 @@ namespace Sandoghche
         }
 
 
-
+        protected override bool OnBackButtonPressed()
+        {
+            return true;
+        }
 
 
     }
