@@ -362,82 +362,7 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
 
                 </StackLayout>
 
-
-
-                <!--<datagrid:SfDataGrid  
-                    x:Name="dataGridOrder"
-                    IsVisible="False"
-                    HeaderRowHeight="20"
-                    AllowGroupExpandCollapse="False"
-                    AllowSorting="False" 
-                    SelectionMode="Single"
-                    ItemsSource="{Binding order}"
-                    AutoGenerateColumns="False">
-
-
-                    <datagrid:SfDataGrid.Columns>
-
-
-                        <datagrid:GridTextColumn HeaderText="بابا بستنی" MappingName="OrderId"/>
-                        <datagrid:GridTextColumn HeaderText="فاکتور فروش" MappingName="FinalPeyment" />
-                       
-                        <datagrid:GridTemplateColumn>
-                            <datagrid:GridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <datagrid:SfDataGrid x:Name="DataGridPdf" 
-                                     IsVisible="False" 
-                                     HeaderRowHeight="20"
-                                     AllowGroupExpandCollapse="False"
-                                     AllowSorting="False" 
-                                     SelectionMode="Single"
-                                     ItemsSource="{Binding OrderDetail}"
-                                     AutoGenerateColumns="False" 
-                                     >
-
-
-
-                                        <datagrid:SfDataGrid.Columns>
-                                            <datagrid:GridTextColumn HeaderText="قیمت کل" MappingName="TotalPrice"/>
-                                            <datagrid:GridTextColumn HeaderText="قیمت" MappingName="Price"/>
-                                            <datagrid:GridTextColumn HeaderText="تعداد" MappingName="Number"/>
-                                            <datagrid:GridTextColumn HeaderText="عنوان" MappingName="ProductText"/>
-                                            <datagrid:GridTextColumn HeaderText="ردیف"  MappingName="RowNumber"/>
-                                        </datagrid:SfDataGrid.Columns>
-
-                                    </datagrid:SfDataGrid>
-
-                                </DataTemplate>
-                            </datagrid:GridTemplateColumn.CellTemplate>
-                        </datagrid:GridTemplateColumn>
-
-
-
-                        
-                        <datagrid:GridTextColumn />
-
-                        -->
-                <!--<datagrid:GridTemplateColumn HeaderText="Stock Change" MappingName="OrderId">
-                            <datagrid:GridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <Label Grid.Column="1"
-                                   Text="شماره" TextColor="Black"
-                                   XAlign="Center" YAlign="Center">
-                                        </Label>
-                                        <Label Grid.Column="1"
-                                   Text="کاربر" TextColor="Black"
-                                   XAlign="Center" YAlign="Center">
-                                        </Label>
-                                    </Grid>
-                                </DataTemplate>
-                            </datagrid:GridTemplateColumn.CellTemplate>
-                        </datagrid:GridTemplateColumn>-->
-
-                <Grid x:Name="PrintPDF" IsVisible="False" >
+                <!--<Grid x:Name="PrintPDF" IsVisible="False" >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="20" />
                         <RowDefinition Height="20" />
@@ -449,104 +374,104 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="300"/>
                     </Grid.ColumnDefinitions>
-                    <Label Grid.Row="0" Text="بابا بستنی"  x:Name="lblStoreNamePDF" HorizontalOptions="Center" TextColor="Black"
+                    --><!--<Label Grid.Row="0" Text="بابا بستنی"  x:Name="lblStoreNamePDF" HorizontalOptions="Center" TextColor="Black"
                                             FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
                                             FontSize="15"  />
-                    <Label Grid.Row="1" Text="فاکتور فروش" TextColor="Black"
+                <Label Grid.Row="1" Text="فاکتور فروش" TextColor="Black"
                                             FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
                                             FontSize="15" x:Name="lblReceiptTypePDF"  HorizontalOptions="Center" />
-                    <StackLayout Grid.Row="2">
-                        <Grid>
-                            <Label Grid.Row="0" x:Name="lblUserPDF" Grid.Column="0" TextColor="Black"
+                <StackLayout Grid.Row="2">
+                    <Grid>
+                        <Label Grid.Row="0" x:Name="lblUserPDF" Grid.Column="0" TextColor="Black"
                                             FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
                                             FontSize="15" Text="کاربر مدیر" HorizontalOptions="Center" />
-                            <Label Grid.Row="0" x:Name="lblReceiptNumberPDF" TextColor="Black"
+                        <Label Grid.Row="0" x:Name="lblReceiptNumberPDF" TextColor="Black"
                                             FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
                                             FontSize="15" Grid.Column="1"   HorizontalOptions="Center" />
-                            <Label Grid.Row="1" x:Name="lblTimePDF" TextColor="Black"
+                        <Label Grid.Row="1" x:Name="lblTimePDF" TextColor="Black"
                                             FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
                                             FontSize="15" Grid.Column="0"  HorizontalOptions="Center" />
-                            <Label Grid.Row="1" x:Name="lblDatePDF" TextColor="Black"
+                        <Label Grid.Row="1" x:Name="lblDatePDF" TextColor="Black"
                                             FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
                                             FontSize="15" Grid.Column="1"  HorizontalOptions="Center"/>
-                        </Grid>
-                    </StackLayout>
+                    </Grid>
+                </StackLayout>--><!--
+
                     <datagrid:SfDataGrid Grid.Row="3" x:Name="DataGridPdf" 
                                      IsVisible="False" 
                                      HeaderRowHeight="20"
                                      AllowGroupExpandCollapse="False"
                                      AllowSorting="False" 
                                      SelectionMode="Single"
-                                     ItemsSource="{Binding OrderDetail}"
                                      AutoGenerateColumns="False" 
                                    >
 
-                        <!--<datagrid:SfDataGrid.StackedHeaderRows>
+                        <datagrid:SfDataGrid.StackedHeaderRows>
 
-                        <datagrid:StackedHeaderRow>
-                            <datagrid:StackedHeaderRow.StackedColumns>
-                                <datagrid:StackedColumn
+                            <datagrid:StackedHeaderRow>
+                                <datagrid:StackedHeaderRow.StackedColumns>
+                                    <datagrid:StackedColumn
                             ChildColumns="TotalPrice,Price,Number,ProductText,RowNumber"
                             Text="بابابستنی"
                                     
                             FontAttribute="Bold"
                             TextAlignment="Center"
                             />
-                            </datagrid:StackedHeaderRow.StackedColumns>
-                        </datagrid:StackedHeaderRow>
+                                </datagrid:StackedHeaderRow.StackedColumns>
+                            </datagrid:StackedHeaderRow>
 
-                        <datagrid:StackedHeaderRow>
-                            <datagrid:StackedHeaderRow.StackedColumns>
-                                <datagrid:StackedColumn
+                            <datagrid:StackedHeaderRow>
+                                <datagrid:StackedHeaderRow.StackedColumns>
+                                    <datagrid:StackedColumn
                             ChildColumns="TotalPrice,Price,Number,ProductText,RowNumber"
                             Text="فاکتور فروش"
                                     
                             FontAttribute="Bold"
                             TextAlignment="Center"
                             />
-                            </datagrid:StackedHeaderRow.StackedColumns>
-                        </datagrid:StackedHeaderRow>
+                                </datagrid:StackedHeaderRow.StackedColumns>
+                            </datagrid:StackedHeaderRow>
 
-                        <datagrid:StackedHeaderRow>
-                            <datagrid:StackedHeaderRow.StackedColumns>
-                                <datagrid:StackedColumn
+                            <datagrid:StackedHeaderRow>
+                                <datagrid:StackedHeaderRow.StackedColumns>
+                                    <datagrid:StackedColumn
                             ChildColumns="TotalPrice,Price,Number"
                             Text="شماره فیش"
                            
                             FontAttribute="Bold"
                             TextAlignment="Center"
                             />
-                                <datagrid:StackedColumn
+                                    <datagrid:StackedColumn
                             ChildColumns="ProductText,RowNumber"
                             Text="کاربر"
                             FontAttribute="Bold"
                             TextAlignment="Center"
                                     
                             />
-                            </datagrid:StackedHeaderRow.StackedColumns>
-                        </datagrid:StackedHeaderRow>
+                                </datagrid:StackedHeaderRow.StackedColumns>
+                            </datagrid:StackedHeaderRow>
 
 
-                        <datagrid:StackedHeaderRow>
-                            <datagrid:StackedHeaderRow.StackedColumns>
-                                <datagrid:StackedColumn
+                            <datagrid:StackedHeaderRow>
+                                <datagrid:StackedHeaderRow.StackedColumns>
+                                    <datagrid:StackedColumn
                             ChildColumns="TotalPrice,Price,Number"
                             Text="تاریخ"
                             FontAttribute="Bold"
                             TextAlignment="Center"
                             />
-                                <datagrid:StackedColumn
+                                    <datagrid:StackedColumn
                             ChildColumns="ProductText,RowNumber"
                             Text="ساعت"
                             FontAttribute="Bold"
                             TextAlignment="Center"
                             />
-                            </datagrid:StackedHeaderRow.StackedColumns>
-                        </datagrid:StackedHeaderRow>
+                                </datagrid:StackedHeaderRow.StackedColumns>
+                            </datagrid:StackedHeaderRow>
 
 
 
-                    </datagrid:SfDataGrid.StackedHeaderRows>-->
+                        </datagrid:SfDataGrid.StackedHeaderRows>
 
                         <datagrid:SfDataGrid.Columns>
                             <datagrid:GridTextColumn HeaderText="قیمت کل" MappingName="TotalPrice"/>
@@ -594,10 +519,78 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
                     </datagrid:SfDataGrid>
                     <Label Grid.Row="4" Text="شیراز خیابان عفیف آباد" />
 
-                </Grid>
+                </Grid>-->
+
+
+                <!--<datagrid:SfDataGrid  
+                    x:Name="dataGridOrder"
+                    IsVisible="False"
+                    HeaderRowHeight="20"
+                    AllowGroupExpandCollapse="False"
+                    AllowSorting="False" 
+                    SelectionMode="Single"
+                    ItemsSource="{Binding order}"
+                    AutoGenerateColumns="False">
+
+
+                    <datagrid:SfDataGrid.Columns>
+
+
+                        <datagrid:GridTextColumn HeaderText="بابا بستنی" MappingName="OrderId"/>
+                        <datagrid:GridTextColumn HeaderText="فاکتور فروش" MappingName="FinalPeyment" />
+                       
+                        <datagrid:GridTemplateColumn>
+                            <datagrid:GridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <datagrid:SfDataGrid x:Name="DataGridPdf" 
+                                     IsVisible="False" 
+                                     HeaderRowHeight="20"
+                                     AllowGroupExpandCollapse="False"
+                                     AllowSorting="False" 
+                                     SelectionMode="Single"
+                                     ItemsSource="{Binding OrderDetail}"
+                                     AutoGenerateColumns="False" 
+                                     >
+                                        <datagrid:SfDataGrid.Columns>
+                                            <datagrid:GridTextColumn HeaderText="قیمت کل" MappingName="TotalPrice"/>
+                                            <datagrid:GridTextColumn HeaderText="قیمت" MappingName="Price"/>
+                                            <datagrid:GridTextColumn HeaderText="تعداد" MappingName="Number"/>
+                                            <datagrid:GridTextColumn HeaderText="عنوان" MappingName="ProductText"/>
+                                            <datagrid:GridTextColumn HeaderText="ردیف"  MappingName="RowNumber"/>
+                                        </datagrid:SfDataGrid.Columns>
+
+                                    </datagrid:SfDataGrid>
+
+                                </DataTemplate>
+                            </datagrid:GridTemplateColumn.CellTemplate>
+                        </datagrid:GridTemplateColumn>
 
 
 
+                        
+                        <datagrid:GridTextColumn />-->
+
+                        
+                <!--<datagrid:GridTemplateColumn HeaderText="Stock Change" MappingName="OrderId">
+                            <datagrid:GridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Column="1"
+                                   Text="شماره" TextColor="Black"
+                                   XAlign="Center" YAlign="Center">
+                                        </Label>
+                                        <Label Grid.Column="1"
+                                   Text="کاربر" TextColor="Black"
+                                   XAlign="Center" YAlign="Center">
+                                        </Label>
+                                    </Grid>
+                                </DataTemplate>
+                            </datagrid:GridTemplateColumn.CellTemplate>
+                        </datagrid:GridTemplateColumn>-->
 
                 <!--طبقه بندی-->
                 <StackLayout Grid.Column="2" Margin="10,10,10,10" >
@@ -620,7 +613,9 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
                     </ListView>
 
                 </StackLayout>
-            </Grid>
+            
+                    
+                    </Grid>
         </StackLayout>
 
         <!--منوی پایین-->

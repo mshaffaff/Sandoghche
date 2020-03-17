@@ -20,8 +20,8 @@ namespace Sandoghche.UWP
     {
         public MainPage()
         {
-this.InitializeComponent();
-SfDataGridRenderer.Init();
+            this.InitializeComponent();
+            SfDataGridRenderer.Init();
 
             Rg.Plugins.Popup.Popup.Init();
 

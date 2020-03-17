@@ -21,8 +21,6 @@ namespace Sandoghche.UWP
         StackPanel testPanel = new StackPanel();
         Grid Receipt = new Grid { Width = 300 };
 
-
-
         public Print_UWP()
         {
             printmgr.PrintTaskRequested += Printmgr_PrintTaskRequested;

@@ -14,7 +14,7 @@
              xmlns:syncfusion="clr-namespace:Syncfusion.SfNumericTextBox.XForms;assembly=Syncfusion.SfNumericTextBox.XForms"
              xmlns:telerikCommon="clr-namespace:Telerik.XamarinForms.Common.Data;assembly=Telerik.XamarinForms.Common">
 
-    <Grid ColumnSpacing="0" RowSpacing="0">
+    <Grid ColumnSpacing="0" RowSpacing="0" x:Name="mainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="100"/>
             <RowDefinition Height="*" />
@@ -68,6 +68,9 @@
         <!--منوی وسط-->
         <StackLayout Grid.Row="1" Padding="20,0,20,20" >
             <!--قسمت جستجو-->
+
+
+
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="100"/>
@@ -126,6 +129,35 @@
 
                     <telerikDataGrid:RadDataGrid x:Name="OrdersDataGrid"  UserFilterMode="Disabled" UserGroupMode="Disabled"  UserSortMode="Single" UserEditMode="None" AutoGenerateColumns="False"   >
                         <telerikDataGrid:RadDataGrid.Columns>
+
+                            <!--اشتراک گزاری-->
+                            <telerikDataGrid:DataGridTemplateColumn  CanUserEdit="False" CanUserFilter="False" CanUserGroup="False" CanUserSort="False">
+
+                                <telerikDataGrid:DataGridTemplateColumn.HeaderStyle>
+                                    <telerikDataGrid:DataGridColumnHeaderStyle OptionsButtonTextColor="Transparent"
+                                                    OptionsButtonFontSize="0"
+                                                    BorderColor="#D9D9D9"
+                                                    BorderThickness="1" />
+                                </telerikDataGrid:DataGridTemplateColumn.HeaderStyle>
+
+                                <telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
+                                    <DataTemplate>
+                                        <Button
+                                    HorizontalOptions="FillAndExpand"
+                                    VerticalOptions="Center"
+                                    HeightRequest="40"
+                                    x:Name="btnShare"
+                                    FontSize="Small"
+                                    CornerRadius="5"
+                                    Text="اشتراک گزاری" 
+                                    BackgroundColor="YellowGreen"
+                                    FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                                    Clicked="btnShare_Clicked"
+                                    IsVisible="True" Margin="5"
+                                    />
+                                    </DataTemplate>
+                                </telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
+                            </telerikDataGrid:DataGridTemplateColumn>
 
                             <!--چاپ مجدد-->
                             <telerikDataGrid:DataGridTemplateColumn  CanUserEdit="False" CanUserFilter="False" CanUserGroup="False" CanUserSort="False">
@@ -342,7 +374,7 @@
                                                 <TapGestureRecognizer Tapped="btnOrderHistory" />
                                             </Label.GestureRecognizers>
                                         </Label>
-                                        
+
                                     </DataTemplate>
                                 </telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
                             </telerikDataGrid:DataGridTemplateColumn>
@@ -357,17 +389,21 @@
                 </Frame>
 
             </Grid>
+
+
         </StackLayout>
-
-        <!--منوی پایین-->
+      
+       <!--منوی پایین-->
         <StackLayout Grid.Row="2" VerticalOptions="Center">
-            <!--منوی اصلی-->
-
+        
+            <!--صفحه هوم-->
             <Image x:Name="btnHome" Source="{local:EmbeddedImage Sandoghche.Images.Home.png}"  HeightRequest="90" VerticalOptions="Center">
                 <Image.GestureRecognizers>
                     <TapGestureRecognizer Tapped="btnHome_Tapped" />
                 </Image.GestureRecognizers>
             </Image>
+
+
 
         </StackLayout>
     </Grid>

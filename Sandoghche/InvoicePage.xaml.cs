@@ -110,6 +110,7 @@ namespace Sandoghche
 
 
         }
+
         async Task getSetting()
         {
             var tax = await SandoghcheController._connection.Table<SandoghcheSetting>().FirstOrDefaultAsync();
@@ -447,7 +448,6 @@ namespace Sandoghche
 
 
         }
-
         async private void btnSaveInvoice_Tapped(object sender, EventArgs e)
         {
             await SaveInvoice(0);
@@ -475,8 +475,10 @@ namespace Sandoghche
                     await SandoghcheController._connection.UpdateWithChildrenAsync(order);
 
                     await DisplayAlert("صدور فاکتور", string.Format(" فاکتور {0}  شماره فیش {1} به مبلغ {2} ثبت شد", order.ReceiptNumber, order.OrderId, Convert.ToDouble(lblFinalPayment.Text)), "باشه");
+                    
                     await setOrderNumber();
                     await setReceiptNumber();
+                    
                     lblTax.Text = "0";
                     lblDiscount.Text = "0";
                     lblService.Text = "0";
@@ -513,6 +515,7 @@ namespace Sandoghche
                     await SandoghcheController._connection.InsertAsync(accounting);
 
                     await DisplayAlert("صدور فاکتور", string.Format(" فاکتور {0}  شماره فیش {1} به مبلغ {2} ثبت شد", order.ReceiptNumber, order.OrderId, Convert.ToDouble(lblFinalPayment.Text)), "باشه");
+                    
                     await setOrderNumber();
                     await setReceiptNumber();
 
@@ -550,13 +553,19 @@ namespace Sandoghche
 
                 //lblUserPDF.Text = "صندوقدار 1";
 
-                lblReceiptNumberPDF.Text = "شماره :" + order.ReceiptNumber.ToString();
-                lblTimePDF.Text = Convert.ToDateTime(order.DateCreated).ToString("HH:mm:ss");
-                lblDatePDF.Text = Convert.ToDateTime(order.DateCreated).ToString("dd:MM:yyyy");
+                //lblReceiptNumberPDF.Text = "شماره :" + order.ReceiptNumber.ToString();
+                //lblTimePDF.Text = Convert.ToDateTime(order.DateCreated).ToString("HH:mm:ss");
+                //lblDatePDF.Text = Convert.ToDateTime(order.DateCreated).ToString("dd:MM:yyyy");
+
+                //DataGridPdf.ItemsSource = order.OrderDetails;
+                //DataGridPdf.IsVisible = true;
+                //PrintPDF.IsVisible = true;
 
                 DependencyService.Get<IPrint>().Print(order, "فاکتور فروش");
 
                 await setOrderNumber();
+                await setReceiptNumber();
+
                 lblTax.Text = "0";
                 lblDiscount.Text = "0";
                 lblService.Text = "0";

@@ -22,6 +22,7 @@
     <None Remove="Images\Edit.png" />
     <None Remove="Images\Home.png" />
     <None Remove="Images\Invoice.png" />
+    <None Remove="Images\IRANSans(FaNum).ttf" />
     <None Remove="Images\items.png" />
     <None Remove="Images\Location.png" />
     <None Remove="Images\mainLogo.png" />
@@ -38,7 +39,12 @@
     <None Remove="Images\Service.png" />
     <None Remove="Images\Settings.png" />
     <None Remove="Images\sloganLine.png" />
+    <None Remove="Images\tahoma.ttf" />
     <None Remove="Images\Tax.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Images\IRANSans(FaNum).ttf" />
   </ItemGroup>
 
   <ItemGroup>
@@ -63,6 +69,7 @@
     <EmbeddedResource Include="Images\Select.png" />
     <EmbeddedResource Include="Images\Service.png" />
     <EmbeddedResource Include="Images\sloganLine.png" />
+    <EmbeddedResource Include="Images\tahoma.ttf" />
     <EmbeddedResource Include="Images\Tax.png" />
   </ItemGroup>
 
@@ -111,6 +118,12 @@
     <Reference Include="Syncfusion.XlsIO.Portable">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Syncfusion\Essential Studio\Xamarin\17.4.0.39\Xamarin\lib\pcl\Syncfusion.XlsIO.Portable.dll</HintPath>
     </Reference>
+    <Reference Include="Telerik.Documents.Core">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for Xamarin R2 2019\Binaries\Portable\Telerik.Documents.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Documents.Fixed">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for Xamarin R2 2019\Binaries\Portable\Telerik.Documents.Fixed.dll</HintPath>
+    </Reference>
     <Reference Include="Telerik.XamarinForms.Common">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for Xamarin R2 2019\Binaries\Portable\Telerik.XamarinForms.Common.dll</HintPath>
     </Reference>
@@ -128,6 +141,9 @@
     </Reference>
     <Reference Include="Telerik.XamarinForms.SkiaSharp">
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for Xamarin R2 2019\Binaries\Portable\Telerik.XamarinForms.SkiaSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Zip">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Progress\Telerik UI for Xamarin R2 2019\Binaries\Portable\Telerik.Zip.dll</HintPath>
     </Reference>
   </ItemGroup>
 
