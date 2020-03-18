@@ -12,10 +12,10 @@ namespace Sandoghche.Models
         public int ProductId { get; set; }
         public string ProductText { get; set; }
         public double ProductPrice { get; set; }
+        public double ProductAmount { get; set; }
         public int CategoryId { get; set; }
         public bool IsActive { get; set; }
         public bool IsDeleted { get; set; }
-
         public string CreatedDate
         {
             get
@@ -35,6 +35,7 @@ namespace Sandoghche.Models
         }
 
         private string createdDate = null;
+
 
 
 

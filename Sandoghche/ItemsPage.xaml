@@ -184,6 +184,7 @@
                         <!--فرم-->
                         <StackLayout Grid.Row="1" VerticalOptions="EndAndExpand" >
                             <StackLayout HorizontalOptions="EndAndExpand" Orientation="Horizontal">
+                                <Entry Placeholder="مقدار" Keyboard="Numeric" x:Name="txtProductAmount" FlowDirection="RightToLeft" WidthRequest="200" Text="0"  />
                                 <Entry Placeholder="قیمت محصول" Keyboard="Numeric" x:Name="txtProductPrice" FlowDirection="RightToLeft" WidthRequest="200"  />
                                 <Entry Placeholder="نام محصول" Keyboard="Plain" x:Name="txtItem" FlowDirection="RightToLeft" WidthRequest="200" />
 

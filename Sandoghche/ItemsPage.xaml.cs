@@ -42,9 +42,6 @@ namespace Sandoghche
             lstCategory.ItemsSource = result;
         }
 
-
-
-
         async private void btnAddCategory_Clicked(object sender, EventArgs e)
         {
             if (String.IsNullOrWhiteSpace(txtCategory.Text))
@@ -234,8 +231,13 @@ namespace Sandoghche
         async private void btnAddItem_Clicked(object sender, EventArgs e)
         {
             double num;
-            if (String.IsNullOrWhiteSpace(txtItem.Text) || String.IsNullOrWhiteSpace(txtProductPrice.Text) || !double.TryParse(txtProductPrice.Text, out num))
-                await DisplayAlert("خطا", " نام محصول یا قیمت خالی است", "باشه");
+            if (
+                String.IsNullOrWhiteSpace(txtItem.Text) ||
+                String.IsNullOrWhiteSpace(txtProductPrice.Text) ||
+                !double.TryParse(txtProductPrice.Text, out num) ||
+                !double.TryParse(txtProductAmount.Text, out num) ||
+                Convert.ToDouble(txtProductAmount.Text) < 0 || Convert.ToDouble(txtProductPrice.Text) <= 0)
+                await DisplayAlert("خطا", "ورود مقادیر اشتباه است", "باشه");
             else if (String.IsNullOrWhiteSpace(lblCategoryId.Text))
             {
                 await DisplayAlert("خطا", " طبقه را مشخص کنید ", "باشه");
@@ -245,10 +247,12 @@ namespace Sandoghche
                 var product = new Product();
                 product.ProductText = txtItem.Text;
                 product.ProductPrice = Convert.ToDouble(txtProductPrice.Text);
+                product.ProductAmount = Convert.ToDouble(txtProductAmount.Text);
                 product.IsActive = swchItemStatus.IsToggled;
                 product.CategoryId = Convert.ToInt32(lblCategoryId.Text);
 
                 await SandoghcheController._connection.InsertAsync(product);
+
                 await DisplayAlert("ثبت ", "محصول جدید در سیستم با موفقیت ثبت گردید", "باشه");
 
                 txtItem.Text = "";
@@ -286,6 +290,7 @@ namespace Sandoghche
             {
                 product.IsDeleted = true;
                 await SandoghcheController._connection.UpdateAsync(product);
+
                 await getProducts(Convert.ToInt32(lblCategoryId.Text));
 
                 swchItemStatus.IsToggled = true;
@@ -295,6 +300,7 @@ namespace Sandoghche
                 btnDeleteItem.IsVisible = false;
                 txtItem.Text = "";
                 txtProductPrice.Text = "";
+                txtProductAmount.Text = "0";
                 srchProduct.Text = "";
             }
 
@@ -309,16 +315,20 @@ namespace Sandoghche
                 await DisplayAlert("اخطار", "طبقه بندی نامشخص است", "باشه");
             else if (String.IsNullOrWhiteSpace(txtItem.Text) || String.IsNullOrWhiteSpace(txtProductPrice.Text))
                 await DisplayAlert("اخطار", "نام محصول یا قیمت محصول خالی است", "باشه");
-            else if (!double.TryParse(txtProductPrice.Text, out num))
-                await DisplayAlert("اخطار", "مبلغ را به عدد وارد کنید", "باشه");
+            else if (!double.TryParse(txtProductPrice.Text, out num) || !double.TryParse(txtProductAmount.Text, out num))
+                await DisplayAlert("اخطار", "مقادیر را به عدد وارد کنید", "باشه");
+            else if (Convert.ToDouble(txtProductPrice.Text) <= 0 || Convert.ToDouble(txtProductAmount.Text) < 0)
+                await DisplayAlert("اخطار", "مقادیر نمیتواند منفی باشد", "باشه");
             else
             {
                 product.ProductText = txtItem.Text;
                 product.ProductPrice = Convert.ToDouble(txtProductPrice.Text);
+                product.ProductAmount = Convert.ToDouble(txtProductAmount.Text);
                 product.IsActive = swchItemStatus.IsToggled;
                 await SandoghcheController._connection.UpdateAsync(product);
                 txtItem.Text = "";
                 txtProductPrice.Text = "";
+                txtProductAmount.Text = "0";
                 srchProduct.Text = "";
                 btnAddItem.IsVisible = true;
                 btnCancelItem.IsVisible = false;
@@ -349,10 +359,7 @@ namespace Sandoghche
 
             await getCategories(e.NewTextValue);
         }
-
-
-
-
+                     
         async private void lstCategory_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             var category = (Category)e.SelectedItem;
@@ -415,6 +422,7 @@ namespace Sandoghche
                 var product = (Product)DataGridProduct.SelectedItems[0];
                 txtItem.Text = product.ProductText;
                 txtProductPrice.Text = product.ProductPrice.ToString();
+                txtProductAmount.Text = product.ProductAmount.ToString();
                 swchItemStatus.IsToggled = product.IsActive;
                 btnAddItem.IsVisible = false;
                 btnCancelItem.IsVisible = true;
