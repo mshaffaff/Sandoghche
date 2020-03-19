@@ -45,11 +45,8 @@ namespace Sandoghche
         {
             await getCategories();
             await getSetting();
-
             await setOrderNumber();
-
             await setReceiptNumber();
-
             await ClientCreditStatus(lblClientId.Text);
 
             base.OnAppearing();
@@ -228,8 +225,8 @@ namespace Sandoghche
 
                 TotalPriceCalculator();
             }
-            
-           
+
+
 
 
         }
@@ -250,7 +247,7 @@ namespace Sandoghche
 
 
             ///////
-            
+
             order.Tax1 = order.TotalPrice * (Tax1 * 0.01);
             order.Tax1Percent = Tax1;
             order.Tax2 = order.TotalPrice * (Tax2 * 0.01);
@@ -474,11 +471,14 @@ namespace Sandoghche
                     await SandoghcheController._connection.InsertAllAsync(order.OrderDetails);
                     await SandoghcheController._connection.UpdateWithChildrenAsync(order);
 
+                    await UpdateProductsAmount();
+
+
                     await DisplayAlert("صدور فاکتور", string.Format(" فاکتور {0}  شماره فیش {1} به مبلغ {2} ثبت شد", order.ReceiptNumber, order.OrderId, Convert.ToDouble(lblFinalPayment.Text)), "باشه");
-                    
+
                     await setOrderNumber();
                     await setReceiptNumber();
-                    
+
                     lblTax.Text = "0";
                     lblDiscount.Text = "0";
                     lblService.Text = "0";
@@ -514,8 +514,11 @@ namespace Sandoghche
                     await SandoghcheController._connection.UpdateWithChildrenAsync(order);
                     await SandoghcheController._connection.InsertAsync(accounting);
 
+                    await UpdateProductsAmount();
+
+
                     await DisplayAlert("صدور فاکتور", string.Format(" فاکتور {0}  شماره فیش {1} به مبلغ {2} ثبت شد", order.ReceiptNumber, order.OrderId, Convert.ToDouble(lblFinalPayment.Text)), "باشه");
-                    
+
                     await setOrderNumber();
                     await setReceiptNumber();
 
@@ -551,15 +554,7 @@ namespace Sandoghche
                 await SandoghcheController._connection.InsertAllAsync(order.OrderDetails);
                 await SandoghcheController._connection.UpdateWithChildrenAsync(order);
 
-                //lblUserPDF.Text = "صندوقدار 1";
-
-                //lblReceiptNumberPDF.Text = "شماره :" + order.ReceiptNumber.ToString();
-                //lblTimePDF.Text = Convert.ToDateTime(order.DateCreated).ToString("HH:mm:ss");
-                //lblDatePDF.Text = Convert.ToDateTime(order.DateCreated).ToString("dd:MM:yyyy");
-
-                //DataGridPdf.ItemsSource = order.OrderDetails;
-                //DataGridPdf.IsVisible = true;
-                //PrintPDF.IsVisible = true;
+                await UpdateProductsAmount();
 
                 DependencyService.Get<IPrint>().Print(order, "فاکتور فروش");
 
@@ -581,7 +576,21 @@ namespace Sandoghche
             }
         }
 
-        
+        async private Task UpdateProductsAmount()
+        {
+            var products = await SandoghcheController.GetConnection().Table<Product>().Where(p => p.IsDeleted != true).ToListAsync();
+
+            foreach (var item in order.OrderDetails)
+            {
+                foreach (var product in products)
+                {
+                    if (product.ProductId == item.ProductId)
+                        product.ProductAmount = product.ProductAmount - item.Number;
+                }
+            }
+            await SandoghcheController._connection.UpdateAllAsync(products);
+        }
+
         private void btnMainMenu_Tapped(object sender, EventArgs e)
         {
             Navigation.PushAsync(new SandoghcheMainPage());

@@ -271,6 +271,7 @@ namespace Sandoghche
         {
             txtItem.Text = "";
             txtProductPrice.Text = "";
+            txtProductAmount.Text = "";
             swchItemStatus.IsToggled = true;
             btnAddItem.IsVisible = true;
             btnUpdateItem.IsVisible = false;

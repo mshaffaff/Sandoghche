@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:Sandoghche.MarkupExtentions"
              xmlns:datagrid="clr-namespace:Syncfusion.SfDataGrid.XForms;assembly=Syncfusion.SfDataGrid.XForms"
              xmlns:telerikDataGrid="clr-namespace:Telerik.XamarinForms.DataGrid;assembly=Telerik.XamarinForms.DataGrid"
+             xmlns:helpers="clr-namespace:Sandoghche.Helpers"
              mc:Ignorable="d"
              x:Class="Sandoghche.EditOrderPage">
 
@@ -327,16 +328,19 @@
                 <!--اجناس-->
 
                 <StackLayout Grid.Column="1" Margin="10,10,10,10" >
-                    <SearchBar x:Name="srchProduct" TextChanged="srchProduct_TextChanged" FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" Placeholder="محصول" PlaceholderColor="Black" TextColor="Black"/>
+                    <SearchBar x:Name="srchProduct" TextChanged="srchProduct_TextChanged" FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" Placeholder="محصول" PlaceholderColor="Black"  TextColor="Black"/>
                     <ListView FlowDirection="RightToLeft" x:Name="lstProducts" HorizontalOptions="EndAndExpand" ItemTapped="lstProducts_ItemTapped" ItemSelected="lstProducts_ItemSelected">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
+
                                     <Label 
+                                        TextColor="{Binding IsActive,Converter={helpers:DisabledLabel}}"
+                                                TextDecorations="{Binding IsActive,Converter={helpers:LabelStrikethrough}}"
+                                                IsEnabled="{Binding IsActive,Converter={helpers:InverseBoolConverter}}"
                                         Margin="0,10,0,0"
                                         HorizontalOptions="EndAndExpand"
                                         VerticalOptions="Center"
-                                        TextColor="Black"
                                         FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
                                         FontSize="20" Text="{Binding ProductText}"/>
                                 </ViewCell>
