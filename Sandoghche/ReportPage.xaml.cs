@@ -138,14 +138,20 @@ namespace Sandoghche
             if (!String.IsNullOrWhiteSpace(srchClients.Text))
                 condition += (" and Orders.ClientId = " + clientId);
 
+
             if (isEdited.IsChecked)
                 condition += (" and Orders.isEdited = " + 1);
 
-            if (isDeleted.IsChecked || userRoll == "مدیر ارشد" || userRoll == "مدیر")
-                condition += (" or Orders.isDeleted = " + 1);
-            else
-                condition += (" and Orders.isDeleted = " + 0);
+
+            //if(userRoll == "مدیر ارشد" || userRoll == "مدیر")
+            //    condition += (" and Orders.isDeleted = " + 0);
+
+            if (isDeleted.IsChecked)
+                condition += (" and Orders.isDeleted = " + 1);
                       
+
+
+
            
             if (pkrReceiptType.SelectedIndex == 2)
                 condition += (" and Orders.PaymentType = " + 1);
@@ -156,6 +162,7 @@ namespace Sandoghche
             var query = String.Concat("SELECT Sum(TotalPrice) as TotalPrice,Sum(TotalServiceFee) as TotalServiceFee,Sum(DeliveryFee) as DeliveryFee ,Sum(TotalDiscount) as TotalDiscount , Sum(FinalPayment) as FinalPayment, Sum(Tax1) as Tax1 , Sum(Tax2) as Tax2 from Orders where " + condition);
 
             var query2 = String.Concat("SELECT ROW_NUMBER() OVER(ORDER BY DetailId) AS RowNumber ,Products.ProductText, sum(OrderDetails.number) as Number,sum(OrderDetails.TotalPrice) as TotalPrice from OrderDetails left join Products on OrderDetails.ProductId=Products.ProductId where OrderDetails.OrderId in  (SELECT OrderId from Orders where ", condition, ") GROUP by OrderDetails.ProductId");
+            
             var Orders = await SandoghcheController.GetConnection().QueryAsync<Order>(query);
 
             lblTotalPrice.Text = Orders.FirstOrDefault().TotalPrice.ToString();

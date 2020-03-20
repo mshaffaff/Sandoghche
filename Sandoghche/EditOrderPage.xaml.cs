@@ -397,7 +397,7 @@ namespace Sandoghche
                     await SandoghcheController._connection.InsertAllAsync(edited.EditedOrderDetailsLogs);
                     await SandoghcheController._connection.UpdateWithChildrenAsync(edited);
 
-                    
+
                     await UpdateProductsAmount();
 
 
@@ -844,7 +844,7 @@ namespace Sandoghche
                 edited.EditedOrderDetailsLogs = editedOrderDetailsLogs;
                 await UpdateProductsAmount();
 
-                //  DependencyService.Get<IPrint>().Print(order, "فاکتور فروش - ویرایش شده");
+                DependencyService.Get<IPrint>().Print(order, "فاکتور فروش - ویرایش شده");
 
                 lblTax.Text = "0";
                 lblDiscount.Text = "0";

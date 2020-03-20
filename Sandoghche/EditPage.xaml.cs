@@ -55,16 +55,22 @@ namespace Sandoghche
         async Task getOrders(DateTime? createdDate, int orderId, int receiptId)
         {
             //var query = "SELECT Orders.OrderId,Orders.ReceiptNumber,Orders.FinalPayment,date(Orders.DateCreated),Orders.isDeleted,Orders.isEditedClients.ClientName from Orders LEFT  JOIN Clients ON Orders.ClientId = Clients.ClientId where Orders.isDeleted <>1";
-            var query = "SELECT Orders.OrderId,Orders.ReceiptNumber,Orders.FinalPayment,date(Orders.DateCreated),Orders.isDeleted,Orders.isEdited,Clients.ClientName from Orders LEFT  JOIN Clients ON Orders.ClientId = Clients.ClientId where ";
+            var query = "SELECT Orders.OrderId,Orders.ReceiptNumber,Orders.FinalPayment,date(Orders.DateCreated),Orders.isDeleted,Orders.isEdited,Clients.ClientName from Orders LEFT  JOIN Clients ON Orders.ClientId = Clients.ClientId where 1 ";
 
             if (createdDate != null)
-                query += string.Concat(" (date(Orders.DateCreated) = date('", createdDate.Value.ToString("yyyy-MM-dd HH:mm:ss"), "'))");
+                query += string.Concat("and (date(Orders.DateCreated) = date('", createdDate.Value.ToString("yyyy-MM-dd HH:mm:ss"), "'))");
+
+            //if (createdDate == null)
+            //    query += query.Substring(0, query.Length - 5);
+            ////str = str.Substring(0, str.Length - 2);
 
             if (orderId != 0)
-                query += " and Orders.OrderId=" + orderId;
+                query += "  and Orders.OrderId=" + orderId;
+            
+
 
             if (receiptId != 0)
-                query += " and Orders.ReceiptNumber=" + receiptId;
+                query += "  and Orders.ReceiptNumber=" + receiptId;
 
 
             if (!(userRoll == "مدیر ارشد" || userRoll == "مدیر"))
@@ -162,7 +168,7 @@ namespace Sandoghche
                 orderDetails.Add(new orderDetailViewModel { RowNumber = item.RowNumber, ProductText = item.ProductText, Number = item.Number, Price = item.Price, TotalPrice = item.TotalPrice });
             }
 
-            
+
             PdfDocument doc = new PdfDocument();
             doc.PageSettings.Size = new Syncfusion.Drawing.SizeF(300, 800);
             PdfMargins margins = new PdfMargins();
@@ -243,13 +249,13 @@ namespace Sandoghche
             MemoryStream stream = new MemoryStream();
 
             doc.Save(stream);
-            byte[] test = stream.ToArray() ;
+            byte[] test = stream.ToArray();
             doc.Close(true);
 
 
             var fn = order.OrderId.ToString() + ".pdf";
             var file = Path.Combine(FileSystem.CacheDirectory, fn);
-            
+
             File.WriteAllBytes(file, test);
 
             await Share.RequestAsync(new ShareFileRequest
@@ -259,7 +265,7 @@ namespace Sandoghche
             });
 
 
-           // await Xamarin.Forms.DependencyService.Get<ISave>().Save(order.OrderId.ToString(), "application/pdf", stream);
+            // await Xamarin.Forms.DependencyService.Get<ISave>().Save(order.OrderId.ToString(), "application/pdf", stream);
 
 
 
