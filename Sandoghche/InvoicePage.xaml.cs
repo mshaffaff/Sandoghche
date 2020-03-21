@@ -28,6 +28,7 @@ namespace Sandoghche
         private static Order order;
 
         private static double Tax1, Tax2;
+        static string clientName;
 
         public InvoicePage(int ClientId, string ClientName)
         {
@@ -36,6 +37,7 @@ namespace Sandoghche
             lblPersianDate.Text = SandoghcheController.GetPersianDate(null);
             lblClient.Text = "انتخاب مشتری : " + ClientName;
             lblClientId.Text = ClientId.ToString();
+            clientName = ClientName;
             order = new Order();
 
 
@@ -556,7 +558,7 @@ namespace Sandoghche
 
                 await UpdateProductsAmount();
 
-                DependencyService.Get<IPrint>().Print(order, "فاکتور فروش");
+                DependencyService.Get<IPrint>().Print(order, "فاکتور فروش", clientName);
 
                 await setOrderNumber();
                 await setReceiptNumber();

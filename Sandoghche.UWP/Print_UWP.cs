@@ -6,7 +6,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Printing;
-
+using Sandoghche.Components;
 
 namespace Sandoghche.UWP
 {
@@ -26,7 +26,7 @@ namespace Sandoghche.UWP
             printmgr.PrintTaskRequested += Printmgr_PrintTaskRequested;
         }
 
-        public async void PrintUWpAsync(Order order,string receiptType)
+        public async void PrintUWpAsync(Order order, string receiptType, string ClientName)
         {
             #region Grid Print Document
             Grid Receipt = new Grid { Width = 300 };
@@ -57,6 +57,28 @@ namespace Sandoghche.UWP
             {
                 Height = new GridLength(30, GridUnitType.Pixel)
             });
+            Receipt.RowDefinitions.Add(new RowDefinition
+            {
+                Height = new GridLength(30, GridUnitType.Pixel)
+            });
+            Receipt.RowDefinitions.Add(new RowDefinition
+            {
+                Height = new GridLength(30, GridUnitType.Pixel)
+            }); Receipt.RowDefinitions.Add(new RowDefinition
+            {
+                Height = new GridLength(30, GridUnitType.Pixel)
+            }); Receipt.RowDefinitions.Add(new RowDefinition
+            {
+                Height = new GridLength(30, GridUnitType.Pixel)
+            });
+            Receipt.RowDefinitions.Add(new RowDefinition
+            {
+                Height = new GridLength(30, GridUnitType.Pixel)
+            });
+            Receipt.RowDefinitions.Add(new RowDefinition
+            {
+                Height = new GridLength(30, GridUnitType.Pixel)
+            });
 
             Receipt.ColumnDefinitions.Add(new ColumnDefinition
             {
@@ -68,7 +90,7 @@ namespace Sandoghche.UWP
             TextBlock StoreName = new TextBlock
             {
                 Foreground = new SolidColorBrush(Windows.UI.Colors.Black),
-                Text = "بابا بستنی",
+                Text = ClientName,
                 FontFamily = new FontFamily("IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"),
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
@@ -155,7 +177,7 @@ namespace Sandoghche.UWP
             TextBlock Date = new TextBlock
             {
                 Foreground = new SolidColorBrush(Windows.UI.Colors.Black),
-                Text = "تاریخ : " + Convert.ToDateTime(order.DateCreated).ToString("dd:MM:yyyy"),
+                Text = SandoghcheController.GetPersianDate(Convert.ToDateTime(order.DateCreated)),
                 FontFamily = new FontFamily("IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"),
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center
@@ -167,7 +189,6 @@ namespace Sandoghche.UWP
             row2.Children.Add(ReceiptNumber);
             Receipt.Children.Add(row2);
             Grid.SetRow(row2, 2);
-
 
             StackPanel row3 = new StackPanel { HorizontalAlignment = HorizontalAlignment.Right, Width = 300 };
 
@@ -353,7 +374,101 @@ namespace Sandoghche.UWP
             Grid.SetRow(row3, 3);
 
 
+            int rowCounter = 3;
 
+            #region Tax1
+            TextBlock Tax1 = new TextBlock
+            {
+                Foreground = new SolidColorBrush(Windows.UI.Colors.Black),
+                Text = " مالیات اول : " + order.Tax1Percent.ToString() + " % " + order.Tax1.ToString(),
+                FontFamily = new FontFamily("IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                FontSize = 15,
+                FontWeight = Windows.UI.Text.FontWeights.Bold
+            };
+            #endregion
+            if (order.Tax1 != 0)
+            {
+                rowCounter++;
+                Receipt.Children.Add(Tax1);
+                Grid.SetRow(Tax1, rowCounter);
+            }
+            #region Tax2
+            TextBlock Tax2 = new TextBlock
+            {
+                Foreground = new SolidColorBrush(Windows.UI.Colors.Black),
+                Text = " مالیات دوم : " + order.Tax2Percent.ToString() + " % " + order.Tax2.ToString(),
+                FontFamily = new FontFamily("IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                FontSize = 15,
+                FontWeight = Windows.UI.Text.FontWeights.Bold
+            };
+            #endregion
+            if (order.Tax2 != 0)
+            {
+                rowCounter++;
+                Receipt.Children.Add(Tax2);
+                Grid.SetRow(Tax2, rowCounter);
+            }
+            #region Delivery
+            TextBlock Delivery = new TextBlock
+            {
+                Foreground = new SolidColorBrush(Windows.UI.Colors.Black),
+                Text = " پیک : " + order.DeliveryFee.ToString(),
+                FontFamily = new FontFamily("IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                FontSize = 15,
+                FontWeight = Windows.UI.Text.FontWeights.Bold
+            };
+            #endregion
+            if (order.DeliveryFee != 0)
+            {
+                rowCounter++;
+                Receipt.Children.Add(Delivery);
+                Grid.SetRow(Delivery, rowCounter);
+            }
+
+            #region Service
+            TextBlock Service = new TextBlock
+            {
+                Foreground = new SolidColorBrush(Windows.UI.Colors.Black),
+                Text = " سرویس : " + order.ServicePercent.ToString() + " % " + order.TotalServiceFee.ToString(),
+                FontFamily = new FontFamily("IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                FontSize = 15,
+                FontWeight = Windows.UI.Text.FontWeights.Bold
+            };
+            #endregion
+            if (order.TotalServiceFee != 0)
+            {
+                rowCounter++;
+                Receipt.Children.Add(Service);
+                Grid.SetRow(Service, rowCounter);
+
+            }
+            #region Discount
+            TextBlock Discount = new TextBlock
+            {
+                Foreground = new SolidColorBrush(Windows.UI.Colors.Black),
+                Text = " تخفیف : " + order.DiscountPercent.ToString() + " % " + order.TotalDiscount.ToString(),
+                FontFamily = new FontFamily("IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                FontSize = 15,
+                FontWeight = Windows.UI.Text.FontWeights.Bold
+            };
+            #endregion
+            if (order.TotalDiscount != 0)
+            {
+                rowCounter++;
+                Receipt.Children.Add(Discount);
+                Grid.SetRow(Discount, rowCounter);
+
+            }
             #region Final Payment
             TextBlock FinalPayment = new TextBlock
             {
@@ -366,14 +481,19 @@ namespace Sandoghche.UWP
                 FontWeight = Windows.UI.Text.FontWeights.Bold
             };
             #endregion
-            Receipt.Children.Add(FinalPayment);
-            Grid.SetRow(FinalPayment, 4);
+
+            if (order.FinalPayment != 0)
+            {
+                rowCounter++;
+                Receipt.Children.Add(FinalPayment);
+                Grid.SetRow(FinalPayment, rowCounter);
+            }
 
             #region Note
             TextBlock Note = new TextBlock
             {
                 Foreground = new SolidColorBrush(Windows.UI.Colors.Black),
-                Text = "شیراز - خیابان عفیف آباد",
+                Text = " توضیحات : " + order.Comment,
                 FontFamily = new FontFamily("IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"),
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center,
@@ -381,8 +501,28 @@ namespace Sandoghche.UWP
                 FontWeight = Windows.UI.Text.FontWeights.Bold
             };
             #endregion
-            Receipt.Children.Add(Note);
-            Grid.SetRow(Note, 5);
+            if (!string.IsNullOrEmpty(order.Comment))
+            {
+                rowCounter++;
+                Receipt.Children.Add(Note);
+                Grid.SetRow(Note, rowCounter);
+
+            }
+
+            #region sandoghchr.net
+            TextBlock Sandoghche = new TextBlock
+            {
+                Foreground = new SolidColorBrush(Windows.UI.Colors.Black),
+                Text = "www.sandoghche.net",
+                FontFamily = new FontFamily("IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                FontSize = 15,
+                FontWeight = Windows.UI.Text.FontWeights.Bold
+            };
+            #endregion
+            Receipt.Children.Add(Sandoghche);
+            Grid.SetRow(Sandoghche, rowCounter + 1);
 
             testPanel.Children.Add(Receipt);
             #endregion

@@ -23,6 +23,7 @@ namespace Sandoghche
         static EditedOrdersLogs edited = new EditedOrdersLogs();
         static EditedOrdersLogs EditedOrder;
         static OrderDetail orderDetail;
+        static string ClientName;
         private static double Tax1, Tax2;
         private static int EditDelayTime;
         private static bool ForHistory;
@@ -54,7 +55,7 @@ namespace Sandoghche
                 var client = await SandoghcheController.GetConnection().Table<Client>().FirstOrDefaultAsync(c => c.ClientId == EditedOrder.ClientId);
                 var EditedOrderDetail = await SandoghcheController.GetConnection().Table<EditedOrderDetailsLogs>().Where(d => d.EditedLogId == EditedLogId).ToListAsync();
                 var products = await SandoghcheController.GetConnection().Table<Product>().ToListAsync();
-
+                ClientName = client.ClientName;
                 EditedOrder.EditedOrderDetailsLogs = EditedOrderDetail;
 
 
@@ -123,6 +124,7 @@ namespace Sandoghche
                 var products = await SandoghcheController.GetConnection().Table<Product>().ToListAsync();
 
                 order.OrderDetails = orderDetail;
+                ClientName = client.ClientName;
 
                 await getSetting();
 
@@ -844,7 +846,7 @@ namespace Sandoghche
                 edited.EditedOrderDetailsLogs = editedOrderDetailsLogs;
                 await UpdateProductsAmount();
 
-                DependencyService.Get<IPrint>().Print(order, "فاکتور فروش - ویرایش شده");
+                DependencyService.Get<IPrint>().Print(order, "فاکتور فروش - ویرایش شده",ClientName);
 
                 lblTax.Text = "0";
                 lblDiscount.Text = "0";

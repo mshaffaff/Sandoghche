@@ -97,14 +97,14 @@ namespace Sandoghche
             var order = await SandoghcheController.GetConnection().Table<Order>().FirstOrDefaultAsync(o => o.OrderId == orderModel.OrderId);
             order.OrderDetails = await SandoghcheController.GetConnection().Table<OrderDetail>().Where(od => od.OrderId == orderModel.OrderId).ToListAsync();
             var products = await SandoghcheController.GetConnection().Table<Product>().ToListAsync();
-
+            var client = await SandoghcheController.GetConnection().Table<Client>().FirstOrDefaultAsync(c => c.ClientId == order.ClientId);
             foreach (var item in order.OrderDetails)
             {
                 item.ProductText = products.FirstOrDefault(p => p.ProductId == item.ProductId).ProductText;
             }
 
 
-            DependencyService.Get<IPrint>().Print(order, "چاپ مجدد");
+            DependencyService.Get<IPrint>().Print(order, "چاپ مجدد",client.ClientName);
         }
 
         async private void btnEdit_Clicked(object sender, EventArgs e)
