@@ -99,6 +99,7 @@ namespace Sandoghche
                 await DisplayAlert("خطا", "تنظیمات سیستم هنوز اعمال نشده است", "باشه");
                 await Navigation.PushAsync(new SettingsPage());
             }
+            lblQuote.Text = await SandoghcheController.GetQuote();
 
 
             base.OnAppearing();

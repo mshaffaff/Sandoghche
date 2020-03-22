@@ -88,6 +88,11 @@ namespace Sandoghche
             await SandoghcheController.GetConnection().CreateTableAsync<SandoghcheSetting>();
             await SandoghcheController.GetConnection().CreateTableAsync<Accounting>();
             await SandoghcheController.GetConnection().CreateTableAsync<UserRoll>();
+
+            lblQuote.Text = await SandoghcheController.GetQuote();
+
+
+            lblQuote.Text = await SandoghcheController.GetQuote();
             base.OnAppearing();
         }
 
@@ -145,7 +150,7 @@ namespace Sandoghche
 
                 await Application.Current.SavePropertiesAsync();
 
-                
+
                 await Navigation.PushAsync(new SandoghcheMainPage());
             }
             else

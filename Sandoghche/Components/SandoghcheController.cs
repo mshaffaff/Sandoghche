@@ -39,10 +39,10 @@ namespace Sandoghche.Components
         {
 
             PersianCalendar pc = new PersianCalendar();
-           
-            DateTime thisDate = OriginDate!=null ? OriginDate.Value : DateTime.Now;
-           
-        
+
+            DateTime thisDate = OriginDate != null ? OriginDate.Value : DateTime.Now;
+
+
 
             string persianYear = "";
             persianYear = pc.GetYear(thisDate).ToString();
@@ -124,6 +124,15 @@ namespace Sandoghche.Components
 
 
             return (persianDayOfWeek + " " + persinaDayOfMonth + " " + persianMonth + " " + persianYear);
+        }
+
+        async public static Task<string> GetQuote()
+        {
+            var setting = await SandoghcheController.GetConnection().Table<SandoghcheSetting>().FirstOrDefaultAsync();
+            if (setting == null)
+                return "به صفحه تنظیمات مراجعه کنید";
+            else
+                return setting.QuoteText;
         }
 
     }

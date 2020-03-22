@@ -126,12 +126,8 @@ namespace Sandoghche
                 return;
             }
 
-
             if (endDate == null)
                 endDate = startDate;
-
-
-
 
             string condition = string.Concat(" date(Orders.DateCreated) >=  date('", startDate.Value.ToString("yyyy-MM-dd HH:mm:ss"), "') AND date(Orders.DateCreated) <= date('", endDate.Value.ToString("yyyy-MM-dd HH:mm:ss"), "')");
 
@@ -141,18 +137,12 @@ namespace Sandoghche
 
             if (isEdited.IsChecked)
                 condition += (" and Orders.isEdited = " + 1);
-
-
             //if(userRoll == "مدیر ارشد" || userRoll == "مدیر")
             //    condition += (" and Orders.isDeleted = " + 0);
 
             if (isDeleted.IsChecked)
                 condition += (" and Orders.isDeleted = " + 1);
-                      
 
-
-
-           
             if (pkrReceiptType.SelectedIndex == 2)
                 condition += (" and Orders.PaymentType = " + 1);
             else if (pkrReceiptType.SelectedIndex == 1)
@@ -172,23 +162,11 @@ namespace Sandoghche
             lblTax.Text = (Orders.FirstOrDefault().Tax1 + Orders.FirstOrDefault().Tax2).ToString();
 
             var receivedCreditQuery = "select sum(CreditorAmount) as 'receivedCreditAmount' from Accounting WHERE date(DateCreated) BETWEEN  date('" + startDate.Value.ToString("yyyy-MM-dd HH:mm:ss") + "') AND date('"+endDate.Value.ToString("yyyy-MM-dd HH:mm:ss") + "')";
-
-
-
             var receivedCredit = await SandoghcheController.GetConnection().QueryAsync<ReceivedCredit>(receivedCreditQuery);
-
             lblReceivedCredit.Text = receivedCredit[0].receivedCreditAmount.ToString();
-
-
             lblFinalPayment.Text =(Convert.ToDouble(lblReceivedCredit.Text) +  Orders.FirstOrDefault().FinalPayment).ToString();
-
-
             var OrderDetails = await SandoghcheController.GetConnection().QueryAsync<CustomOrderDetails>(query2);
-
             ProductsDataGrid.ItemsSource = OrderDetails;
-
-
-
         }
 
         private void srchClients_SuggestionItemSelected(object sender, SuggestionItemSelectedEventArgs e)

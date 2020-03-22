@@ -68,9 +68,6 @@
         <!--منوی وسط-->
         <StackLayout Grid.Row="1" Padding="20,0,20,20" >
             <!--قسمت جستجو-->
-
-
-
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="100"/>
@@ -125,8 +122,6 @@
 
                 <!--نمایش فاکتورها-->
                 <Frame Grid.Row="1" Margin="5" BorderColor="Black"  >
-
-
                     <telerikDataGrid:RadDataGrid x:Name="OrdersDataGrid"  UserFilterMode="Disabled" UserGroupMode="Disabled"  UserSortMode="Single" UserEditMode="None" AutoGenerateColumns="False"   >
                         <telerikDataGrid:RadDataGrid.Columns>
 
