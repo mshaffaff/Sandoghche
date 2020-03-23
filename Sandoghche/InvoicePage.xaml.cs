@@ -19,6 +19,7 @@ using Syncfusion.Pdf.Graphics;
 using Syncfusion.Drawing;
 using Syncfusion.Pdf.Grid;
 using Syncfusion.SfDataGrid.XForms.Exporting;
+using System.Reflection;
 
 namespace Sandoghche
 {
@@ -558,7 +559,103 @@ namespace Sandoghche
 
                 await UpdateProductsAmount();
 
-                DependencyService.Get<IPrint>().Print(order, "فاکتور فروش", clientName);
+                if (Device.RuntimePlatform == Device.iOS)
+                {
+                    //iOS stuff
+                }
+                else if (Device.RuntimePlatform == Device.Android)
+                {
+                    PdfDocument doc = new PdfDocument();
+                    doc.PageSettings.Size = new Syncfusion.Drawing.SizeF(300, 800);
+                    PdfMargins margins = new PdfMargins();
+                    margins.All = 10;
+                    doc.PageSettings.Margins = margins;
+                    PdfPage page = doc.Pages.Add();
+
+                    PdfGraphics graphics = page.Graphics;
+
+                    //var test = GetType().GetTypeInfo().Assembly.GetManifestResourceNames();
+                    Stream fontStream = typeof(EditPage).GetTypeInfo().Assembly.GetManifestResourceStream("Sandoghche.Images.IRANSans(FaNum).ttf");
+                    PdfFont font = new PdfTrueTypeFont(fontStream, 10);
+
+
+                    PdfStringFormat format = new PdfStringFormat();
+                    format.TextDirection = PdfTextDirection.RightToLeft;
+                    format.Alignment = PdfTextAlignment.Center;
+
+                    PdfStringFormat format2 = new PdfStringFormat();
+                    format2.TextDirection = PdfTextDirection.RightToLeft;
+                    format2.Alignment = PdfTextAlignment.Right;
+
+                    PdfStringFormat format3 = new PdfStringFormat();
+                    format3.TextDirection = PdfTextDirection.RightToLeft;
+                    format3.Alignment = PdfTextAlignment.Left;
+
+
+                    graphics.DrawString(lblClient.Text, font, PdfBrushes.Black, new RectangleF(0, 0, page.GetClientSize().Width, page.GetClientSize().Height), format);
+                    graphics.DrawString("فاکتور فروش", font, PdfBrushes.Black, new RectangleF(0, 20, page.GetClientSize().Width, page.GetClientSize().Height), format);
+                    graphics.DrawLine(new PdfPen(PdfBrushes.Black, .5f), new PointF(0, 40), new PointF(300, 40));
+                    graphics.DrawString("تاریخ :" + SandoghcheController.GetPersianDate(Convert.ToDateTime(order.DateCreated)), font, PdfBrushes.Black, new RectangleF(0, 42, page.GetClientSize().Width, page.GetClientSize().Height), format);
+                    graphics.DrawLine(new PdfPen(PdfBrushes.Black, .5f), new PointF(0, 60), new PointF(300, 60));
+                    graphics.DrawString("ردیف عنوان                                    تعداد   قیمت واحد   قیمت کل          ", font, PdfBrushes.Black, new RectangleF(0, 60, page.GetClientSize().Width, page.GetClientSize().Height), format);
+                    graphics.DrawLine(new PdfPen(PdfBrushes.Black, .5f), new PointF(0, 75), new PointF(300, 75));
+
+
+                    string source = "";
+                    int length = 5;
+                    string result = source.PadRight(length).Substring(0, length);
+
+
+                    int height = 75;
+                    foreach (var item in order.OrderDetails)
+                    {
+                        string rowNumber = item.RowNumber.ToString().PadLeft(5).Substring(0, 5);
+                        string productText = item.ProductText.PadRight(20).Substring(0, 20);
+                        string Number = item.Number.ToString().PadLeft(5).Substring(0, 5);
+                        string Price = item.Price.ToString().PadLeft(12).Substring(0, 12);
+                        string TotalPrice = item.TotalPrice.ToString().PadLeft(12).Substring(0, 12);
+                        graphics.DrawString(rowNumber, font, PdfBrushes.Black, 285, height, format2);
+                        graphics.DrawString(productText, font, PdfBrushes.Black, 255, height, format2);
+                        graphics.DrawString(Number, font, PdfBrushes.Black, 130, height, format2);
+                        graphics.DrawString(Price, font, PdfBrushes.Black, 110, height, format2);
+                        graphics.DrawString(TotalPrice, font, PdfBrushes.Black, 55, height, format2);
+                        height += 15;
+                        graphics.DrawLine(new PdfPen(PdfBrushes.Black, .5f), new PointF(0, height), new PointF(300, height));
+                        productText = "";
+                    }
+                    graphics.DrawString("مالیات : " + (order.Tax1 + order.Tax2).ToString(), font, PdfBrushes.Black, new RectangleF(0, height, page.GetClientSize().Width, page.GetClientSize().Height), format3);
+                    graphics.DrawLine(new PdfPen(PdfBrushes.Black, .5f), new PointF(0, height), new PointF(100, height));
+                    height += 15;
+                    graphics.DrawString("سرویس : " + order.TotalServiceFee.ToString(), font, PdfBrushes.Black, new RectangleF(0, height, page.GetClientSize().Width, page.GetClientSize().Height), format3);
+                    graphics.DrawLine(new PdfPen(PdfBrushes.Black, .5f), new PointF(0, height), new PointF(100, height));
+                    height += 15;
+                    graphics.DrawString("پیک : " + order.DeliveryFee.ToString(), font, PdfBrushes.Black, new RectangleF(0, height, page.GetClientSize().Width, page.GetClientSize().Height), format3);
+                    graphics.DrawLine(new PdfPen(PdfBrushes.Black, .5f), new PointF(0, height), new PointF(100, height));
+                    height += 15;
+                    graphics.DrawString‍("تخفیف : " + order.TotalDiscount.ToString(), font, PdfBrushes.Black, new RectangleF(0, height, page.GetClientSize().Width, page.GetClientSize().Height), format3);
+                    graphics.DrawLine(new PdfPen(PdfBrushes.Black, .5f), new PointF(0, height), new PointF(100, height));
+                    height += 15;
+                    graphics.DrawString‍("توضیحات : " + order.Comment, font, PdfBrushes.Black, new RectangleF(0, height, page.GetClientSize().Width, page.GetClientSize().Height), format3);
+                    graphics.DrawLine(new PdfPen(PdfBrushes.Black, .5f), new PointF(0, height), new PointF(100, height));
+                    height += 15;
+                    graphics.DrawString("جمع کل : " + order.FinalPayment.ToString(), font, PdfBrushes.Black, new RectangleF(0, height, page.GetClientSize().Width, page.GetClientSize().Height), format3);
+                    graphics.DrawLine(new PdfPen(PdfBrushes.Black, .5f), new PointF(0, height), new PointF(300, height));
+
+
+                    MemoryStream stream = new MemoryStream();
+
+                    doc.Save(stream);
+                    byte[] test = stream.ToArray();
+                    doc.Close(true);
+
+
+                    DependencyService.Get<IPrintPdf>().PrintPdf(test);
+                }
+                else if (Device.RuntimePlatform == Device.UWP)
+                {
+                    DependencyService.Get<IPrint>().Print(order, "فاکتور فروش", clientName);
+
+                }
 
                 await setOrderNumber();
                 await setReceiptNumber();

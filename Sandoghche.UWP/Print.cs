@@ -10,9 +10,7 @@ namespace Sandoghche.UWP
     {
         void IPrint.Print(Order order,string receiptType,string ClientName)
         {
-
             //SilentPrint silentPrint = new SilentPrint();
-
             Print_UWP printing = new Print_UWP();
             printing.PrintUWpAsync(order,receiptType,ClientName);
         }
