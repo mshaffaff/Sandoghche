@@ -6,6 +6,6 @@ namespace Sandoghche
 {
     public interface IPrintPdf
     {
-        void PrintPdf(byte[] content);
+        void PrintPdf(byte[] content,int OrderId);
     }
 }

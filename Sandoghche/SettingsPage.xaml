@@ -343,48 +343,49 @@
                                 <Grid HorizontalOptions="EndAndExpand">
 
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="250" />
-                                        <ColumnDefinition Width="250" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+
+
                                     </Grid.ColumnDefinitions>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="35"/>
-                                        <RowDefinition Height="150"/>
                                         <RowDefinition Height="35"/>
                                         <RowDefinition Height="35"/>
                                         <RowDefinition Height="35"/>
                                         <RowDefinition Height="35"/>
                                         <RowDefinition Height="35"/>
                                         <RowDefinition Height="35"/>
-
-
-
+                                        <RowDefinition Height="35"/>
                                     </Grid.RowDefinitions>
 
 
-                                    <Entry x:Name="txtCompanyName" Grid.Row="0" Grid.Column="0" Text="صندوقچه"  />
-                                    <Label Grid.Row="0" Grid.Column="1" Text="نام فروشگاه" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="EndAndExpand" />
+                                    <Entry x:Name="txtCompanyName" Grid.Row="0" Grid.Column="2"  />
+                                    <Label Grid.Row="0" Grid.Column="3" Text="نام فروشگاه" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="EndAndExpand" />
 
-                                    <Editor x:Name="txtQuote" Grid.Row="1" Grid.Column="0" FlowDirection="RightToLeft"   HeightRequest="150" Text="راز پیشرفت در آغاز کردن است. راز آغاز کردن در آن است که وظایف سخت و پیچیده ی خود را به وظایف کوچکی که قابل مدیریت کردن باشند، بشکنید و سپس از نخستین آنها آغاز کنید" />
-                                    <Label Grid.Row="1" Grid.Column="1" Text="سخن ابتدایی" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="EndAndExpand"/>
+                                    <Editor x:Name="txtQuote" Grid.Row="1" Grid.Column="2" FlowDirection="RightToLeft" HeightRequest="150"  Grid.RowSpan="3" />
+                                    <Label Grid.Row="1" Grid.Column="3" Text="سخن ابتدایی" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="EndAndExpand" />
 
-                                    <syncfusion:SfNumericTextBox x:Name="txtTax1" Grid.Row="2" Grid.Column="0" VerticalOptions="Center"   MaximumNumberDecimalDigits="2"  FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" TextColor="Black"/>
-                                    <Label Text="مالیات اول" Grid.Row="2" Grid.Column="1" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="EndAndExpand"/>
+                                    <syncfusion:SfNumericTextBox x:Name="txtTax1" Grid.Row="0" Grid.Column="0" VerticalOptions="Center"   MaximumNumberDecimalDigits="2"  FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" TextColor="Black"/>
+                                    <Label Text="مالیات اول" Grid.Row="0" Grid.Column="1" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="EndAndExpand"/>
 
-                                    <syncfusion:SfNumericTextBox VerticalOptions="Center" x:Name="txtTax2" Grid.Row="3" Grid.Column="0"  MaximumNumberDecimalDigits="2"  FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" TextColor="Black"/>
-                                    <Label Text="مالیات دوم" Grid.Row="3" Grid.Column="1" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="EndAndExpand"/>
+                                    <syncfusion:SfNumericTextBox VerticalOptions="Center" x:Name="txtTax2" Grid.Row="1" Grid.Column="0"  MaximumNumberDecimalDigits="2"  FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" TextColor="Black"/>
+                                    <Label Text="مالیات دوم" Grid.Row="1" Grid.Column="1" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="EndAndExpand"/>
 
-                                    <syncfusion:SfNumericTextBox Value="100" VerticalOptions="Center" x:Name="txtReceiptNumberStartFrom" Grid.Row="4" Grid.Column="0"  MaximumNumberDecimalDigits="0"  FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" TextColor="Black"/>
-                                    <Label Text="شماره فیش از" Grid.Row="4" Grid.Column="1" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="EndAndExpand" />
+                                    <syncfusion:SfNumericTextBox Value="100" VerticalOptions="Center" x:Name="txtReceiptNumberStartFrom" Grid.Row="2" Grid.Column="0"  MaximumNumberDecimalDigits="0"  FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" TextColor="Black"/>
+                                    <Label Text="شماره فیش از" Grid.Row="2" Grid.Column="1" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="EndAndExpand" />
 
-                                    <TimePicker Time="03:00:00" x:Name="pkrResetReceiptNumberTime" Grid.Row="5" Grid.Column="0"  FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" />
-                                    <Label Text="زمان ریست شدن شماره فیش در روز بعد" Grid.Row="5" Grid.Column="1" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="EndAndExpand"/>
+                                    <TimePicker Time="03:00:00" x:Name="pkrResetReceiptNumberTime" Grid.Row="3" Grid.Column="0"  FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" />
+                                    <Label Text="زمان ریست شدن شماره فیش در روز بعد" Grid.Row="3" Grid.Column="1" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="EndAndExpand"/>
 
-                                    <syncfusion:SfNumericTextBox Value="2" VerticalOptions="Center" x:Name="txtEditDelayTime" Grid.Row="6" Grid.Column="0"  MaximumNumberDecimalDigits="0"  FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" TextColor="Black"/>
-                                    <Label Text="زمان مجاز جهت ویرایش فیش (دقیقه)" Grid.Row="6" Grid.Column="1" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="EndAndExpand" />
+                                    <syncfusion:SfNumericTextBox Value="2" VerticalOptions="Center" x:Name="txtEditDelayTime" Grid.Row="4" Grid.Column="0"  MaximumNumberDecimalDigits="0"  FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" TextColor="Black"/>
+                                    <Label Text="زمان مجاز جهت ویرایش فیش (دقیقه)" Grid.Row="4" Grid.Column="1" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="EndAndExpand" />
 
 
 
-                                    <Button Clicked="btnUpdateSettings_Clicked" x:Name="btnUpdateSettings" CornerRadius="5"  BackgroundColor="#00c695" Text="به روز رسانی" Grid.Row="7" Grid.Column="0" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" />
+                                    <Button Clicked="btnUpdateSettings_Clicked" x:Name="btnUpdateSettings" CornerRadius="5"  BackgroundColor="#00c695" Text="به روز رسانی" Grid.Row="5" Grid.Column="0" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" />
 
                                 </Grid>
                                 <!--<StackLayout HorizontalOptions="EndAndExpand" >

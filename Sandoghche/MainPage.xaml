@@ -7,11 +7,12 @@
              x:Class="Sandoghche.MainPage">
     <Grid ColumnSpacing="0" RowSpacing="0" >
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" />
+            <!--<ColumnDefinition Width="456.5" />-->
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="456.5" />
 
         </Grid.ColumnDefinitions>
-
+        <!--سمت چپ صفحه اصلی-->
         <StackLayout Grid.Column="0">
             <Grid ColumnSpacing="0" RowSpacing="0" VerticalOptions="FillAndExpand">
                 <Grid.RowDefinitions>
@@ -87,9 +88,9 @@
 
                     </StackLayout>
 
-
-
                 </StackLayout>
+
+                <!--footer-->
                 <StackLayout BackgroundColor="LightGray" Grid.Row="1"  >
                     <BoxView HeightRequest="1" Color="Black" />
                     <Label HorizontalOptions="Center" VerticalOptions="CenterAndExpand"
@@ -104,25 +105,29 @@
             </Grid>
 
         </StackLayout>
+        <!--سمت راست صفحه اصلی-->
         <StackLayout BackgroundColor="CornflowerBlue"
-                     Grid.Column="1" VerticalOptions="FillAndExpand">
+                     Grid.Column="1" 
+                     VerticalOptions="FillAndExpand">
+
             <AbsoluteLayout VerticalOptions="FillAndExpand">
                 <Image x:Name="backgroundImage"  AbsoluteLayout.LayoutBounds="0,0,1,1"  AbsoluteLayout.LayoutFlags="All" Aspect="AspectFill" />
+
                 <Label x:Name="lblPersianYear" 
-                    TextColor="White" FontSize="45" 
+                    TextColor="White" FontSize="Header" 
                     FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
                     AbsoluteLayout.LayoutBounds="0.9,0.26"
                     AbsoluteLayout.LayoutFlags="PositionProportional"
                     />
                 <Label 
                     x:Name="lblPersianDay"
-                    TextColor="White" FontSize="35" 
+                    TextColor="White" FontSize="Large" 
                     FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
                     AbsoluteLayout.LayoutBounds="0.9,0.35"
                     AbsoluteLayout.LayoutFlags="PositionProportional"
                     />
                 <Label 
-                    x:Name="lblPersianMonth" TextColor="White" FontSize="30" 
+                    x:Name="lblPersianMonth" TextColor="White" FontSize="Large" 
                     FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
                     AbsoluteLayout.LayoutBounds="0.9,0.42"
                     AbsoluteLayout.LayoutFlags="PositionProportional"
@@ -137,8 +142,8 @@
                         Margin="0,10,0,0"
                         x:Name="lblQuote"
                         HorizontalTextAlignment="Start"
-                        FontSize="20"
-                        TextColor="White" 
+                        FontSize="Small"
+                        TextColor="WhiteSmoke" 
                         FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
                        />
                     <Image x:Name="sloganLine" WidthRequest="20" />
@@ -148,7 +153,7 @@
                         Margin="0,10,0,0"
                         HorizontalOptions="FillAndExpand"
                         TextColor="White" 
-                        Text="www.sandoghche.net - شیراز" 
+                        Text=" www.sandoghche.net - ایران  " 
                         FontSize="20"  
                         FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
                         />

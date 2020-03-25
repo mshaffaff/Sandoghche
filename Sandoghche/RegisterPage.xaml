@@ -7,8 +7,10 @@
              x:Class="Sandoghche.RegisterPage">
     <Grid ColumnSpacing="0" RowSpacing="0" >
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" />
+            <!--<ColumnDefinition Width="456.5" />-->
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="456.5" />
+
 
         </Grid.ColumnDefinitions>
 
@@ -47,6 +49,7 @@
                             <Entry x:Name="txtRepeatPassword" Keyboard="Text"  Placeholder="تکرار رمز عبور" IsPassword="True"  />
                             <Button
                                 x:Name="btnRegister"
+                                HeightRequest="30"
                                     VerticalOptions="Center"
                                     Padding="0,-8,0,0"
                                     FontSize="20"
@@ -82,29 +85,34 @@
             <AbsoluteLayout VerticalOptions="FillAndExpand">
                 <Image x:Name="backgroundImage"  AbsoluteLayout.LayoutBounds="0,0,1,1"  AbsoluteLayout.LayoutFlags="All" Aspect="AspectFill" />
                 <Label 
-                    Text="1398" TextColor="White" FontSize="50" 
+                    x:Name="lblPersianYear"
+                    TextColor="White" FontSize="45" 
                     FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
                     AbsoluteLayout.LayoutBounds="0.9,0.26"
                     AbsoluteLayout.LayoutFlags="PositionProportional"
                     />
                 <Label 
-                    Text="23" TextColor="White" FontSize="40" 
+                    x:Name="lblPersianDay"
+                    TextColor="White" FontSize="35" 
                     FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
                     AbsoluteLayout.LayoutBounds="0.9,0.35"
                     AbsoluteLayout.LayoutFlags="PositionProportional"
                     />
                 <Label 
-                    Text="شهریور" TextColor="White" FontSize="30" 
+                    x:Name="lblPersianMonth"
+                    TextColor="White" FontSize="30" 
                     FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
                     AbsoluteLayout.LayoutBounds="0.9,0.42"
                     AbsoluteLayout.LayoutFlags="PositionProportional"
                     />
                 <StackLayout Orientation="Horizontal"  AbsoluteLayout.LayoutBounds=".75,.75,350,250"
                          AbsoluteLayout.LayoutFlags="PositionProportional">
-                    <Label  FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalTextAlignment="Start"
-                            FontSize="20"
-                            TextColor="White" 
-                            Text="راز پیشرفت در آغاز کردن است. راز آغاز کردن در آن است که وظایف سخت و پیچیده ی خود را به وظایف کوچکی که قابل مدیریت کردن باشند، بشکنید و سپس از نخستین آنها آغاز کنید." HorizontalOptions="FillAndExpand" />
+                    <Label  FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                            FlowDirection="RightToLeft"
+                            HorizontalTextAlignment="Start"
+                            x:Name="lblQuote"
+                            FontSize="Small"
+                            TextColor="WhiteSmoke"  />
                     <!--<Label TextColor="White" Text="t2"  WidthRequest="20"/>-->
                     <Image x:Name="sloganLine" WidthRequest="20" />
                 </StackLayout>
@@ -112,7 +120,7 @@
                     <Label
                         HorizontalOptions="FillAndExpand"
                         TextColor="White" 
-                        Text="شیراز - خیابان نشاط - 09173842445 " 
+                        Text=" www.sandoghche.net - ایران  " 
                         FontSize="20"  
                         FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"/>
                     <Image x:Name="Location" WidthRequest="35" HeightRequest="35" />

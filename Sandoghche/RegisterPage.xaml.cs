@@ -3,6 +3,7 @@ using Sandoghche.Models;
 using SQLite;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,28 +23,70 @@ namespace Sandoghche
         public RegisterPage()
         {
 
+
             InitializeComponent();
-            NavigationPage.SetHasBackButton(this, false);
+            //NavigationPage.SetHasBackButton(this, false);
+
+            PersianCalendar pc = new PersianCalendar();
+            DateTime thisDate = DateTime.Now;
+
             backgroundImage.Source = ImageSource.FromResource("Sandoghche.Images.background.jpg");
             sloganLine.Source = ImageSource.FromResource("Sandoghche.Images.sloganLine.png");
             Location.Source = ImageSource.FromResource("Sandoghche.Images.Location.png");
             mainLogo.Source = ImageSource.FromResource("Sandoghche.Images.mainLogo.png");
+            
+            lblPersianYear.Text = pc.GetYear(thisDate).ToString();
+            lblPersianDay.Text = pc.GetDayOfMonth(thisDate).ToString();
+
+            switch (pc.GetMonth(thisDate))
+            {
+                case 1:
+                    lblPersianMonth.Text = "فروردین";
+                    break;
+                case 2:
+                    lblPersianMonth.Text = "اردیبهشت";
+                    break;
+                case 3:
+                    lblPersianMonth.Text = "خرداد";
+                    break;
+                case 4:
+                    lblPersianMonth.Text = "تیر";
+                    break;
+                case 5:
+                    lblPersianMonth.Text = "مرداد";
+                    break;
+                case 6:
+                    lblPersianMonth.Text = "شهریور";
+                    break;
+                case 7:
+                    lblPersianMonth.Text = "مهر";
+                    break;
+                case 8:
+                    lblPersianMonth.Text = "آبان";
+                    break;
+                case 9:
+                    lblPersianMonth.Text = "آذر";
+                    break;
+                case 10:
+                    lblPersianMonth.Text = "دی";
+                    break;
+                case 11:
+                    lblPersianMonth.Text = "بهمن";
+                    break;
+                case 12:
+                    lblPersianMonth.Text = "اسفند";
+                    break;
+            }
             SandoghcheController._connection = DependencyService.Get<ISQLiteDb>().GetConnection();
 
         }
 
-        //protected override async void OnAppearing()
-        //{
-        //    await SandoghcheController._connection.CreateTableAsync<User>();
-        //    await SandoghcheController._connection.CreateTableAsync<Roll>();
-        //    await SandoghcheController._connection.CreateTableAsync<UserRoll>();
+        async protected override void OnAppearing()
+        {
+            lblQuote.Text = await SandoghcheController.GetQuote();
 
-
-
-        //    //var users = await _connection.Table<User>().ToListAsync();
-        //    base.OnAppearing();
-        //}
-
+            base.OnAppearing();
+        }
         private async void btnRegister_Clicked(object sender, EventArgs e)
         {
             User user = new User();
@@ -176,9 +219,9 @@ namespace Sandoghche
 
 
         }
-        protected override bool OnBackButtonPressed()
-        {
-            return true;
-        }
+        //protected override bool OnBackButtonPressed()
+        //{
+        //    return true;
+        //}
     }
 }

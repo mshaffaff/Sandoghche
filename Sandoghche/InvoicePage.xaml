@@ -677,7 +677,8 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
                     <ColumnDefinition Width="*"/>
 
                 </Grid.ColumnDefinitions>
-                <Image Grid.Column="0" x:Name="btnMainMenu" Source="{local:EmbeddedImage Sandoghche.Images.MainMenu.png}"  HeightRequest="90" VerticalOptions="Center">
+                <Image x:Name="btnMainMenu" Grid.Column="0" Source="{local:EmbeddedImage Sandoghche.Images.Home.png}"  HeightRequest="90" VerticalOptions="Center">
+                <!--<Image Grid.Column="0" x:Name="btnMainMenu" Source="{local:EmbeddedImage Sandoghche.Images.MainMenu.png}"  HeightRequest="90" VerticalOptions="Center">-->
                     <Image.GestureRecognizers>
                         <TapGestureRecognizer Tapped="btnMainMenu_Tapped" />
                     </Image.GestureRecognizers>

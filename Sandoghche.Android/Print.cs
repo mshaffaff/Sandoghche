@@ -14,11 +14,10 @@ namespace Sandoghche.Droid
     public class Print : IPrintPdf
     {
         [Obsolete]
-
-        void IPrintPdf.PrintPdf(byte[] content)
+        void IPrintPdf.PrintPdf(byte[] content, int OrderId)
         {
             Stream inputStream = new MemoryStream(content);
-            string fileName = "form.pdf";
+            string fileName = OrderId.ToString()+".pdf";
             if (inputStream.CanSeek)
                 //Reset the position of PDF document stream to be printed
                 inputStream.Position = 0;

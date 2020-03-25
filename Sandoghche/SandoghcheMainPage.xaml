@@ -9,8 +9,10 @@
 
     <Grid ColumnSpacing="0" RowSpacing="0" >
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" />
+            <!--<ColumnDefinition Width="456.5" />-->
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="456.5" />
+
 
         </Grid.ColumnDefinitions>
 
@@ -119,8 +121,8 @@
                         Margin="0,10,0,0"
                         x:Name="lblQuote"
                         FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalTextAlignment="Start"
-                        FontSize="20"
-                        TextColor="White" 
+                        FontSize="Small"
+                        TextColor="WhiteSmoke" 
                         FlowDirection="RightToLeft"
                         HorizontalOptions="FillAndExpand" />
                     <Image x:Name="sloganLine" WidthRequest="20" />
@@ -130,7 +132,7 @@
                         Margin="0,10,0,0"
                         HorizontalOptions="FillAndExpand"
                         TextColor="White" 
-                        Text="www.sandoghche.net - شیراز"  
+                        Text=" www.sandoghche.net - ایران  " 
                         FontSize="20"  
                         FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"/>
                     <Image x:Name="Location" WidthRequest="35" HeightRequest="35" />

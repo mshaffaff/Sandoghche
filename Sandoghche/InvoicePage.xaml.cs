@@ -649,7 +649,7 @@ namespace Sandoghche
                     doc.Close(true);
 
 
-                    DependencyService.Get<IPrintPdf>().PrintPdf(test);
+                    DependencyService.Get<IPrintPdf>().PrintPdf(test,order.OrderId);
                 }
                 else if (Device.RuntimePlatform == Device.UWP)
                 {
