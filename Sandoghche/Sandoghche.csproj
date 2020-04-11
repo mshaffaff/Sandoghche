@@ -34,6 +34,7 @@
     <None Remove="Images\PrintInvoice.png" />
     <None Remove="Images\PrintInvoiceUpdate.png" />
     <None Remove="Images\reports.png" />
+    <None Remove="Images\SandoghcheLogo.png" />
     <None Remove="Images\SaveInvoice.png" />
     <None Remove="Images\SaveInvoiceUpdate.png" />
     <None Remove="Images\Select.png" />
@@ -45,11 +46,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Images\background.jpg" />
     <EmbeddedResource Include="Images\IRANSans(FaNum).ttf" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Images\background.jpg" />
     <EmbeddedResource Include="Images\CancelEdit.png" />
     <EmbeddedResource Include="Images\CreditInvoice.png" />
     <EmbeddedResource Include="Images\CreditInvoiceUpdate.png" />
@@ -65,6 +66,7 @@
     <EmbeddedResource Include="Images\Plus.png" />
     <EmbeddedResource Include="Images\PrintInvoiceUpdate.png" />
     <EmbeddedResource Include="Images\PrintInvoice.png" />
+    <EmbeddedResource Include="Images\SandoghcheLogo.png" />
     <EmbeddedResource Include="Images\SaveInvoice.png" />
     <EmbeddedResource Include="Images\SaveInvoiceUpdate.png" />
     <EmbeddedResource Include="Images\Select.png" />
@@ -174,6 +176,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="ItemsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="MainPageResponsive.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="NotePopupPage.xaml">
