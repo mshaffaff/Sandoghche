@@ -81,11 +81,64 @@ namespace Sandoghche
             imgItems.Source = ImageSource.FromResource("Sandoghche.Images.items.png");
             imgSettings.Source = ImageSource.FromResource("Sandoghche.Images.Settings.png");
             imgClients.Source = ImageSource.FromResource("Sandoghche.Images.Clients.png");
-
+            SandoghcheLogo.Source = ImageSource.FromResource("Sandoghche.Images.SandoghcheLogo.png");
+           
             if (Application.Current.Properties.ContainsKey("FullName"))
             {
                 lblUser.Text = Application.Current.Properties["FullName"].ToString();
                 lblRollName.Text = Application.Current.Properties["userRollName"].ToString() + " : " ;
+
+            }
+           
+
+            if (Device.Idiom == TargetIdiom.Phone)
+            {
+                RightPanel.IsVisible = false;
+                MainPanel.Children.Add(LeftPanel);
+                Grid.SetColumn(LeftPanel, 0);
+                
+            }
+            else if (Device.Idiom == TargetIdiom.Tablet)
+            {
+                MainPanel.ColumnDefinitions.Add(new ColumnDefinition
+                {
+                    Width = new GridLength(2, GridUnitType.Star)
+                });
+                MainPanel.ColumnDefinitions.Add(new ColumnDefinition
+                {
+                    Width = new GridLength(1, GridUnitType.Star)
+                });
+                MainPanel.Children.Add(LeftPanel);
+                Grid.SetColumn(LeftPanel, 0);
+                MainPanel.Children.Add(RightPanel);
+                Grid.SetColumn(RightPanel, 1);
+
+                RightPanel.IsVisible = true;
+
+                lblPersianYear.FontSize = 40;
+                lblPersianMonth.FontSize = 30;
+                lblPersianDay.FontSize = 30;
+                lblQuote.FontSize = 20;
+
+            }
+            else if (Device.Idiom == TargetIdiom.Desktop)
+            {
+                MainPanel.ColumnDefinitions.Add(new ColumnDefinition
+                {
+                    Width = new GridLength(2, GridUnitType.Star)
+                });
+                MainPanel.ColumnDefinitions.Add(new ColumnDefinition
+                {
+                    Width = new GridLength(1, GridUnitType.Star)
+                });
+                MainPanel.Children.Add(LeftPanel);
+                Grid.SetColumn(LeftPanel, 0);
+                MainPanel.Children.Add(RightPanel);
+                Grid.SetColumn(RightPanel, 1);
+                RightPanel.IsVisible = true;
+                lblPersianYear.FontSize = 50;
+                lblPersianMonth.FontSize = 35;
+                lblPersianDay.FontSize = 35;
 
             }
 

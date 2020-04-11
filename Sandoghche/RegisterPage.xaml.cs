@@ -34,7 +34,8 @@ namespace Sandoghche
             sloganLine.Source = ImageSource.FromResource("Sandoghche.Images.sloganLine.png");
             Location.Source = ImageSource.FromResource("Sandoghche.Images.Location.png");
             mainLogo.Source = ImageSource.FromResource("Sandoghche.Images.mainLogo.png");
-            
+            SandoghcheLogo.Source = ImageSource.FromResource("Sandoghche.Images.SandoghcheLogo.png");
+
             lblPersianYear.Text = pc.GetYear(thisDate).ToString();
             lblPersianDay.Text = pc.GetDayOfMonth(thisDate).ToString();
 
@@ -77,7 +78,62 @@ namespace Sandoghche
                     lblPersianMonth.Text = "اسفند";
                     break;
             }
+
+            if (Device.Idiom == TargetIdiom.Phone)
+            {
+                RightPanel.IsVisible = false;
+                MainPanel.Children.Add(LeftPanel);
+                Grid.SetColumn(LeftPanel, 0);
+
+            }
+            else if (Device.Idiom == TargetIdiom.Tablet)
+            {
+                MainPanel.ColumnDefinitions.Add(new ColumnDefinition
+                {
+                    Width = new GridLength(2, GridUnitType.Star)
+                });
+                MainPanel.ColumnDefinitions.Add(new ColumnDefinition
+                {
+                    Width = new GridLength(1, GridUnitType.Star)
+                });
+                MainPanel.Children.Add(LeftPanel);
+                Grid.SetColumn(LeftPanel, 0);
+                MainPanel.Children.Add(RightPanel);
+                Grid.SetColumn(RightPanel, 1);
+
+                RightPanel.IsVisible = true;
+
+                lblPersianYear.FontSize = 40;
+                lblPersianMonth.FontSize = 30;
+                lblPersianDay.FontSize = 30;
+                lblQuote.FontSize = 20;
+
+            }
+            else if (Device.Idiom == TargetIdiom.Desktop)
+            {
+                MainPanel.ColumnDefinitions.Add(new ColumnDefinition
+                {
+                    Width = new GridLength(2, GridUnitType.Star)
+                });
+                MainPanel.ColumnDefinitions.Add(new ColumnDefinition
+                {
+                    Width = new GridLength(1, GridUnitType.Star)
+                });
+                MainPanel.Children.Add(LeftPanel);
+                Grid.SetColumn(LeftPanel, 0);
+                MainPanel.Children.Add(RightPanel);
+                Grid.SetColumn(RightPanel, 1);
+                RightPanel.IsVisible = true;
+                lblPersianYear.FontSize = 50;
+                lblPersianMonth.FontSize = 35;
+                lblPersianDay.FontSize = 35;
+
+            }
+
+
+
             SandoghcheController._connection = DependencyService.Get<ISQLiteDb>().GetConnection();
+
 
         }
 

@@ -75,22 +75,14 @@ namespace Sandoghche
             mainLogo.Source = ImageSource.FromResource("Sandoghche.Images.mainLogo.png");
             SandoghcheLogo.Source = ImageSource.FromResource("Sandoghche.Images.SandoghcheLogo.png");
 
-            var mainDisplayInfo = DeviceDisplay.MainDisplayInfo;
-
-
-            lblPersianYear.FontSize = 20;
-            lblPersianMonth.FontSize = 15;
-            lblPersianDay.FontSize = 20;
-
-
-            if (Device.Idiom <= TargetIdiom.Phone)
+            if (Device.Idiom == TargetIdiom.Phone)
             {
                 RightPanel.IsVisible = false;
                 MainPanel.Children.Add(LeftPanel);
                 Grid.SetColumn(LeftPanel, 0);
 
             }
-            else if (Device.Idiom <= TargetIdiom.Tablet)
+            else if (Device.Idiom == TargetIdiom.Tablet)
             {
                 MainPanel.ColumnDefinitions.Add(new ColumnDefinition
                 {
@@ -113,7 +105,7 @@ namespace Sandoghche
                 lblQuote.FontSize = 20;
 
             }
-            else if (Device.Idiom <= TargetIdiom.Desktop)
+            else if (Device.Idiom == TargetIdiom.Desktop)
             {
                 MainPanel.ColumnDefinitions.Add(new ColumnDefinition
                 {

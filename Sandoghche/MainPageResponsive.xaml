@@ -5,6 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="Sandoghche.MainPageResponsive">
+
     <Grid x:Name="MainPanel" ColumnSpacing="0" RowSpacing="0" >
         <!--سمت چپ صفحه اصلی-->
         <Grid x:Name="LeftPanel"  ColumnSpacing="0" RowSpacing="0" VerticalOptions="FillAndExpand">
@@ -12,11 +13,12 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="70" />
             </Grid.RowDefinitions>
-            <StackLayout Grid.Row="0" >
-                <StackLayout HorizontalOptions="Center" Margin="0,25,0,0" >
-                    <Image x:Name="mainLogo" HorizontalOptions="End" WidthRequest="272" HeightRequest="196"  />
+            <ScrollView>
+                <StackLayout Grid.Row="0" >
+                    <StackLayout HorizontalOptions="Center" Margin="0,25,0,0" >
+                        <Image x:Name="mainLogo" HorizontalOptions="End" WidthRequest="272" HeightRequest="196"  />
 
-                    <Label
+                        <Label
                         HorizontalOptions="End"
                         TextColor="Black"
                         FontAttributes="Bold"
@@ -25,7 +27,7 @@
                         FontSize="20"
                            />
 
-                    <Label
+                        <Label
                         HorizontalOptions="End"
                         TextColor="Black"
                         FontAttributes="Bold"
@@ -33,19 +35,19 @@
                         FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
                         FontSize="20"/>
 
-                    <StackLayout Margin="0,20,0,0" HorizontalOptions="FillAndExpand">
-                        <Entry Placeholder="آدرس ایمیل" Keyboard="Email" x:Name="txtEmail" Text="mshaffaf@yahoo.com"  />
-                        <Entry Keyboard="Text"  Placeholder="رمز عبور" IsPassword="True" x:Name="txtPassword" Text="shaffaf123" />
-                        <StackLayout Orientation="Horizontal" >
+                        <StackLayout Margin="0,20,0,20" HorizontalOptions="FillAndExpand">
+                            <Entry Placeholder="آدرس ایمیل" Keyboard="Email" x:Name="txtEmail" Text="mshaffaf@yahoo.com"  />
+                            <Entry Keyboard="Text"  Placeholder="رمز عبور" IsPassword="True" x:Name="txtPassword" Text="shaffaf123" />
+                            <StackLayout Orientation="Horizontal" >
 
-                            <Label VerticalOptions="Center"
+                                <Label VerticalOptions="Center"
                                        FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
                                        HorizontalOptions="StartAndExpand" x:Name="btnForgetPassword" Text="رمز عبور را فراموش کرده اید؟" TextDecorations="Underline" >
-                                <Label.GestureRecognizers >
-                                    <TapGestureRecognizer Tapped="btnForgetPassword_Tapped"/>
-                                </Label.GestureRecognizers>
-                            </Label>
-                            <Button 
+                                    <Label.GestureRecognizers >
+                                        <TapGestureRecognizer Tapped="btnForgetPassword_Tapped"/>
+                                    </Label.GestureRecognizers>
+                                </Label>
+                                <Button 
                                     WidthRequest="100"
                                     HeightRequest="30"
                                     x:Name="btnLogin"
@@ -59,29 +61,29 @@
                                     FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
                                     Clicked="btnLogin_Clicked"/>
 
-                        </StackLayout>
+                            </StackLayout>
 
-                        <StackLayout Orientation="Horizontal" >
+                            <StackLayout Orientation="Horizontal" >
 
-                            <Label TextColor="#0078D7" 
+                                <Label TextColor="#0078D7" 
                                        FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
                                        HorizontalOptions="StartAndExpand" x:Name="btnRegister" Text="فرم ثبت نام"  >
-                                <Label.GestureRecognizers >
-                                    <TapGestureRecognizer Tapped="btnRegister_Tapped"/>
-                                </Label.GestureRecognizers>
-                            </Label>
-                            <Label HorizontalOptions="End"
+                                    <Label.GestureRecognizers >
+                                        <TapGestureRecognizer Tapped="btnRegister_Tapped"/>
+                                    </Label.GestureRecognizers>
+                                </Label>
+                                <Label HorizontalOptions="End"
                                        FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
                                        Text="در صندوقچه ثبت نام نکرده اید؟" />
 
+                            </StackLayout>
+
+
                         </StackLayout>
 
-
                     </StackLayout>
-
                 </StackLayout>
-
-            </StackLayout>
+            </ScrollView>
 
             <!--footer-->
             <StackLayout BackgroundColor="LightGray" Grid.Row="1"  >
@@ -174,4 +176,5 @@
         </Grid>
 
     </Grid>
+
 </ContentPage>
