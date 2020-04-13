@@ -19,6 +19,7 @@ namespace Sandoghche
         private static int clientId;
         private static int categoryId;
         private static double Tax1, Tax2;
+        private static int TotalNumberOfItem = 0;
 
 
         public InvoicePageMobile()
@@ -115,7 +116,6 @@ namespace Sandoghche
         {
             var categories = await SandoghcheController.GetConnection().Table<Category>().Where(c => c.IsDeleted != true).ToListAsync();
             pkrCategory.ItemsSource = categories;
-
             //var result = new List<Category>();
             //if (String.IsNullOrWhiteSpace(Searchtext))
             //    result = categories;
@@ -202,7 +202,8 @@ namespace Sandoghche
                 //ProductsDataGrid.ItemsSource = null;
 
                 //ProductsDataGrid.ItemsSource = order.OrderDetails;
-
+                TotalNumberOfItem++;
+                lblTotalNumberOfItem.Text = "سبد " + "( " + TotalNumberOfItem.ToString() + " )";
                 TotalPriceCalculator();
             }
         }
@@ -295,7 +296,20 @@ namespace Sandoghche
             }
         }
 
+        private void btnService_Clicked(object sender, EventArgs e)
+        {
 
+        }
+
+        private void btnDelivery_Clicked(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnDiscount_Clicked(object sender, EventArgs e)
+        {
+
+        }
 
         private void btnPlus_Clicked(object sender, EventArgs e)
         {
