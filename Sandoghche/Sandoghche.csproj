@@ -13,8 +13,10 @@
 
   <ItemGroup>
     <None Remove="Images\background.jpg" />
+    <None Remove="Images\BasketIcon.png" />
     <None Remove="Images\CancelEdit.png" />
     <None Remove="Images\Clients.png" />
+    <None Remove="Images\ClientsUnselectedIcon.png" />
     <None Remove="Images\CreditInvoice.png" />
     <None Remove="Images\CreditInvoiceUpdate.png" />
     <None Remove="Images\DeleteOrder.png" />
@@ -22,6 +24,7 @@
     <None Remove="Images\Discount.png" />
     <None Remove="Images\Edit.png" />
     <None Remove="Images\Home.png" />
+    <None Remove="Images\HomePageIcon.png" />
     <None Remove="Images\Invoice.png" />
     <None Remove="Images\IRANSans(FaNum).ttf" />
     <None Remove="Images\items.png" />
@@ -33,6 +36,7 @@
     <None Remove="Images\Plus.png" />
     <None Remove="Images\PrintInvoice.png" />
     <None Remove="Images\PrintInvoiceUpdate.png" />
+    <None Remove="Images\ProductsUnselectedIcon.png" />
     <None Remove="Images\reports.png" />
     <None Remove="Images\SandoghcheLogo.png" />
     <None Remove="Images\SaveInvoice.png" />
@@ -47,6 +51,9 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Images\background.jpg" />
+    <EmbeddedResource Include="Images\BasketIcon.png" />
+    <EmbeddedResource Include="Images\ClientsUnselectedIcon.png" />
+    <EmbeddedResource Include="Images\HomePageIcon.png" />
     <EmbeddedResource Include="Images\IRANSans(FaNum).ttf" />
   </ItemGroup>
 
@@ -66,6 +73,7 @@
     <EmbeddedResource Include="Images\Plus.png" />
     <EmbeddedResource Include="Images\PrintInvoiceUpdate.png" />
     <EmbeddedResource Include="Images\PrintInvoice.png" />
+    <EmbeddedResource Include="Images\ProductsUnselectedIcon.png" />
     <EmbeddedResource Include="Images\SandoghcheLogo.png" />
     <EmbeddedResource Include="Images\SaveInvoice.png" />
     <EmbeddedResource Include="Images\SaveInvoiceUpdate.png" />
@@ -175,6 +183,9 @@
     <EmbeddedResource Update="InvoicePage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="InvoicePageMobile.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="ItemsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -200,6 +211,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="SettingsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="testPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

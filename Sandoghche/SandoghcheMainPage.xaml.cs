@@ -164,12 +164,28 @@ namespace Sandoghche
         }
         async private void imgInvoice_Tapped(object sender, EventArgs e)
         {
-            var firstClient = await SandoghcheController.GetConnection().Table<Client>().FirstOrDefaultAsync();
+            //var firstClient = await SandoghcheController.GetConnection().Table<Client>().FirstOrDefaultAsync();
 
-            if (firstClient != null)
-                await Navigation.PushAsync(new InvoicePage(firstClient.ClientId, firstClient.ClientName));
-            else
-                await Navigation.PushAsync(new InvoicePage(0, "انتخاب مشتری"));
+            //if (Device.Idiom == TargetIdiom.Phone)
+            //{
+            //    await Navigation.PushAsync(new InvoicePageMobile());
+            //}else if(Device.Idiom== TargetIdiom.Tablet)
+            //{
+            //    if (firstClient != null)
+            //        await Navigation.PushAsync(new InvoicePage(firstClient.ClientId, firstClient.ClientName));
+            //    else
+            //        await Navigation.PushAsync(new InvoicePage(0, "انتخاب مشتری"));
+            //}else if(Device.Idiom == TargetIdiom.Desktop)
+            //{
+            //    if (firstClient != null)
+            //        await Navigation.PushAsync(new InvoicePage(firstClient.ClientId, firstClient.ClientName));
+            //    else
+            //        await Navigation.PushAsync(new InvoicePage(0, "انتخاب مشتری"));
+            //}
+            await Navigation.PushAsync(new InvoicePageMobile());
+
+
+
         }
         async private void imgReports_Tapped(object sender, EventArgs e)
         {
