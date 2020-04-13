@@ -32,7 +32,7 @@
             </telerikPrimitives:TabViewItem>
            
             <!--محصولات-->
-            <telerikPrimitives:TabViewItem>
+            <telerikPrimitives:TabViewItem x:Name="TabProduct" HeaderText="TabProduct">
                 <telerikPrimitives:TabViewItem.Header>
                     <telerikPrimitives:TabViewHeaderItem>
                         <telerikPrimitives:TabViewHeaderItem.Content>
@@ -50,10 +50,10 @@
             </telerikPrimitives:TabViewItem>
          
             
-            <!--سبد--> 
-            <telerikPrimitives:TabViewItem HeaderText="TabBasket" >
+            <!--سبد-->
+            <telerikPrimitives:TabViewItem x:Name="TabBasket" HeaderText="TabBasket" >
                 <telerikPrimitives:TabViewItem.Header>
-                    <telerikPrimitives:TabViewHeaderItem x:Name="TabBasket">
+                    <telerikPrimitives:TabViewHeaderItem >
                         <telerikPrimitives:TabViewHeaderItem.Content>
                             <StackLayout HeightRequest="50" Orientation="Horizontal" HorizontalOptions="Center">
                                 <Label x:Name="lblTotalNumberOfItem" VerticalOptions="Center" Text="سبد" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" />
@@ -315,6 +315,9 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+
                             </Grid.ColumnDefinitions>
                             <Button 
                                                
@@ -343,11 +346,33 @@
                                                 x:Name="btnDiscount"
                                                 Grid.Column="2"
                                                 VerticalOptions="Center"
-                                                Margin="10,0,10,0"
+                                                Margin="10,0,0,0"
                                                 Text="تخفیف"
                                                 CornerRadius="10"
                                                 FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
                                                 Clicked="btnDiscount_Clicked"
+                                BackgroundColor="Gray"
+                                                />
+                            <Button 
+                                                x:Name="btnSaveInvoiceCredit"
+                                                Grid.Column="3"
+                                                VerticalOptions="Center"
+                                                Margin="10,0,0,0"
+                                                Text="اعتباری"
+                                                CornerRadius="10"
+                                                FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                                                Clicked="btnSaveInvoiceCredit_Clicked"
+                                BackgroundColor="Gray"
+                                                />
+                            <Button 
+                                                x:Name="btnSaveInvoice"
+                                                Grid.Column="4"
+                                                VerticalOptions="Center"
+                                                Margin="10,0,10,0"
+                                                Text="صدور"
+                                                CornerRadius="10"
+                                                FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                                                Clicked="btnSaveInvoice_Clicked"
                                 BackgroundColor="Gray"
                                                 />
                         </Grid>
@@ -388,7 +413,7 @@
         
             
             <!--فاکتور-->
-            <telerikPrimitives:TabViewItem IsSelected="True" HeaderText="TabReceipt" >
+            <telerikPrimitives:TabViewItem IsSelected="True" HeaderText="TabReceipt" x:Name="TabReceipt" >
                 <telerikPrimitives:TabViewItem.Header>
                     <telerikPrimitives:TabViewHeaderItem>
                         <telerikPrimitives:TabViewHeaderItem.Content>
@@ -418,7 +443,7 @@
                                 VerticalOptions="Center"
                                 HorizontalOptions="Center"
                     />
-                            <telerikInput:RadAutoCompleteView  SuggestionViewHeight="200"  TextSearchPath="ClientName" FlowDirection="RightToLeft" x:Name="srchClients" Grid.Column="1" Grid.Row="0" VerticalOptions="Center" WatermarkTextColor="Black" Watermark="مشتری ..." NoResultsMessage="یافت نشد"  SuggestionItemSelected="srchClients_SuggestionItemSelected" >
+                            <telerikInput:RadAutoCompleteView  SuggestionViewHeight="200"  TextSearchPath="ClientName" FlowDirection="RightToLeft" x:Name="srchClients" Grid.Column="1" Grid.Row="0" VerticalOptions="Center" WatermarkTextColor="Black" Watermark="مشتری ..." NoResultsMessage="یافت نشد" TextChanged="srchClients_TextChanged"  SuggestionItemSelected="srchClients_SuggestionItemSelected" >
                                 <telerikInput:RadAutoCompleteView.SuggestionItemTemplate>
                                     <DataTemplate>
                                         <ViewCell>

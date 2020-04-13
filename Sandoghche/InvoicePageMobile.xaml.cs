@@ -1,5 +1,8 @@
-﻿using Sandoghche.Components;
+﻿using Rg.Plugins.Popup.Services;
+using Sandoghche.Components;
 using Sandoghche.Models;
+using Sandoghche.ModelView;
+using SQLiteNetExtensionsAsync.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -112,18 +115,14 @@ namespace Sandoghche
             srchClients.ItemsSource = clients.ToList();
             srchClients.Filter = new ClientAutoCompleteViewFilter();
         }
+
         async Task getCategories()
         {
             var categories = await SandoghcheController.GetConnection().Table<Category>().Where(c => c.IsDeleted != true).ToListAsync();
             pkrCategory.ItemsSource = categories;
-            //var result = new List<Category>();
-            //if (String.IsNullOrWhiteSpace(Searchtext))
-            //    result = categories;
-            //else
-            //    result = categories.Where(c => c.CategoryText.Contains(Searchtext) && c.IsDeleted != true).ToList();
 
-            //lstCategory.ItemsSource = result;
         }
+
         async Task getProducts(int categoryId, string Searchtext = null)
         {
             var products = await SandoghcheController._connection.Table<Product>().Where(p => p.IsDeleted != true && p.CategoryId == categoryId).ToListAsync();
@@ -136,10 +135,12 @@ namespace Sandoghche
             lstProducts.ItemsSource = result;
             // DataGridProduct.ItemsSource = result;
         }
+
         public class ClientCreditViewModel
         {
             public double Amount { get; set; }
         }
+
         async private Task ClientCreditStatus(int ClientId)
         {
             var query = "select (sum(DebtorAmount)-sum(CreditorAmount)) as 'Amount' from Accounting WHERE ClientId=" + ClientId;
@@ -152,18 +153,44 @@ namespace Sandoghche
 
         async private void srchClients_SuggestionItemSelected(object sender, SuggestionItemSelectedEventArgs e)
         {
+            
+            order = new Order();
             var client = (Client)e.DataItem;
             clientId = client.ClientId;
+            lstProducts.ItemsSource = null;
+            pkrCategory.ItemsSource = null;
+            await getCategories();
+            ProductsDataGrid.ItemsSource = null;
+            lblTax.Text = "0";
+            lblDiscount.Text = "0";
+            lblService.Text = "0";
+            lblTax.Text = "0";
+            lblFinalPayment.Text = "0";
+            lblTotalPrice.Text = "0";
+            lblDelivery.Text = "0";
+            lblTotalNumberOfItem.Text = "سبد" + "( " + "0" + " )";
+            TotalNumberOfItem = 0;
+
+
             await ClientCreditStatus(clientId);
+
+
+
+
+
+
+
 
         }
 
         async private void pkrCategory_SelectedIndexChanged(object sender, EventArgs e)
         {
             var category = (Category)pkrCategory.SelectedItem;
-
-            categoryId = category.CategoryId;
-            await getProducts(categoryId);
+            if (category != null)
+            {
+                categoryId = category.CategoryId;
+                await getProducts(categoryId);
+            }
         }
 
         async private void srchProduct_TextChanged(object sender, TextChangedEventArgs e)
@@ -171,42 +198,48 @@ namespace Sandoghche
             await getProducts(categoryId, e.NewTextValue);
         }
 
-         private void btnAddToBasket_Clicked(object sender, EventArgs e)
+        async private void btnAddToBasket_Clicked(object sender, EventArgs e)
         {
-
-            var product = (sender as Button).CommandParameter as Product;
-
-            if (product.IsActive)
+           
+            if (clientId == 0 || srchClients.Text == "" )
             {
-                order.ClientId = clientId;
-
-                order.ReceiptNumber = Convert.ToInt32(lblReceipNumber.Text);
-
-
-                //جمع کل یه محصول
-                if (order.OrderDetails == null)
-                    order.OrderDetails = new List<OrderDetail>();
-
-                var detail = order.OrderDetails?.FirstOrDefault(x => x.ProductId == product.ProductId);
-
-                if (detail != null)
+                await DisplayAlert("خطا", "مشتری انتخاب نشده است", "باشه");
+            }
+            else
+            {
+                var product = (sender as Button).CommandParameter as Product;
+                if (product.IsActive)
                 {
-                    var n = detail.Number + 1;
-                    detail.Number = n;
-                    detail.TotalPrice = n * detail.Price;
+                    order.ClientId = clientId;
+                    order.ReceiptNumber = Convert.ToInt32(lblReceipNumber.Text);
+
+                    //جمع کل یه محصول
+                    if (order.OrderDetails == null)
+                        order.OrderDetails = new List<OrderDetail>();
+
+                    var detail = order.OrderDetails?.FirstOrDefault(x => x.ProductId == product.ProductId);
+
+                    if (detail != null)
+                    {
+                        var n = detail.Number + 1;
+                        detail.Number = n;
+                        detail.TotalPrice = n * detail.Price;
+                    }
+                    else
+                        order.OrderDetails.Add(new OrderDetail { RowNumber = order.OrderDetails.Count + 1, ProductId = product.ProductId, ProductText = product.ProductText, Number = 1, Price = product.ProductPrice, CategoryId = product.CategoryId, TotalPrice = product.ProductPrice });
+
+
+                    //ProductsDataGrid.ItemsSource = null;
+
+                    //ProductsDataGrid.ItemsSource = order.OrderDetails;
+
+                    TotalNumberOfItem++;
+                    lblTotalNumberOfItem.Text = "سبد " + "( " + TotalNumberOfItem.ToString() + " )";
+                    TotalPriceCalculator();
                 }
-                else
-                    order.OrderDetails.Add(new OrderDetail { RowNumber = order.OrderDetails.Count + 1, ProductId = product.ProductId, ProductText = product.ProductText, Number = 1, Price = product.ProductPrice, CategoryId = product.CategoryId, TotalPrice = product.ProductPrice });
-
-
-                //ProductsDataGrid.ItemsSource = null;
-
-                //ProductsDataGrid.ItemsSource = order.OrderDetails;
-                TotalNumberOfItem++;
-                lblTotalNumberOfItem.Text = "سبد " + "( " + TotalNumberOfItem.ToString() + " )";
-                TotalPriceCalculator();
             }
         }
+
         void TotalPriceCalculator()
         {
             double totalPrice = 0;
@@ -271,49 +304,305 @@ namespace Sandoghche
             order.FinalPayment = totalPrice + order.TotalServiceFee + order.DeliveryFee + order.Tax1 + order.Tax2 - (totalDiscount);
             if (order.FinalPayment < 0)
             {
-                 DisplayAlert("اخطار", "مبلغ پرداختی نمیتواند منفی باشد", "باشه");
+                DisplayAlert("اخطار", "مبلغ پرداختی نمیتواند منفی باشد", "باشه");
             }
 
             lblFinalPayment.Text = (totalPrice + order.TotalServiceFee + order.DeliveryFee + order.Tax1 + order.Tax2 - (totalDiscount)).ToString();
         }
+
         private void btnMines_Clicked(object sender, EventArgs e)
         {
+            var s = sender as Label;
+            var selectedItem = s.BindingContext;
+            var orderDetail = (OrderDetail)selectedItem;
+            orderDetail.Number--;
+            orderDetail.TotalPrice = orderDetail.TotalPrice - orderDetail.Price;
+            if (orderDetail.Number == 0)
+                order.OrderDetails.Remove(orderDetail);
 
+            ProductsDataGrid.ItemsSource = null;
+            ProductsDataGrid.ItemsSource = order.OrderDetails;
+            TotalNumberOfItem--;
+            lblTotalNumberOfItem.Text = "سبد " + "( " + TotalNumberOfItem.ToString() + " )";
+            TotalPriceCalculator();
+        }
+        
+        private void btnPlus_Clicked(object sender, EventArgs e)
+        {
+            var s = sender as Label;
+            var selectedItem = s.BindingContext;
+            var orderDetail = (OrderDetail)selectedItem;
+
+            orderDetail.Number++;
+            orderDetail.TotalPrice = orderDetail.TotalPrice + orderDetail.Price;
+
+            ProductsDataGrid.ItemsSource = null;
+            ProductsDataGrid.ItemsSource = order.OrderDetails;
+            TotalNumberOfItem++;
+            lblTotalNumberOfItem.Text = "سبد " + "( " + TotalNumberOfItem.ToString() + " )";
+            TotalPriceCalculator();
         }
 
         private void tabView_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            //DisplayAlert("test",e.PropertyName, "test");
+
             if (e.PropertyName == "SelectedItem")
             {
                 var selectedTab = tabView.SelectedItem as TabViewItem;
                 if (selectedTab.HeaderText == "TabBasket")
                 {
-                    ProductsDataGrid.ItemsSource = null;
+                    ProductsDataGrid.ItemsSource = new List<string>();
 
                     ProductsDataGrid.ItemsSource = order.OrderDetails;
+
+                    //await DisplayAlert("test", e.PropertyName, "test");
+                }
+                if (selectedTab.HeaderText == "TabProduct")
+                {
+                    Navigation.PushAsync(new SandoghcheMainPage());
                 }
             }
         }
 
         private void btnService_Clicked(object sender, EventArgs e)
         {
+            if (lblFinalPayment.Text == "0")
+                DisplayAlert("اخطار", "برای فاکتور به مبلغ صفر نمیتوان حق سرویس اضافه نمود", "باشه");
+            else
+            {
+                MessagingCenter.Subscribe<PopupViewModel>(this, "Service", (value) =>
+                {
+                    if (value.ServiceType == 0)
+                    {
+                        order.ServiceType = 0;
+                        order.ServicePercent = value.ServiceAmount;
+                        order.TotalServiceFee = order.TotalPrice * (value.ServiceAmount * 0.01);
+                        lblService.Text = (order.TotalPrice * (value.ServiceAmount * 0.01)).ToString();
+                        TotalPriceCalculator();
+
+                    }
+                    else
+                    {
+                        order.ServiceType = Convert.ToInt16(value.ServiceType);
+                        order.ServicePercent = 0;
+                        order.TotalServiceFee = value.ServiceAmount;
+                        lblService.Text = value.ServiceAmount.ToString();
+                        TotalPriceCalculator();
+
+                    }
+
+
+                });
+
+                PopupNavigation.Instance.PushAsync(new ServicePopupPage(order.TotalPrice.ToString()));
+            }
 
         }
 
         private void btnDelivery_Clicked(object sender, EventArgs e)
         {
+            if (lblFinalPayment.Text == "0")
+                DisplayAlert("اخطار", "برای فاکتور به مبلغ صفر نمیتوان هزینه پیک اضافه نمود", "باشه");
+            else
+            {
+                MessagingCenter.Subscribe<PopupViewModel>(this, "txtDeliveryFee", (value) =>
+                {
+                    order.DeliveryFee = value.DeliveryFee;
+                    lblDelivery.Text = value.DeliveryFee.ToString();
+                    TotalPriceCalculator();
 
+                });
+
+                PopupNavigation.Instance.PushAsync(new DeliveryPopupPage());
+            }
         }
 
         private void btnDiscount_Clicked(object sender, EventArgs e)
         {
+            if (lblFinalPayment.Text == "0")
+                DisplayAlert("اخطار", "برای فاکتور به مبلغ صفر نمیتوان تخفیفی اضافه نمود", "باشه");
+            else
+            {
+                MessagingCenter.Subscribe<PopupViewModel>(this, "Discount", (value) =>
+                {
+                    if (value.DiscountType == 0)
+                    {
+                        order.DiscountType = 0;
+                        order.DiscountPercent = value.DiscountAmount;
+                        order.TotalDiscount = order.TotalPrice * (value.DiscountAmount * 0.01);
+                        lblDiscount.Text = (order.TotalPrice * (value.DiscountAmount * 0.01)).ToString();
+                        TotalPriceCalculator();
 
+                    }
+                    else
+                    {
+                        order.DiscountType = Convert.ToInt16(value.DiscountType);
+                        order.DiscountPercent = 0;
+                        order.TotalDiscount = value.DiscountAmount;
+                        lblDiscount.Text = value.DiscountAmount.ToString();
+                        TotalPriceCalculator();
+
+                    }
+
+
+                });
+
+                PopupNavigation.Instance.PushAsync(new DiscountPopupPage(order.TotalPrice.ToString()));
+            }
         }
 
-        private void btnPlus_Clicked(object sender, EventArgs e)
+        async private void btnSaveInvoiceCredit_Clicked(object sender, EventArgs e)
         {
+            if (clientId == 0 || srchClients.Text == "")
+            {
+                await DisplayAlert("خطا", "مشتری انتخاب نشده است", "باشه");
+            }
+            else
+            {
+                await SaveInvoice(1);
+            }
+        }
+
+        async private void btnSaveInvoice_Clicked(object sender, EventArgs e)
+        {
+            if (clientId == 0 || srchClients.Text == "")
+            {
+                await DisplayAlert("خطا", "مشتری انتخاب نشده است", "باشه");
+            }
+            else
+            {
+                await SaveInvoice(0);
+            }
 
         }
+
+        async Task SaveInvoice(int InvoiceType)
+        {
+            if (InvoiceType == 0)
+            {
+                order.PaymentType = 0;
+                double finalPayment = Convert.ToDouble(lblFinalPayment.Text);
+                if (finalPayment == 0)
+                {
+                    await DisplayAlert("صدور فاکتور", "فاکتور به مبلغ صفر نمیتواتد در سیستم ثبت گردد", "باشه");
+                }
+                else
+                {
+                    await SandoghcheController._connection.InsertAsync(order);
+                    await SandoghcheController._connection.InsertAllAsync(order.OrderDetails);
+                    await SandoghcheController._connection.UpdateWithChildrenAsync(order);
+
+                    await UpdateProductsAmount();
+
+
+                    await DisplayAlert("صدور فاکتور", string.Format(" فاکتور {0}  شماره فیش {1} به مبلغ {2} ثبت شد", order.ReceiptNumber, order.OrderId, Convert.ToDouble(lblFinalPayment.Text)), "باشه");
+
+                    await setOrderNumber();
+                    await setReceiptNumber();
+
+                    lblTax.Text = "0";
+                    lblDiscount.Text = "0";
+                    lblService.Text = "0";
+                    lblTax.Text = "0";
+                    lblFinalPayment.Text = "0";
+                    lblTotalPrice.Text = "0";
+                    lblDelivery.Text = "0";
+
+                    ProductsDataGrid.ItemsSource = null;
+                    lstProducts.ItemsSource = null;
+                    srchClients.Text = "";
+                    pkrCategory.ItemsSource = null;
+                    lblTotalNumberOfItem.Text = "سبد" + "( " + "0" + " )";
+                    lblCreditStatus.Text = "مانده : 0";
+                    await getCategories();
+                    order = new Order();
+                    TabReceipt.IsSelected = true;
+                }
+            }
+            else if (InvoiceType == 1)
+            {
+                order.PaymentType = 1;
+                double finalPayment = Convert.ToDouble(lblFinalPayment.Text);
+                if (finalPayment == 0)
+                {
+                    await DisplayAlert("صدور فاکتور", "فاکتور به مبلغ صفر نمیتواتد در سیستم ثبت گردد", "باشه");
+                }
+                else
+                {
+                    Accounting accounting = new Accounting();
+                    accounting.ClientId = order.ClientId;
+                    accounting.DebtorAmount = order.FinalPayment;
+                    accounting.CreditorAmount = 0;
+
+
+                    await SandoghcheController._connection.InsertAsync(order);
+                    await SandoghcheController._connection.InsertAllAsync(order.OrderDetails);
+                    await SandoghcheController._connection.UpdateWithChildrenAsync(order);
+                    await SandoghcheController._connection.InsertAsync(accounting);
+
+                    await UpdateProductsAmount();
+
+
+                    await DisplayAlert("صدور فاکتور", string.Format(" فاکتور {0}  شماره فیش {1} به مبلغ {2} ثبت شد", order.ReceiptNumber, order.OrderId, Convert.ToDouble(lblFinalPayment.Text)), "باشه");
+
+                    await setOrderNumber();
+                    await setReceiptNumber();
+
+                    lblTax.Text = "0";
+                    lblDiscount.Text = "0";
+                    lblService.Text = "0";
+                    lblTax.Text = "0";
+                    lblFinalPayment.Text = "0";
+                    lblTotalPrice.Text = "0";
+                    lblDelivery.Text = "0";
+
+                    ProductsDataGrid.ItemsSource = null;
+                    lstProducts.ItemsSource = null;
+                    srchClients.Text = "";
+                    lblTotalNumberOfItem.Text = "سبد" + "( " + "0" + " )";
+                    await getCategories();
+                    await ClientCreditStatus(clientId);
+                    order = new Order();
+                    TabReceipt.IsSelected = true;
+                    lblCreditStatus.Text = "مانده : 0";
+
+
+                }
+            }
+        }
+
+        async private Task UpdateProductsAmount()
+        {
+            var products = await SandoghcheController.GetConnection().Table<Product>().Where(p => p.IsDeleted != true).ToListAsync();
+
+            foreach (var item in order.OrderDetails)
+            {
+                foreach (var product in products)
+                {
+                    if (product.ProductId == item.ProductId)
+                        product.ProductAmount = product.ProductAmount - item.Number;
+                }
+            }
+            await SandoghcheController._connection.UpdateAllAsync(products);
+        }
+
+        private void srchClients_TextChanged(object sender, TextChangedEventArgs e)
+        {            
+            order = new Order();
+            lstProducts.ItemsSource = null;
+            pkrCategory.ItemsSource = null;
+            ProductsDataGrid.ItemsSource = null;
+            lblTax.Text = "0";
+            lblDiscount.Text = "0";
+            lblService.Text = "0";
+            lblTax.Text = "0";
+            lblFinalPayment.Text = "0";
+            lblTotalPrice.Text = "0";
+            lblDelivery.Text = "0";
+            lblTotalNumberOfItem.Text = "سبد" + "( " + "0" + " )";
+            TotalNumberOfItem = 0;
+            lblCreditStatus.Text = "مانده : 0";
+        }
+
     }
 }
