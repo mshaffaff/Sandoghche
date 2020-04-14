@@ -23,7 +23,7 @@
                     </telerikPrimitives:TabViewHeaderItem>
                 </telerikPrimitives:TabViewItem.Header>
                 <telerikPrimitives:TabViewItem.Content>
-                    <StackLayout BackgroundColor="White">
+                    <StackLayout BackgroundColor="White" Padding="20">
                         <SearchBar x:Name="srchProduct" TextChanged="srchProduct_TextChanged"  Placeholder="جستجو" FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" TextColor="Black" PlaceholderColor="Black" />
                         <ScrollView>
                             <telerikDataGrid:RadDataGrid x:Name="ProductDataGrid" SelectionChanged="ProductDataGrid_SelectionChanged"   UserFilterMode="Disabled" UserGroupMode="Disabled" UserSortMode="None" UserEditMode="None" AutoGenerateColumns="False"  >
@@ -122,7 +122,6 @@
                 </telerikPrimitives:TabViewItem.Content>
             </telerikPrimitives:TabViewItem>
 
-
             <!--ثبت طبقه بندی-->
             <telerikPrimitives:TabViewItem x:Name="TabCategory" HeaderText="TabCategory">
                 <telerikPrimitives:TabViewItem.Header>
@@ -135,9 +134,109 @@
                     </telerikPrimitives:TabViewHeaderItem>
                 </telerikPrimitives:TabViewItem.Header>
                 <telerikPrimitives:TabViewItem.Content>
-                    <StackLayout BackgroundColor="White">
-                        <Label Text="طبقه بندی"/>
-                    </StackLayout>
+                    <Grid Padding="20">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="2*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <!--لیست طبقه بندی-->
+                        <StackLayout Grid.Row="0">
+                            <Label 
+                                Text="لیست طبقات" 
+                                HorizontalOptions="EndAndExpand" 
+                                FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                                FontSize="20" />
+
+                            <SearchBar  x:Name="srchCategory" TextChanged="srchCategory_TextChanged" FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" Placeholder="طبقه بندی" PlaceholderColor="Black"  TextColor="Black"/>
+                            <ListView FlowDirection="RightToLeft" x:Name="lstCategory" HorizontalOptions="EndAndExpand" ItemSelected="lstCategory_ItemSelected">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <ViewCell>
+                                            <Label
+                                                Margin="0,10,0,0"
+                                                TextColor="{Binding IsActive,Converter={helpers:DisabledLabel}}"
+                                                TextDecorations="{Binding IsActive,Converter={helpers:LabelStrikethrough}}"
+                                                IsEnabled="{Binding IsActive,Converter={helpers:InverseBoolConverter}}"
+                                                FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                                                FontSize="Small" Text="{Binding CategoryText}">
+                                            </Label>
+                                        </ViewCell>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </StackLayout>
+
+                        <!--فرم-->
+                        <StackLayout Grid.Row="1" VerticalOptions="EndAndExpand" >
+
+                            <Entry Placeholder="نام طبقه بندی" Keyboard="Plain" x:Name="txtCategory" FlowDirection="RightToLeft"  />
+                            <Switch FlowDirection="RightToLeft"  x:Name="swchCategoryStatus" IsToggled="True" />
+
+
+                            <Grid ColumnSpacing="0" RowSpacing="0"  HorizontalOptions="FillAndExpand" >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+
+                                </Grid.ColumnDefinitions>
+
+
+                                <Button 
+                                    HorizontalOptions="FillAndExpand"
+                                    Grid.Column="0"
+                                    x:Name="btnCancelCategory"
+                                    CornerRadius="5"
+                                    Text="انصراف" 
+                                    BackgroundColor="Gray"
+                                    FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                                    Clicked="btnCancelCategory_Clicked"
+                                    IsVisible="False"
+                                    Margin="5" />
+
+                                <Button
+                                    HorizontalOptions="FillAndExpand"
+                                    Grid.Column="1"
+                                    VerticalOptions="Center"
+                                    x:Name="btnDeleteCategory"
+                                    CornerRadius="5"
+                                    Text="حذف " 
+                                    BackgroundColor="Red"
+                                    FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                                    Clicked="btnDeleteCategory_Clicked"
+                                    IsVisible="False"
+                                    Margin="5"/>
+
+                                <Button
+                                    HorizontalOptions="FillAndExpand"
+                                    Grid.Column="2"
+                                    VerticalOptions="Center"
+                                    x:Name="btnUpdateCategory"
+                                    CornerRadius="5"
+                                    Text="بروز رسانی" 
+                                    BackgroundColor="#00c695"
+                                    FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                                    Clicked="btnUpdateCategory_Clicked"
+                                    IsVisible="False"
+                                    Margin="5"/>
+
+                                <Button 
+                                    Grid.Column="3"
+                                    x:Name="btnAddCategory"
+                                    HorizontalOptions="FillAndExpand"
+                                    VerticalOptions="Center"
+                                    Margin="5"
+                                    CornerRadius="5"
+                                    Text="اضافه کردن" 
+                                    BackgroundColor="#0078D7"
+                                    FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                                    Clicked="btnAddCategory_Clicked" />
+                            </Grid>
+
+                        </StackLayout>
+
+                    </Grid>
                 </telerikPrimitives:TabViewItem.Content>
             </telerikPrimitives:TabViewItem>
 
@@ -153,26 +252,28 @@
                     </telerikPrimitives:TabViewHeaderItem>
                 </telerikPrimitives:TabViewItem.Header>
                 <telerikPrimitives:TabViewItem.Content>
-                    <StackLayout BackgroundColor="White" >
-                        <Grid >
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="60"/>
-                                <RowDefinition Height="40"/>
-                                <RowDefinition Height="40"/>
-                                <RowDefinition Height="40"/>
-                                <RowDefinition Height="40"/>
+                    <Grid Padding="20" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="60"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="*"/>
+                           
 
 
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="3*"/>
-                                <ColumnDefinition Width="*"/>
 
-                            </Grid.ColumnDefinitions>
-                            <Label x:Name="lblOrderId" IsVisible="False"/>
-                            <Label x:Name="lblReceipNumber" IsVisible="False"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="*"/>
 
-                            <Picker FlowDirection="RightToLeft" Title="انتخاب طبقه بندی" x:Name="pkrCategory" 
+                        </Grid.ColumnDefinitions>
+                        <Label x:Name="lblOrderId" IsVisible="False"/>
+                        <Label x:Name="lblReceipNumber" IsVisible="False"/>
+
+                        <Picker FlowDirection="RightToLeft" Title="انتخاب طبقه بندی" x:Name="pkrCategory" 
                                     SelectedIndexChanged="pkrCategory_SelectedIndexChanged"
                                     SelectedIndex="{Binding CategoryId}" 
                                     ItemDisplayBinding="{Binding CategoryText}"
@@ -180,30 +281,30 @@
                                     Grid.Row="0" Grid.ColumnSpan="2"
                                     VerticalOptions="Center"
                         />
-                            <Label Margin="0,0,10,0" Text="نام مصول" Grid.Row="1" Grid.Column="1" FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="End" TextColor="Black"/>
-                            <Entry  Margin="5,0,5,0" Keyboard="Plain" Grid.Row="1" Grid.Column="0" x:Name="txtItem" FlowDirection="RightToLeft" />
+                        <Label Margin="0,0,10,0" Text="نام محصول" Grid.Row="1" Grid.Column="1" FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="End" TextColor="Black"/>
+                        <Entry  Margin="5,0,5,0" Keyboard="Plain" Grid.Row="1" Grid.Column="0" x:Name="txtItem" FlowDirection="RightToLeft" />
 
-                            <Label Margin="0,0,10,0" Text="مقدار" Grid.Row="2" Grid.Column="1" FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="End" TextColor="Black"/>
-                            <syncfusion:SfNumericTextBox  Margin="5,0,5,0" x:Name="txtProductAmount" Grid.Row="2" Grid.Column="0" VerticalOptions="Center"   MaximumNumberDecimalDigits="2"  FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" TextColor="Black"/>
+                        <Label Margin="0,0,10,0" Text="مقدار" Grid.Row="2" Grid.Column="1" FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="End" TextColor="Black"/>
+                        <syncfusion:SfNumericTextBox  Margin="5,0,5,0" x:Name="txtProductAmount" Grid.Row="2" Grid.Column="0" VerticalOptions="Center"   MaximumNumberDecimalDigits="2"  FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" TextColor="Black"/>
 
-                            <Label Margin="0,0,10,0" Text="قیمت" Grid.Row="3" Grid.Column="1" FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="End" TextColor="Black"/>
-                            <syncfusion:SfNumericTextBox  Margin="5,0,5,0" x:Name="txtProductPrice" Grid.Row="3" Grid.Column="0" VerticalOptions="Center"   MaximumNumberDecimalDigits="2"  FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" TextColor="Black"/>
-                            <StackLayout Orientation="Horizontal" Grid.Row="4" Grid.ColumnSpan="2">
-                                <Switch FlowDirection="RightToLeft" x:Name="swchItemStatus" IsToggled="True" VerticalOptions="Center" />
-                                <Label Margin="0,0,10,0" Text="فعال / غیر فعال"  VerticalOptions="Center" FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="End" TextColor="Black"/>
-                            </StackLayout>
+                        <Label Margin="0,0,10,0" Text="قیمت" Grid.Row="3" Grid.Column="1" FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="End" TextColor="Black"/>
+                        <syncfusion:SfNumericTextBox  Margin="5,0,5,0" x:Name="txtProductPrice" Grid.Row="3" Grid.Column="0" VerticalOptions="Center"   MaximumNumberDecimalDigits="2"  FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" TextColor="Black"/>
+                        <StackLayout Orientation="Horizontal" Grid.Row="4" Grid.ColumnSpan="2">
+                            <Switch FlowDirection="RightToLeft" x:Name="swchItemStatus" IsToggled="True" VerticalOptions="Center" />
+                            <Label Margin="0,0,10,0" Text="فعال / غیر فعال"  VerticalOptions="Center" FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="End" TextColor="Black"/>
+                        </StackLayout>
 
-                            <Grid Grid.Row="5" Grid.ColumnSpan="2" ColumnSpacing="0" RowSpacing="0"  HorizontalOptions="FillAndExpand" >
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
+                        <Grid Grid.Row="5" Grid.ColumnSpan="2" ColumnSpacing="0" RowSpacing="0"  VerticalOptions="EndAndExpand" HorizontalOptions="FillAndExpand" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
 
-                                </Grid.ColumnDefinitions>
+                            </Grid.ColumnDefinitions>
 
 
-                                <Button 
+                            <Button 
                     HorizontalOptions="FillAndExpand"
                     Grid.Column="0"
                     VerticalOptions="Center"
@@ -217,7 +318,7 @@
                     Margin="5"
                 />
 
-                                <Button
+                            <Button
                     HorizontalOptions="FillAndExpand"
                     Grid.Column="1"
                     VerticalOptions="Center"
@@ -231,7 +332,7 @@
                     Margin="5"
 />
 
-                                <Button
+                            <Button
                     HorizontalOptions="FillAndExpand"
                     Grid.Column="2"
                     VerticalOptions="Center"
@@ -245,7 +346,7 @@
                     Margin="5"
 />
 
-                                <Button 
+                            <Button 
                      Grid.Column="3"
                      x:Name="btnAddItem"
                      HorizontalOptions="FillAndExpand"
@@ -256,21 +357,16 @@
                      BackgroundColor="#0078D7"
                      FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
                      Clicked="btnAddItem_Clicked" />
-                            </Grid>
-
-
                         </Grid>
-                       
-                        <Label
+
+
+                    </Grid>
+
+                    <!--<Label
                                     IsVisible="False"
                                     x:Name="lblCategoryId"
                                     FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
-                                    FontSize="20" />
-                        
-
-
-
-                    </StackLayout>
+                                    FontSize="20" />-->
 
                 </telerikPrimitives:TabViewItem.Content>
             </telerikPrimitives:TabViewItem>

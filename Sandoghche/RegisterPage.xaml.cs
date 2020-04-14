@@ -208,7 +208,9 @@ namespace Sandoghche
                     await SandoghcheController._connection.InsertAsync(roll);
                     roll.RollName = "میزبان";
                     await SandoghcheController._connection.InsertAsync(roll);
-
+                    roll.RollName = "بازاریاب";
+                    await SandoghcheController._connection.InsertAsync(roll);
+                   
                     userRoll.RollId = 1;
                     userRoll.UserId = 1;
 

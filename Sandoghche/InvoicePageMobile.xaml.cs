@@ -78,10 +78,6 @@ namespace Sandoghche
                 lblReceipNumber.Text = (lastOrder.ReceiptNumber + 1).ToString();
             else if (DateTime.Now.TimeOfDay > resetTime)
                 lblReceipNumber.Text = startFrom.ToString();
-
-
-
-
         }
 
         public class ClientAutoCompleteViewFilter : IAutoCompleteFilter
