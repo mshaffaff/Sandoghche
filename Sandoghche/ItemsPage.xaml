@@ -106,8 +106,6 @@
                                 <telerikDataGrid:RadDataGrid   x:Name="DataGridProduct" SelectionChanged="DataGridProduct_SelectionChanged"   UserFilterMode="Disabled" UserGroupMode="Disabled" UserSortMode="None" UserEditMode="None" AutoGenerateColumns="False"  >
 
                                     <telerikDataGrid:RadDataGrid.Columns>
-
-
                                         <!--قیمت-->
                                         <telerikDataGrid:DataGridTemplateColumn  CanUserEdit="False" CanUserFilter="False" CanUserGroup="False" CanUserSort="False">
                                             <telerikDataGrid:DataGridTemplateColumn.HeaderContentTemplate>

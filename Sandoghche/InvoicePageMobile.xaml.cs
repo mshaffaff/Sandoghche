@@ -345,19 +345,15 @@ namespace Sandoghche
 
         private void tabView_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-
             if (e.PropertyName == "SelectedItem")
             {
                 var selectedTab = tabView.SelectedItem as TabViewItem;
                 if (selectedTab.HeaderText == "TabBasket")
                 {
                     ProductsDataGrid.ItemsSource = new List<string>();
-
                     ProductsDataGrid.ItemsSource = order.OrderDetails;
-
-                    //await DisplayAlert("test", e.PropertyName, "test");
                 }
-                if (selectedTab.HeaderText == "TabProduct")
+                if (selectedTab.HeaderText == "TabHome")
                 {
                     Navigation.PushAsync(new SandoghcheMainPage());
                 }

@@ -30,27 +30,26 @@
                     </StackLayout>
                 </telerikPrimitives:TabViewItem.Content>
             </telerikPrimitives:TabViewItem>
-           
-            <!--محصولات-->
-            <telerikPrimitives:TabViewItem x:Name="TabProduct" HeaderText="TabProduct">
+          
+            <!--صفحه نخست-->
+            <telerikPrimitives:TabViewItem x:Name="TabHome" HeaderText="TabHome">
                 <telerikPrimitives:TabViewItem.Header>
                     <telerikPrimitives:TabViewHeaderItem>
                         <telerikPrimitives:TabViewHeaderItem.Content>
                             <StackLayout HeightRequest="50" Orientation="Horizontal" HorizontalOptions="Center">
-                                <Label VerticalOptions="Center"  Text="محصولات" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" />
+                                <Label VerticalOptions="Center"  Text="صفحه نخست" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" />
                             </StackLayout>
                         </telerikPrimitives:TabViewHeaderItem.Content>
                     </telerikPrimitives:TabViewHeaderItem>
                 </telerikPrimitives:TabViewItem.Header>
                 <telerikPrimitives:TabViewItem.Content>
-                    <StackLayout BackgroundColor="White">
-                        <Label Text="Products" />
+                    <StackLayout>
+                        
                     </StackLayout>
                 </telerikPrimitives:TabViewItem.Content>
             </telerikPrimitives:TabViewItem>
          
-            
-            <!--سبد-->
+              <!--سبد-->
             <telerikPrimitives:TabViewItem x:Name="TabBasket" HeaderText="TabBasket" >
                 <telerikPrimitives:TabViewItem.Header>
                     <telerikPrimitives:TabViewHeaderItem >
@@ -410,7 +409,6 @@
                     </StackLayout>
                 </telerikPrimitives:TabViewItem.Content>
             </telerikPrimitives:TabViewItem>
-        
             
             <!--فاکتور-->
             <telerikPrimitives:TabViewItem IsSelected="True" HeaderText="TabReceipt" x:Name="TabReceipt" >
@@ -418,7 +416,7 @@
                     <telerikPrimitives:TabViewHeaderItem>
                         <telerikPrimitives:TabViewHeaderItem.Content>
                             <StackLayout HeightRequest="50" Orientation="Horizontal" HorizontalOptions="Center">
-                                <Label VerticalOptions="Center" Text="فاکتور" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" />
+                                <Label VerticalOptions="Center" Text="صدور فاکتور" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" />
                             </StackLayout>
                         </telerikPrimitives:TabViewHeaderItem.Content>
                     </telerikPrimitives:TabViewHeaderItem>
@@ -432,6 +430,7 @@
                                 <ColumnDefinition Width="*"/>
 
                             </Grid.ColumnDefinitions>
+                           
                             <Label x:Name="lblOrderId" IsVisible="False"/>
                             <Label x:Name="lblReceipNumber" IsVisible="False"/>
                             <Label 
@@ -471,8 +470,10 @@
                                     FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
                                     Grid.Row="1" Grid.Column="1"
                                     VerticalOptions="Center"
+                                    FlowDirection="RightToLeft"
                         />
                         </Grid>
+                        
                         <ListView x:Name="lstProducts">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
@@ -522,6 +523,7 @@
 
                 </telerikPrimitives:TabViewItem.Content>
             </telerikPrimitives:TabViewItem>
+      
         </telerikPrimitives:RadTabView.Items>
     </telerikPrimitives:RadTabView>
 
