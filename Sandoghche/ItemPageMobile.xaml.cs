@@ -1,5 +1,6 @@
 ﻿using Sandoghche.Components;
 using Sandoghche.Models;
+using Sandoghche.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,13 +42,31 @@ namespace Sandoghche
             lstCategory.ItemsSource = result;
         }
 
+        async Task getProducts(string Searchtext = null)
+        {
+           
+
+            //var products = await SandoghcheController._connection.Table<Product>().Where(p => p.IsDeleted != true).ToListAsync();
+            var query = "select Products.ProductText,Products.ProductPrice,Products.isDeleted,Products.IsActive,Categories.CategoryText from Products LEFT JOIN Categories on Products.CategoryId = Categories.CategoryId WHERE Products.isDeleted !=1";
+           
+            var products = await SandoghcheController.GetConnection().QueryAsync<ProductCategoryPriceViewModel>(query);
+
+            var result = new List<ProductCategoryPriceViewModel>();
+            if (String.IsNullOrWhiteSpace(Searchtext))
+                result = products.ToList();
+            else
+                result = products.Where(p => p.ProductText.Contains(Searchtext) && p.isDeleted != true).ToList();
+
+            ProductDataGrid.ItemsSource = result;
+        }
         async private void tabView_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "SelectedItem")
             {
                 var selectedTab = tabView.SelectedItem as TabViewItem;
-                if (selectedTab.HeaderText == "TabProduct")
+                if (selectedTab.HeaderText == "TabListOfProducts")
                 {
+                    await getProducts();
                     //ProductsDataGrid.ItemsSource = new List<string>();
 
                     //ProductsDataGrid.ItemsSource = order.OrderDetails;
@@ -122,9 +141,9 @@ namespace Sandoghche
 
         }
 
-        private void srchProduct_TextChanged(object sender, TextChangedEventArgs e)
+        async private void srchProduct_TextChanged(object sender, TextChangedEventArgs e)
         {
-
+            await getProducts(e.NewTextValue);
         }
 
         private void ProductDataGrid_SelectionChanged(object sender, Telerik.XamarinForms.DataGrid.DataGridSelectionChangedEventArgs e)

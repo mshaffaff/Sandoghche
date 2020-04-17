@@ -193,7 +193,7 @@ namespace Sandoghche
         }
         async private void imgItems_Tapped(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new ItemsPage());
+            await Navigation.PushAsync(new ItemPageMobile());
         }
         async private void imgSettings_Tapped(object sender, EventArgs e)
         {
