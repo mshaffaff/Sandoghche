@@ -201,7 +201,7 @@ namespace Sandoghche
         }
         async private void imgClients_Tapped(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new ClientsPage());
+            await Navigation.PushAsync(new ClientPageMobile());
         }
         protected override bool OnBackButtonPressed()
         {

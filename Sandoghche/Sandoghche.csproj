@@ -159,6 +159,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="ClientPageMobile.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="ClientsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>

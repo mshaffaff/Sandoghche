@@ -12,7 +12,7 @@ namespace Sandoghche
 
             InitializeComponent();
 
-            MainPage = new NavigationPage(new ItemPageMobile());
+            MainPage = new NavigationPage(new ClientPageMobile());
         }
 
         protected override void OnStart()

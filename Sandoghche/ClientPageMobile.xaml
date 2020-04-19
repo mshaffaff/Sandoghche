@@ -1,0 +1,251 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    NavigationPage.HasBackButton="False"
+NavigationPage.HasNavigationBar="False"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:telerikPrimitives="clr-namespace:Telerik.XamarinForms.Primitives;assembly=Telerik.XamarinForms.Primitives" xmlns:telerikDataControls="clr-namespace:Telerik.XamarinForms.DataControls;assembly=Telerik.XamarinForms.DataControls" xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;assembly=Telerik.XamarinForms.DataControls" xmlns:helpers="clr-namespace:Sandoghche.Helpers"
+             mc:Ignorable="d"
+             x:Class="Sandoghche.ClientPageMobile">
+
+    <telerikPrimitives:RadTabView x:Name="tabView" HeaderPosition="Bottom" BackgroundColor="#DDDDDD" PropertyChanged="tabViewClient_PropertyChanged" >
+        <telerikPrimitives:RadTabView.Items>
+            <!--صفحه نخست-->
+            <telerikPrimitives:TabViewItem x:Name="TabHome" HeaderText="TabHome">
+                <telerikPrimitives:TabViewItem.Header>
+                    <telerikPrimitives:TabViewHeaderItem>
+                        <telerikPrimitives:TabViewHeaderItem.Content>
+                            <StackLayout HeightRequest="50" Orientation="Horizontal" HorizontalOptions="Center">
+                                <Label VerticalOptions="Center"  Text="صفحه نخست" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" />
+                            </StackLayout>
+                        </telerikPrimitives:TabViewHeaderItem.Content>
+                    </telerikPrimitives:TabViewHeaderItem>
+                </telerikPrimitives:TabViewItem.Header>
+                <telerikPrimitives:TabViewItem.Content>
+                    <StackLayout>
+
+                    </StackLayout>
+                </telerikPrimitives:TabViewItem.Content>
+            </telerikPrimitives:TabViewItem>
+
+            <!--حسابداری-->
+            <telerikPrimitives:TabViewItem x:Name="TabAccounting" HeaderText="TabAccounting">
+                <telerikPrimitives:TabViewItem.Header>
+                    <telerikPrimitives:TabViewHeaderItem>
+                        <telerikPrimitives:TabViewHeaderItem.Content>
+                            <StackLayout HeightRequest="50" Orientation="Horizontal" HorizontalOptions="Center">
+                                <Label VerticalOptions="Center"  Text="حسابداری" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" />
+                            </StackLayout>
+                        </telerikPrimitives:TabViewHeaderItem.Content>
+                    </telerikPrimitives:TabViewHeaderItem>
+                </telerikPrimitives:TabViewItem.Header>
+                <telerikPrimitives:TabViewItem.Content>
+                    <StackLayout>
+
+                    </StackLayout>
+                </telerikPrimitives:TabViewItem.Content>
+            </telerikPrimitives:TabViewItem>
+
+            <!--ثبت مشترک-->
+            <telerikPrimitives:TabViewItem x:Name="TabAddClient" HeaderText="TabAddClient">
+                <telerikPrimitives:TabViewItem.Header>
+                    <telerikPrimitives:TabViewHeaderItem>
+                        <telerikPrimitives:TabViewHeaderItem.Content>
+                            <StackLayout HeightRequest="50" Orientation="Horizontal" HorizontalOptions="Center">
+                                <Label VerticalOptions="Center"  Text="ثبت مشتری" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" />
+                            </StackLayout>
+                        </telerikPrimitives:TabViewHeaderItem.Content>
+                    </telerikPrimitives:TabViewHeaderItem>
+                </telerikPrimitives:TabViewItem.Header>
+                <telerikPrimitives:TabViewItem.Content>
+                    <StackLayout>
+
+                    </StackLayout>
+                </telerikPrimitives:TabViewItem.Content>
+            </telerikPrimitives:TabViewItem>
+
+            <!--لیست مشترکین-->
+            <telerikPrimitives:TabViewItem x:Name="TabClientsList" HeaderText="TabClientsList" IsSelected="True">
+                <telerikPrimitives:TabViewItem.Header>
+                    <telerikPrimitives:TabViewHeaderItem>
+                        <telerikPrimitives:TabViewHeaderItem.Content>
+                            <StackLayout HeightRequest="50" Orientation="Horizontal" HorizontalOptions="Center">
+                                <Label VerticalOptions="Center"  Text="لیست مشترکین" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" />
+                            </StackLayout>
+                        </telerikPrimitives:TabViewHeaderItem.Content>
+                    </telerikPrimitives:TabViewHeaderItem>
+                </telerikPrimitives:TabViewItem.Header>
+                <telerikPrimitives:TabViewItem.Content>
+                    <StackLayout BackgroundColor="White" Padding="20">
+                        <SearchBar x:Name="srchClient" TextChanged="srchClient_TextChanged"  Placeholder="جستجوی نام مشتری ..." FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" TextColor="Black" PlaceholderColor="Black" />
+                        <ScrollView>
+                            <telerikDataControls:RadListView x:Name="ClientslistView" IsItemSwipeEnabled="True"  SwipeOffset="0, 0, 200, 0"
+                                 SwipeThreshold="10" >
+                                <telerikDataControls:RadListView.HeaderTemplate>
+                                    <DataTemplate>
+                                        <Grid BackgroundColor="LightGray">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="35"/>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <!--<Label Grid.Column="0" Text="قیمت" TextColor="Black" FontSize="Small" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="Center" VerticalOptions="Center">
+                                                <Label.GestureRecognizers>
+                                                    <TapGestureRecognizer Tapped="SortByPrice_Tapped"/>
+                                                </Label.GestureRecognizers>
+                                            </Label>-->
+                                            <Label Grid.Column="0" Text="وضعیت حساب" TextColor="Black" FontSize="Micro" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="Center"  VerticalOptions="Center">
+                                                <Label.GestureRecognizers>
+                                                    <TapGestureRecognizer Tapped="SortByDebt_Tapped"/>
+                                                </Label.GestureRecognizers>
+                                            </Label>
+
+                                            <Label Grid.Column="1" Text="موبایل" TextColor="Black" FontSize="Micro" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="Center"  VerticalOptions="Center">
+                                                <Label.GestureRecognizers>
+                                                    <TapGestureRecognizer Tapped="SortByMobile_Tapped"/>
+                                                </Label.GestureRecognizers>
+                                            </Label>
+
+                                            <Label Grid.Column="2" Text="نام" TextColor="Black" Margin="0,0,5,0" FontSize="Micro" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="EndAndExpand"  VerticalOptions="Center">
+                                                <Label.GestureRecognizers>
+                                                    <TapGestureRecognizer Tapped="SortByName_Tapped"/>
+                                                </Label.GestureRecognizers>
+                                            </Label>
+
+                                        </Grid>
+                                    </DataTemplate>
+                                </telerikDataControls:RadListView.HeaderTemplate>
+                                <telerikDataControls:RadListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <telerikListView:ListViewTemplateCell>
+                                            <telerikListView:ListViewTemplateCell.View>
+                                                <Grid >
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="100"/>
+                                                    </Grid.RowDefinitions>
+
+                                                    <Label
+                                                        TextColor="{Binding IsActive,Converter={helpers:DisabledLabel}}"
+                                                        TextDecorations="{Binding IsActive,Converter={helpers:LabelStrikethrough}}"
+                                                        IsEnabled="{Binding IsActive,Converter={helpers:InverseBoolConverter}}"
+                                                        Grid.Column="0" 
+                                                        Text="{Binding DebtAmount}" 
+                                                        Margin="0,5,0,0" 
+                                                        HorizontalOptions="Center" 
+                                                        FontSize="Small" 
+                                                        FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" />
+
+                                                    <Label
+                                                        TextColor="{Binding IsActive,Converter={helpers:DisabledLabel}}"
+                                                        TextDecorations="{Binding IsActive,Converter={helpers:LabelStrikethrough}}"
+                                                        IsEnabled="{Binding IsActive,Converter={helpers:InverseBoolConverter}}"
+                                                        Grid.Column="1" 
+                                                        Text="{Binding MobileNumber}" 
+                                                        Margin="0,5,0,0" 
+                                                        HorizontalOptions="End" 
+                                                        FontSize="Micro" 
+                                                        FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" />
+                                                    <Grid Grid.Column="2" RowSpacing="0" ColumnSpacing="0">
+
+                                                        <Label 
+                                                            Grid.Row="0"  Grid.ColumnSpan="2"
+                                                            TextColor="{Binding IsActive,Converter={helpers:DisabledLabel}}"
+                                                            TextDecorations="{Binding IsActive,Converter={helpers:LabelStrikethrough}}"
+                                                            IsEnabled="{Binding IsActive,Converter={helpers:InverseBoolConverter}}"
+                                                            Text="{Binding ClientName}" 
+                                                            HorizontalOptions="EndAndExpand" 
+                                                            Margin="0,5,5,0" FontSize="Small" 
+                                                            FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
+                                                            />
+                                                        
+                                                        <Label 
+                                                            Grid.Row="1" Grid.Column="1"
+                                                            TextColor="{Binding IsActive,Converter={helpers:DisabledLabel}}"
+                                                            TextDecorations="{Binding IsActive,Converter={helpers:LabelStrikethrough}}"
+                                                            IsEnabled="{Binding IsActive,Converter={helpers:InverseBoolConverter}}"
+                                                            Text= "کد اشتراک : " 
+                                                            HorizontalOptions="EndAndExpand" 
+                                                            Margin="0,5,5,0" FontSize="12"
+                                                            FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                                                            />
+                                                        
+                                                        <Label 
+                                                            Grid.Row="1" Grid.Column="0"
+                                                            TextColor="{Binding IsActive,Converter={helpers:DisabledLabel}}"
+                                                            TextDecorations="{Binding IsActive,Converter={helpers:LabelStrikethrough}}"
+                                                            IsEnabled="{Binding IsActive,Converter={helpers:InverseBoolConverter}}"
+                                                            Text= "{Binding ClientId}" 
+                                                            HorizontalOptions="EndAndExpand" 
+                                                            Margin="0,5,5,0" FontSize="12"
+                                                            FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
+                                                            />
+                                                    </Grid>
+                                                </Grid>
+
+                                            </telerikListView:ListViewTemplateCell.View>
+                                        </telerikListView:ListViewTemplateCell>
+                                    </DataTemplate>
+                                </telerikDataControls:RadListView.ItemTemplate>
+                                <telerikDataControls:RadListView.ItemSwipeContentTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="0" Padding="0" ColumnSpacing="0" RowSpacing="0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="100" />
+                                                <ColumnDefinition Width="100" />
+                                            </Grid.ColumnDefinitions>
+                                            <Button 
+                                                CommandParameter="{Binding .}"
+                                                FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                                                FontSize="Small"
+                                                Grid.Column="1"
+                                                BackgroundColor="Red"
+                                                Text="حذف"
+                                                TextColor="White"
+                                                WidthRequest="100" Clicked="btnDeleteClient_Clicked"/>
+
+
+                                            <Button FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                                                FontSize="Small"
+                                                Grid.Column="2"
+                                                BackgroundColor="ForestGreen"
+                                                Text="ویرایش"
+                                                TextColor="White"
+                                                WidthRequest="100" CommandParameter="{Binding .}" Clicked="btnEditClient_Clicked"/>
+
+
+                                        </Grid>
+                                    </DataTemplate>
+                                </telerikDataControls:RadListView.ItemSwipeContentTemplate>
+
+                                <telerikDataControls:RadListView.ItemStyle>
+                                    <telerikListView:ListViewItemStyle
+                                        BorderColor="Gray"                                                
+                                        BorderWidth="1"
+                                        BorderLocation="Bottom" />
+                                </telerikDataControls:RadListView.ItemStyle>
+                            </telerikDataControls:RadListView>
+
+
+
+
+                        </ScrollView>
+
+                    </StackLayout>
+                </telerikPrimitives:TabViewItem.Content>
+            </telerikPrimitives:TabViewItem>
+
+
+        </telerikPrimitives:RadTabView.Items>
+    </telerikPrimitives:RadTabView>
+</ContentPage>
