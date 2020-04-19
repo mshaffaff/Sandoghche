@@ -16,6 +16,11 @@ namespace Sandoghche
     public partial class ItemPageMobile : ContentPage
     {
         private static int categoryId;
+        private static string SortBy;
+        private static int SortingCounter = 0;
+        private int ProductId;
+
+
 
         public ItemPageMobile()
         {
@@ -42,13 +47,43 @@ namespace Sandoghche
             lstCategory.ItemsSource = result;
         }
 
-        async Task getProducts(string Searchtext = null)
+        async Task getProducts(string Searchtext = null, string SortBy = null)
         {
-           
-
             //var products = await SandoghcheController._connection.Table<Product>().Where(p => p.IsDeleted != true).ToListAsync();
-            var query = "select Products.ProductText,Products.ProductPrice,Products.isDeleted,Products.IsActive,Categories.CategoryText from Products LEFT JOIN Categories on Products.CategoryId = Categories.CategoryId WHERE Products.isDeleted !=1";
-           
+
+            var query = "select Products.ProductId,Products.ProductText,Products.ProductPrice,Products.isDeleted,Products.IsActive,Products.ProductAmount,Categories.CategoryText from Products LEFT JOIN Categories on Products.CategoryId = Categories.CategoryId WHERE Products.isDeleted !=1";
+
+            switch (SortBy)
+            {
+                case "ProductASC":
+                    query += " ORDER BY Products.ProductText ASC";
+                    break;
+                case "ProductDESC":
+                    query += " ORDER BY Products.ProductText DESC";
+                    break;
+                case "CategoryASC":
+                    query += " ORDER BY CategoryText ASC";
+                    break;
+                case "CategoryDESC":
+                    query += " ORDER BY CategoryText DESC";
+                    break;
+                case "AmountASC":
+                    query += " ORDER BY Products.ProductAmount ASC";
+                    break;
+                case "AmountDESC":
+                    query += " ORDER BY Products.ProductAmount DESC";
+                    break;
+                case "PriceASC":
+                    query += " ORDER BY Products.ProductPrice ASC";
+                    break;
+                case "PriceDESC":
+                    query += " ORDER BY Products.ProductPrice DESC";
+                    break;
+                default:
+                    query += " ";
+                    break;
+            }
+
             var products = await SandoghcheController.GetConnection().QueryAsync<ProductCategoryPriceViewModel>(query);
 
             var result = new List<ProductCategoryPriceViewModel>();
@@ -57,7 +92,7 @@ namespace Sandoghche
             else
                 result = products.Where(p => p.ProductText.Contains(Searchtext) && p.isDeleted != true).ToList();
 
-            ProductDataGrid.ItemsSource = result;
+            ProductslistView.ItemsSource = result;
         }
         async private void tabView_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
@@ -93,16 +128,57 @@ namespace Sandoghche
 
         private void btnCancelItem_Clicked(object sender, EventArgs e)
         {
-
+            txtItem.Text = "";
+            txtProductPrice.Value = 0;
+            txtProductAmount.Value = 0;
+            swchItemStatus.IsToggled = true;
+            btnAddItem.IsVisible = true;
+            btnUpdateItem.IsVisible = false;
+            //btnDeleteItem.IsVisible = false;
+            btnCancelItem.IsVisible = false;
+            srchProduct.Text = "";
+            pkrCategory.SelectedIndex = -1;
+            TabListOfProducts.IsSelected = true;
         }
-        private void btnDeleteItem_Clicked(object sender, EventArgs e)
+        //private void btnDeleteItem_Clicked(object sender, EventArgs e)
+        //{
+
+        //}
+
+        async private void btnUpdateItem_Clicked(object sender, EventArgs e)
         {
+            var product = await SandoghcheController.GetConnection().Table<Product>().FirstOrDefaultAsync(p => p.ProductId == ProductId);
 
-        }
+            if (String.IsNullOrWhiteSpace(txtItem.Text) ||
+                Convert.ToDouble(txtProductAmount.Value) < 0 || Convert.ToDouble(txtProductPrice.Value) <= 0)
+                await DisplayAlert("خطا", "ورود مقادیر اشتباه است", "باشه");
+            else if (pkrCategory.SelectedIndex == -1)
+            {
+                await DisplayAlert("خطا", " طبقه را مشخص کنید ", "باشه");
+            }
+            else
+            {
+                product.CategoryId = categoryId;
+                product.ProductText = txtItem.Text;
+                product.ProductPrice = Convert.ToDouble(txtProductPrice.Value);
+                product.ProductAmount = Convert.ToDouble(txtProductAmount.Value);
+                product.IsActive = swchItemStatus.IsToggled;
 
-        private void btnUpdateItem_Clicked(object sender, EventArgs e)
-        {
+                await SandoghcheController._connection.UpdateAsync(product);
 
+                txtItem.Text = "";
+                txtProductPrice.Value = 0;
+                txtProductAmount.Value = 0;
+                srchProduct.Text = "";
+                btnAddItem.IsVisible = true;
+                btnCancelItem.IsVisible = false;
+                btnUpdateItem.IsVisible = false;
+                pkrCategory.SelectedIndex = -1;
+                await getProducts();
+                TabListOfProducts.IsSelected = true;
+                await DisplayAlert("ویرایش ", "به روز رسانی با موفقیت انجام شد", "باشه");
+
+            }
         }
 
         async private void btnAddItem_Clicked(object sender, EventArgs e)
@@ -163,7 +239,7 @@ namespace Sandoghche
             btnAddItem.IsVisible = true;
             btnUpdateItem.IsVisible = false;
             btnCancelItem.IsVisible = false;
-            btnDeleteItem.IsVisible = false;
+            //btnDeleteItem.IsVisible = false;
             srchCategory.Text = "";
             //txtItem.Text = "";
             //txtProductPrice.Text = "";
@@ -274,7 +350,7 @@ namespace Sandoghche
                 btnDeleteCategory.IsVisible = false;
 
                 btnAddItem.IsVisible = true;
-                btnDeleteItem.IsVisible = false;
+                //btnDeleteItem.IsVisible = false;
                 btnUpdateItem.IsVisible = false;
                 btnCancelItem.IsVisible = false;
 
@@ -327,7 +403,7 @@ namespace Sandoghche
             //btnAddItem.IsVisible = true;
             //btnCancelItem.IsVisible = false;
             btnUpdateItem.IsVisible = false;
-            btnDeleteItem.IsVisible = false;
+            //btnDeleteItem.IsVisible = false;
             // frmItems.IsEnabled = false;
             //frmItems.Opacity = 0.3;
 
@@ -335,7 +411,7 @@ namespace Sandoghche
             await getCategories(e.NewTextValue);
         }
 
-        async private void lstCategory_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        private void lstCategory_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             var category = (Category)e.SelectedItem;
             if (category != null)
@@ -351,7 +427,7 @@ namespace Sandoghche
                     btnAddItem.IsVisible = true;
                     btnUpdateItem.IsVisible = false;
                     btnCancelItem.IsVisible = false;
-                    btnDeleteItem.IsVisible = false;
+                    //btnDeleteItem.IsVisible = false;
                     //frmItems.IsEnabled = true;
                     //frmItems.Opacity = 1;
                     txtItem.Text = "";
@@ -377,7 +453,7 @@ namespace Sandoghche
                     btnAddItem.IsVisible = true;
                     btnUpdateItem.IsVisible = false;
                     btnCancelItem.IsVisible = false;
-                    btnDeleteItem.IsVisible = false;
+                    //btnDeleteItem.IsVisible = false;
                     // frmItems.IsEnabled = false;
                     // frmItems.Opacity = 0.3;
                     // txtItem.Text = "";
@@ -392,5 +468,129 @@ namespace Sandoghche
                 }
             }
         }
+
+        async private void SortByAmount_Tapped(object sender, EventArgs e)
+        {
+            SortingCounter++;
+
+            if (SortingCounter % 2 == 0)
+            {
+                SortBy = "AmountASC";
+                await getProducts(null, SortBy);
+            }
+            else
+            {
+                SortBy = "AmountDESC";
+                await getProducts(null, SortBy);
+            }
+        }
+
+        async private void SortByPrice_Tapped(object sender, EventArgs e)
+        {
+            SortingCounter++;
+
+            if (SortingCounter % 2 == 0)
+            {
+                SortBy = "PriceASC";
+                await getProducts(null, SortBy);
+            }
+            else
+            {
+                SortBy = "PriceDESC";
+                await getProducts(null, SortBy);
+            }
+        }
+
+        async private void SortByCategory_Tapped(object sender, EventArgs e)
+        {
+            SortingCounter++;
+
+            if (SortingCounter % 2 == 0)
+            {
+                SortBy = "CategoryASC";
+                await getProducts(null, SortBy);
+            }
+            else
+            {
+                SortBy = "CategoryDESC";
+                await getProducts(null, SortBy);
+            }
+
+        }
+        async private void SortByProductText_Tapped(object sender, EventArgs e)
+        {
+            SortingCounter++;
+
+            if (SortingCounter % 2 == 0)
+            {
+                SortBy = "ProductASC";
+                await getProducts(null, SortBy);
+            }
+            else
+            {
+                SortBy = "ProductDESC";
+                await getProducts(null, SortBy);
+            }
+
+        }
+
+        async private void btnDeleteItem_Clicked(object sender, EventArgs e)
+        {
+            var button = sender as Button;
+            var productViewModel = button.CommandParameter as ProductCategoryPriceViewModel;
+            var product = await SandoghcheController.GetConnection().Table<Product>().FirstOrDefaultAsync(p => p.ProductId == productViewModel.ProductId);
+
+            bool action = await DisplayAlert("اخطار", "آیا از حذف این محصول اطمینان دارید ؟", "بله", "خیر");
+            if (action)
+            {
+                product.IsDeleted = true;
+                await SandoghcheController._connection.UpdateAsync(product);
+
+                await getProducts();
+
+                //swchItemStatus.IsToggled = true;
+                //btnAddItem.IsVisible = true;
+                //btnCancelItem.IsVisible = false;
+                // btnUpdateItem.IsVisible = false;
+                //btnDeleteItem.IsVisible = false;
+                //txtItem.Text = "";
+                //txtProductPrice.Text = "";
+                // txtProductAmount.Text = "0";
+                //srchProduct.Text = "";
+            }
+        }
+        async private void btnEditItem_Clicked(object sender, EventArgs e)
+        {
+            var button = sender as Button;
+            var productViewModel = button.CommandParameter as ProductCategoryPriceViewModel;
+            var product = await SandoghcheController.GetConnection().Table<Product>().FirstOrDefaultAsync(p => p.ProductId == productViewModel.ProductId);
+            ProductId = product.ProductId;
+            var category = await SandoghcheController.GetConnection().Table<Category>().FirstOrDefaultAsync(c => c.CategoryId == product.CategoryId);
+
+            TabProduct.IsSelected = true;
+
+            int index = 0;
+            foreach (var item in pkrCategory.Items)
+            {
+                if (item == category.CategoryText)
+                {
+                    break;
+                }
+                index++;
+            }
+            pkrCategory.SelectedIndex = index;
+
+            txtItem.Text = product.ProductText;
+            txtProductAmount.Value = product.ProductAmount;
+            txtProductPrice.Value = product.ProductPrice;
+            swchItemStatus.IsToggled = product.IsActive;
+
+            btnAddItem.IsVisible = false;
+            btnUpdateItem.IsVisible = true;
+            btnCancelItem.IsVisible = true;
+
+        }
+
+
     }
 }

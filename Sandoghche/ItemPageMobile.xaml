@@ -12,8 +12,6 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
 
     <telerikPrimitives:RadTabView x:Name="tabView" HeaderPosition="Bottom" BackgroundColor="#DDDDDD" PropertyChanged="tabView_PropertyChanged" >
         <telerikPrimitives:RadTabView.Items>
-
-
             <!--صفحه نخست-->
             <telerikPrimitives:TabViewItem x:Name="TabHome" HeaderText="TabHome">
                 <telerikPrimitives:TabViewItem.Header>
@@ -27,7 +25,7 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
                 </telerikPrimitives:TabViewItem.Header>
                 <telerikPrimitives:TabViewItem.Content>
                     <StackLayout>
-                       
+
                     </StackLayout>
                 </telerikPrimitives:TabViewItem.Content>
             </telerikPrimitives:TabViewItem>
@@ -43,14 +41,125 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
                         </telerikPrimitives:TabViewHeaderItem.Content>
                     </telerikPrimitives:TabViewHeaderItem>
                 </telerikPrimitives:TabViewItem.Header>
+
                 <telerikPrimitives:TabViewItem.Content>
                     <StackLayout BackgroundColor="White" Padding="20">
                         <SearchBar x:Name="srchProduct" TextChanged="srchProduct_TextChanged"  Placeholder="جستجوی محصول ..." FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" TextColor="Black" PlaceholderColor="Black" />
                         <ScrollView>
-                            <telerikDataGrid:RadDataGrid x:Name="ProductDataGrid" SelectionChanged="ProductDataGrid_SelectionChanged"   UserFilterMode="Disabled" UserGroupMode="Disabled" UserSortMode="None" UserEditMode="None" AutoGenerateColumns="False"  >
+                            <telerikDataControls:RadListView x:Name="ProductslistView" IsItemSwipeEnabled="True"  SwipeOffset="0, 0, 200, 0"
+                                 SwipeThreshold="10" >
+                                <telerikDataControls:RadListView.HeaderTemplate>
+                                    <DataTemplate>
+                                        <Grid BackgroundColor="LightGray">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="35"/>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="2*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Label Grid.Column="0" Text="قیمت" TextColor="Black" FontSize="Small" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="Center" VerticalOptions="Center">
+                                                <Label.GestureRecognizers>
+                                                    <TapGestureRecognizer Tapped="SortByPrice_Tapped"/>
+                                                </Label.GestureRecognizers>
+                                            </Label>
+                                            <Label Grid.Column="1" Text="موجودی" TextColor="Black" FontSize="Small" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="Center"  VerticalOptions="Center">
+                                                <Label.GestureRecognizers>
+                                                    <TapGestureRecognizer Tapped="SortByAmount_Tapped"/>
+                                                </Label.GestureRecognizers>
+                                            </Label>
+
+                                            <Label Grid.Column="2" Text="طبقه بندی" TextColor="Black" FontSize="Small" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="Center"  VerticalOptions="Center">
+                                                <Label.GestureRecognizers>
+                                                    <TapGestureRecognizer Tapped="SortByCategory_Tapped"/>
+                                                </Label.GestureRecognizers>
+                                            </Label>
+
+                                            <Label Grid.Column="3" Text="عنوان" TextColor="Black" Margin="0,0,5,0" FontSize="Small" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="EndAndExpand"  VerticalOptions="Center">
+                                                <Label.GestureRecognizers>
+                                                    <TapGestureRecognizer Tapped="SortByProductText_Tapped"/>
+                                                </Label.GestureRecognizers>
+                                            </Label>
+
+                                        </Grid>
+                                    </DataTemplate>
+                                </telerikDataControls:RadListView.HeaderTemplate>
+                                <telerikDataControls:RadListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <telerikListView:ListViewTemplateCell>
+                                            <telerikListView:ListViewTemplateCell.View>
+                                                <Grid >
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="2*"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="100"/>
+                                                    </Grid.RowDefinitions>
+
+                                                    <Label Grid.Column="0" Text="{Binding ProductPrice}" TextColor="Black" Margin="0,5,0,0"  HorizontalOptions="Center" FontSize="Small" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" />
+                                                    <Label Grid.Column="1" Text="{Binding ProductAmount}" TextColor="Black" Margin="0,5,0,0"  HorizontalOptions="Center" FontSize="Small" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" />
+                                                    <Label Grid.Column="2" Text="{Binding CategoryText}" TextColor="Black" Margin="0,5,0,0" HorizontalOptions="End" FontSize="Micro" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" />
+                                                    <Label Grid.Column="3" Text="{Binding ProductText}" TextColor="Black" HorizontalOptions="EndAndExpand" Margin="0,5,5,0" FontSize="Small" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" />
+                                                </Grid>
+
+                                            </telerikListView:ListViewTemplateCell.View>
+                                        </telerikListView:ListViewTemplateCell>
+                                    </DataTemplate>
+                                </telerikDataControls:RadListView.ItemTemplate>
+                                <telerikDataControls:RadListView.ItemSwipeContentTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="0" Padding="0" ColumnSpacing="0" RowSpacing="0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="100" />
+                                                <ColumnDefinition Width="100" />
+                                            </Grid.ColumnDefinitions>
+                                            <Button 
+                                                CommandParameter="{Binding .}"
+                                                FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                                                FontSize="Small"
+                                                Grid.Column="1"
+                                                BackgroundColor="Red"
+                                                Text="حذف"
+                                                TextColor="White"
+                                                WidthRequest="100" Clicked="btnDeleteItem_Clicked"/>
+
+
+                                            <Button FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                                                FontSize="Small"
+                                                Grid.Column="2"
+                                                BackgroundColor="ForestGreen"
+                                                Text="ویرایش"
+                                                TextColor="White"
+                                                WidthRequest="100" CommandParameter="{Binding .}" Clicked="btnEditItem_Clicked"/>
+                                            
+                                            
+                                        </Grid>
+                                    </DataTemplate>
+                                </telerikDataControls:RadListView.ItemSwipeContentTemplate>
+
+                                <telerikDataControls:RadListView.ItemStyle>
+                                    <telerikListView:ListViewItemStyle
+                                        BorderColor="Gray"                                                
+                                        BorderWidth="1"
+                                        BorderLocation="Bottom" />
+                                </telerikDataControls:RadListView.ItemStyle>
+                            </telerikDataControls:RadListView>
+
+
+
+
+                            <!--<telerikDataGrid:RadDataGrid x:Name="ProductDataGrid" SelectionChanged="ProductDataGrid_SelectionChanged"   UserFilterMode="Disabled" UserGroupMode="Disabled" UserSortMode="None" UserEditMode="None" AutoGenerateColumns="False"  >
 
                                 <telerikDataGrid:RadDataGrid.Columns>
-                                    <!--قیمت-->
+                                    -->
+                            <!--قیمت-->
+                            <!--
                                     <telerikDataGrid:DataGridTemplateColumn  CanUserEdit="False" CanUserFilter="False" CanUserGroup="False" CanUserSort="True">
                                         <telerikDataGrid:DataGridTemplateColumn.SortDescriptor>
                                             <telerikCommon:PropertySortDescriptor PropertyName="ProductPrice" />
@@ -86,8 +195,47 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
                                         </telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
                                     </telerikDataGrid:DataGridTemplateColumn>
 
-                                   
-                                    <!--طبقه بندی-->
+                                    -->
+                            <!--موجودی-->
+                            <!--
+                                    <telerikDataGrid:DataGridTemplateColumn  CanUserEdit="False" CanUserFilter="False" CanUserGroup="False" CanUserSort="True">
+                                        <telerikDataGrid:DataGridTemplateColumn.SortDescriptor>
+                                            <telerikCommon:PropertySortDescriptor PropertyName="ProductAmount" />
+                                        </telerikDataGrid:DataGridTemplateColumn.SortDescriptor>
+
+                                        <telerikDataGrid:DataGridTemplateColumn.HeaderContentTemplate>
+                                            <DataTemplate>
+                                                <Label FontSize="Small" TextColor="Black" Text="موجودی" HorizontalOptions="End"  VerticalOptions="Center" HeightRequest="35"    Margin="0,0,10,0" />
+                                            </DataTemplate>
+                                        </telerikDataGrid:DataGridTemplateColumn.HeaderContentTemplate>
+                                        <telerikDataGrid:DataGridTemplateColumn.HeaderStyle>
+                                            <telerikDataGrid:DataGridColumnHeaderStyle 
+                                            OptionsButtonTextColor="Transparent"
+                                            OptionsButtonFontSize="0"
+                                            BorderColor="#D9D9D9"
+                                            BorderThickness="1" />
+                                        </telerikDataGrid:DataGridTemplateColumn.HeaderStyle>
+
+                                        <telerikDataGrid:DataGridTemplateColumn.CellContentTemplate >
+                                            <DataTemplate>
+                                                <Label 
+                                                    TextColor="{Binding IsActive,Converter={helpers:DisabledLabel}}"
+                                                TextDecorations="{Binding IsActive,Converter={helpers:LabelStrikethrough}}"
+                                                IsEnabled="{Binding IsActive,Converter={helpers:InverseBoolConverter}}"
+                                                    HeightRequest="35"
+                                                    VerticalOptions="Center"
+                                            HorizontalOptions="End"
+                                            Margin="0,0,10,0"
+                                            FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
+                                            FontSize="Small"
+                                            Text="{Binding ProductAmount}"/>
+                                            </DataTemplate>
+                                        </telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
+                                    </telerikDataGrid:DataGridTemplateColumn>
+
+                                    -->
+                            <!--طبقه بندی-->
+                            <!--
                                     <telerikDataGrid:DataGridTemplateColumn  CanUserEdit="False" CanUserFilter="False" CanUserGroup="False" CanUserSort="True">
                                         <telerikDataGrid:DataGridTemplateColumn.SortDescriptor>
                                             <telerikCommon:PropertySortDescriptor PropertyName="CategoryText" />
@@ -123,7 +271,9 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
                                         </telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
                                     </telerikDataGrid:DataGridTemplateColumn>
 
-                                    <!--////محصول-->
+                                    -->
+                            <!--////محصول-->
+                            <!--
                                     <telerikDataGrid:DataGridTemplateColumn  CanUserEdit="False" CanUserFilter="False" CanUserGroup="False" CanUserSort="True">
                                         <telerikDataGrid:DataGridTemplateColumn.SortDescriptor>
                                             <telerikCommon:PropertySortDescriptor PropertyName="ProductText" />
@@ -162,7 +312,7 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
 
 
                                 </telerikDataGrid:RadDataGrid.Columns>
-                            </telerikDataGrid:RadDataGrid>
+                            </telerikDataGrid:RadDataGrid>-->
 
                         </ScrollView>
 
@@ -323,7 +473,7 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
 
                         <Picker FlowDirection="RightToLeft" Title="انتخاب طبقه بندی" x:Name="pkrCategory" 
                                     SelectedIndexChanged="pkrCategory_SelectedIndexChanged"
-                                    SelectedIndex="{Binding CategoryId}" 
+                                    
                                     ItemDisplayBinding="{Binding CategoryText}"
                                     FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
                                     Grid.Row="0" Grid.ColumnSpan="2"
@@ -344,7 +494,6 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
 
                         <Grid Grid.Row="5" Grid.ColumnSpan="2" ColumnSpacing="0" RowSpacing="0"  VerticalOptions="EndAndExpand" HorizontalOptions="FillAndExpand" >
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
@@ -370,20 +519,6 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
                     HorizontalOptions="FillAndExpand"
                     Grid.Column="1"
                     VerticalOptions="Center"
-                    x:Name="btnDeleteItem"
-                    CornerRadius="5"
-                    Text="حذف" 
-                    BackgroundColor="Red"
-                    FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
-                    Clicked="btnDeleteItem_Clicked"
-                    IsVisible="False"
-                    Margin="5"
-/>
-
-                            <Button
-                    HorizontalOptions="FillAndExpand"
-                    Grid.Column="2"
-                    VerticalOptions="Center"
                     x:Name="btnUpdateItem"
                     CornerRadius="5"
                     Text="بروز رسانی" 
@@ -395,7 +530,7 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
 />
 
                             <Button 
-                     Grid.Column="3"
+                     Grid.Column="2"
                      x:Name="btnAddItem"
                      HorizontalOptions="FillAndExpand"
                      VerticalOptions="Center"
