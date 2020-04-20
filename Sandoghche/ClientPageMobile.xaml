@@ -59,7 +59,85 @@ NavigationPage.HasNavigationBar="False"
                     </telerikPrimitives:TabViewHeaderItem>
                 </telerikPrimitives:TabViewItem.Header>
                 <telerikPrimitives:TabViewItem.Content>
-                    <StackLayout>
+                    <StackLayout BackgroundColor="White" Padding="20">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label  Text="مشخصات مشترک" FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="EndAndExpand" Grid.ColumnSpan="2" Grid.Row="0"/>
+
+                            <Label Text="نام مشترک" FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" Grid.Row="1" Grid.Column="1" HorizontalOptions="EndAndExpand"/>
+                            <Entry Grid.Row="1" Grid.Column="0" x:Name="txtClientFullName"  FlowDirection="RightToLeft"  HorizontalOptions="FillAndExpand" />
+
+                            <Label Grid.Row="2" Grid.Column="1" Text="تلفن ثابت" FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="EndAndExpand"/>
+                            <Entry Grid.Row="2" Grid.Column="0" x:Name="txtClientPhoneNumber" Keyboard="Telephone"  FlowDirection="RightToLeft" HorizontalOptions="FillAndExpand"  />
+
+                            <Label Grid.Row="3" Grid.Column="1" Text="موبایل" FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="EndAndExpand"/>
+                            <Entry Grid.Row="3" Grid.Column="0" x:Name="txtClientMobileNumber" Keyboard="Telephone" FlowDirection="RightToLeft" HorizontalOptions="FillAndExpand" />
+
+                            <Label Grid.Row="4" Grid.Column="1" Text="ایمیل" FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="EndAndExpand"/>
+                            <Entry Grid.Row="4" Grid.Column="0" x:Name="txtClientEmail" Keyboard="Email" FlowDirection="LeftToRight"  HorizontalOptions="FillAndExpand" />
+
+                            <Label Grid.Row="5" Grid.Column="1" Text="آدرس" FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="EndAndExpand"/>
+                            <Entry Grid.Row="5" Grid.Column="0"  x:Name="txtClientAddress" FlowDirection="RightToLeft" HorizontalOptions="FillAndExpand" />
+
+                            <Label Grid.Row="6" Grid.Column="1" Text="فعال / غیر فعال" FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="EndAndExpand"/>
+                            <Switch Grid.Row="6" Grid.Column="0" x:Name="swtClientIsActive" IsToggled="True" IsVisible="True"/>
+
+                            <StackLayout Grid.ColumnSpan="2" Orientation="Horizontal" Grid.Row="7">
+
+
+                                <Button
+                                    HorizontalOptions="FillAndExpand"
+                                    VerticalOptions="Center"
+                                    x:Name="btnClientCancel"
+                                    CornerRadius="5"
+                                    Text="انصراف" 
+                                    BackgroundColor="Gray"
+                                    FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                                    Clicked="btnClientCancel_Clicked"
+                                    IsVisible="False"
+                                        />
+                                <Button
+                                    HorizontalOptions="FillAndExpand"
+                                    VerticalOptions="Center"
+                                    x:Name="btnClientUpdate"
+                                    CornerRadius="5"
+                                    Text="بروز رسانی" 
+                                    BackgroundColor="#00c695"
+                                    FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                                    Clicked="btnClientUpdate_Clicked"
+                                    IsVisible="False"
+                                        />
+                                <Button
+                                    HorizontalOptions="FillAndExpand"
+                                    VerticalOptions="Center"
+                                    x:Name="btnClientRegister"
+                                    CornerRadius="5"
+                                    Text="ثبت مشترک" 
+                                    BackgroundColor="#0078D7"
+                                    FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                                    Clicked="btnClientRegister_Clicked"
+                                />
+                            </StackLayout>
+
+                        </Grid>
+
+                        <Grid ColumnSpacing="0" RowSpacing="0"  HorizontalOptions="FillAndExpand" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+
+                        </Grid>
+
 
                     </StackLayout>
                 </telerikPrimitives:TabViewItem.Content>
@@ -135,14 +213,14 @@ NavigationPage.HasNavigationBar="False"
                                                     </Grid.RowDefinitions>
 
                                                     <Label
-                                                        TextColor="{Binding IsActive,Converter={helpers:DisabledLabel}}"
+                                                        TextColor="{Binding Amount,Converter={helpers:AmountColorChanger}}"
                                                         TextDecorations="{Binding IsActive,Converter={helpers:LabelStrikethrough}}"
                                                         IsEnabled="{Binding IsActive,Converter={helpers:InverseBoolConverter}}"
                                                         Grid.Column="0" 
-                                                        Text="{Binding DebtAmount}" 
+                                                        Text="{Binding Amount,Converter={helpers:AmountTextChanger}}" 
                                                         Margin="0,5,0,0" 
                                                         HorizontalOptions="Center" 
-                                                        FontSize="Small" 
+                                                        FontSize="Micro" 
                                                         FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" />
 
                                                     <Label
@@ -164,10 +242,10 @@ NavigationPage.HasNavigationBar="False"
                                                             IsEnabled="{Binding IsActive,Converter={helpers:InverseBoolConverter}}"
                                                             Text="{Binding ClientName}" 
                                                             HorizontalOptions="EndAndExpand" 
-                                                            Margin="0,5,5,0" FontSize="Small" 
+                                                            Margin="0,5,5,0" FontSize="Micro" 
                                                             FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
                                                             />
-                                                        
+
                                                         <Label 
                                                             Grid.Row="1" Grid.Column="1"
                                                             TextColor="{Binding IsActive,Converter={helpers:DisabledLabel}}"
@@ -178,7 +256,7 @@ NavigationPage.HasNavigationBar="False"
                                                             Margin="0,5,5,0" FontSize="12"
                                                             FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
                                                             />
-                                                        
+
                                                         <Label 
                                                             Grid.Row="1" Grid.Column="0"
                                                             TextColor="{Binding IsActive,Converter={helpers:DisabledLabel}}"
