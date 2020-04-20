@@ -559,6 +559,7 @@ namespace Sandoghche
                 //srchProduct.Text = "";
             }
         }
+      
         async private void btnEditItem_Clicked(object sender, EventArgs e)
         {
             var button = sender as Button;

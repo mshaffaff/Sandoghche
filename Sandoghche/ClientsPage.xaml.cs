@@ -121,7 +121,7 @@ namespace Sandoghche
                 client.MobileNumber = txtClientMobileNumber.Text;
                 client.Email = txtClientEmail.Text;
                 client.Address = txtClientAddress.Text;
-                client.IsActive = true;
+                client.IsActive = swtClientIsActive.IsToggled;
 
                 await SandoghcheController._connection.UpdateAsync(client);
                 await DisplayAlert("ثبت", "بروز رسانی با موفقیت انجام شد", "باشه");
@@ -208,6 +208,7 @@ namespace Sandoghche
 
             }
         }
+        
         public class ClientCreditViewModel
         {
             public double Amount { get; set; }

@@ -155,14 +155,14 @@ NavigationPage.HasNavigationBar="False"
                     </telerikPrimitives:TabViewHeaderItem>
                 </telerikPrimitives:TabViewItem.Header>
                 <telerikPrimitives:TabViewItem.Content>
-                    <StackLayout BackgroundColor="White" Padding="20">
+                    <StackLayout BackgroundColor="White" Padding="20"> 
                         <SearchBar x:Name="srchClient" TextChanged="srchClient_TextChanged"  Placeholder="جستجوی نام مشتری ..." FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" TextColor="Black" PlaceholderColor="Black" />
                         <ScrollView>
                             <telerikDataControls:RadListView x:Name="ClientslistView" IsItemSwipeEnabled="True"  SwipeOffset="0, 0, 200, 0"
                                  SwipeThreshold="10" >
                                 <telerikDataControls:RadListView.HeaderTemplate>
                                     <DataTemplate>
-                                        <Grid BackgroundColor="LightGray">
+                                        <Grid BackgroundColor="LightGray" RowSpacing="0" ColumnSpacing="0">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="35"/>
                                             </Grid.RowDefinitions>
@@ -202,7 +202,7 @@ NavigationPage.HasNavigationBar="False"
                                     <DataTemplate>
                                         <telerikListView:ListViewTemplateCell>
                                             <telerikListView:ListViewTemplateCell.View>
-                                                <Grid >
+                                                <Grid RowSpacing="0" ColumnSpacing="0" Padding="5" >
                                                     <Grid.ColumnDefinitions>
                                                         <ColumnDefinition Width="*"/>
                                                         <ColumnDefinition Width="*"/>
@@ -218,7 +218,6 @@ NavigationPage.HasNavigationBar="False"
                                                         IsEnabled="{Binding IsActive,Converter={helpers:InverseBoolConverter}}"
                                                         Grid.Column="0" 
                                                         Text="{Binding Amount,Converter={helpers:AmountTextChanger}}" 
-                                                        Margin="0,5,0,0" 
                                                         HorizontalOptions="Center" 
                                                         FontSize="Micro" 
                                                         FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" />
@@ -229,7 +228,6 @@ NavigationPage.HasNavigationBar="False"
                                                         IsEnabled="{Binding IsActive,Converter={helpers:InverseBoolConverter}}"
                                                         Grid.Column="1" 
                                                         Text="{Binding MobileNumber}" 
-                                                        Margin="0,5,0,0" 
                                                         HorizontalOptions="End" 
                                                         FontSize="Micro" 
                                                         FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" />
@@ -242,7 +240,7 @@ NavigationPage.HasNavigationBar="False"
                                                             IsEnabled="{Binding IsActive,Converter={helpers:InverseBoolConverter}}"
                                                             Text="{Binding ClientName}" 
                                                             HorizontalOptions="EndAndExpand" 
-                                                            Margin="0,5,5,0" FontSize="Micro" 
+                                                            FontSize="Micro" 
                                                             FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
                                                             />
 
@@ -253,7 +251,7 @@ NavigationPage.HasNavigationBar="False"
                                                             IsEnabled="{Binding IsActive,Converter={helpers:InverseBoolConverter}}"
                                                             Text= "کد اشتراک : " 
                                                             HorizontalOptions="EndAndExpand" 
-                                                            Margin="0,5,5,0" FontSize="12"
+                                                            FontSize="12"
                                                             FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
                                                             />
 
@@ -264,7 +262,7 @@ NavigationPage.HasNavigationBar="False"
                                                             IsEnabled="{Binding IsActive,Converter={helpers:InverseBoolConverter}}"
                                                             Text= "{Binding ClientId}" 
                                                             HorizontalOptions="EndAndExpand" 
-                                                            Margin="0,5,5,0" FontSize="12"
+                                                            FontSize="12"
                                                             FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
                                                             />
                                                     </Grid>
@@ -299,7 +297,9 @@ NavigationPage.HasNavigationBar="False"
                                                 BackgroundColor="ForestGreen"
                                                 Text="ویرایش"
                                                 TextColor="White"
-                                                WidthRequest="100" CommandParameter="{Binding .}" Clicked="btnEditClient_Clicked"/>
+                                                WidthRequest="100" CommandParameter="{Binding .}" 
+                                                Clicked="btnEditClient_Clicked"
+                                                    />
 
 
                                         </Grid>

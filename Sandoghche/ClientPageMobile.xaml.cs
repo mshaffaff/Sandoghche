@@ -15,6 +15,7 @@ namespace Sandoghche
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ClientPageMobile : ContentPage
     {
+        private static int clientId;
         public ClientPageMobile()
         {
             InitializeComponent();
@@ -28,9 +29,8 @@ namespace Sandoghche
 
         async Task GetClients(string Searchtext = null)
         {
-            //            var products = await SandoghcheController.GetConnection().QueryAsync<ProductCategoryPriceViewModel>(query);
 
-            var query = "select Clients.ClientId,Clients.ClientName,Clients.MobileNumber,sum(Accounting.DebtorAmount)-sum(Accounting.CreditorAmount) as 'Amount' from Accounting LEFT join Clients on Accounting.ClientId = Clients.ClientId WHERE Clients.IsDeleted == false GROUP by Accounting.ClientId";
+            var query = "select Clients.ClientId,Clients.ClientName,Clients.MobileNumber,(select sum(Accounting.DebtorAmount)-sum(Accounting.CreditorAmount) from Accounting where Accounting.ClientId=Clients.ClientId) as Amount from Clients WHERE Clients.IsDeleted == false";
 
             var clients = await SandoghcheController.GetConnection().QueryAsync<ClientCreditViewModel>(query);
 
@@ -45,7 +45,7 @@ namespace Sandoghche
         }
 
 
-       
+
 
         //async private Task ClientCreditStatus(string ClientId)
         //{
@@ -107,14 +107,64 @@ namespace Sandoghche
 
         }
 
-        private void btnDeleteClient_Clicked(object sender, EventArgs e)
+        async private void btnDeleteClient_Clicked(object sender, EventArgs e)
         {
+            var button = sender as Button;
+            var clientViewModel = button.CommandParameter as ClientCreditViewModel;
+            var client = await SandoghcheController.GetConnection().Table<Client>().FirstOrDefaultAsync(c => c.ClientId == clientViewModel.ClientId);
+
+            var action = await DisplayAlert("اخطار", "آیا میخواید این مشترک حذف شود", "بله", "خیر");
+
+            if (action)
+            {
+
+                // var query = "select (sum(DebtorAmount)-sum(CreditorAmount)) as 'Amount' from Accounting WHERE ClientId=" + Convert.ToInt32(client.ClientId);
+                var query = "select Count(OrderId) as 'Amount' from Orders WHERE ClientId=" + Convert.ToInt32(client.ClientId);
+                var amount = await SandoghcheController.GetConnection().QueryAsync<ClientCreditViewModel>(query);
+
+                if (amount[0].Amount > 0)
+                {
+                    await DisplayAlert("اخطار", "امکان حذف به دلیل سابقه خرید در سیستم وجود ندارد ", "باشه");
+                    return;
+                }
+
+                client.IsDeleted = true;
+                await SandoghcheController._connection.UpdateAsync(client);
+
+                //txtClientFullName.Text = "";
+                // txtClientPhoneNumber.Text = "";
+                //txtClientMobileNumber.Text = "";
+                //txtClientEmail.Text = "";
+                //txtClientAddress.Text = "";
+                //btnClientCancel.IsVisible = false;
+                // btnClientDelete.IsVisible = false;
+                // btnClientUpdate.IsVisible = false;
+                // btnClientRegister.IsVisible = true;
+
+                await GetClients();
+            }
 
         }
 
-        private void btnEditClient_Clicked(object sender, EventArgs e)
+        async private void btnEditClient_Clicked(object sender, EventArgs e)
         {
+            var button = sender as Button;
+            var clientViewModel = button.CommandParameter as ClientCreditViewModel;
+            var client = await SandoghcheController.GetConnection().Table<Client>().FirstOrDefaultAsync(c => c.ClientId == clientViewModel.ClientId);
+            clientId = client.ClientId;
 
+            TabAddClient.IsSelected = true;
+            txtClientFullName.Text = client.ClientName;
+            txtClientPhoneNumber.Text = client.PhoneNumber;
+            txtClientMobileNumber.Text = client.MobileNumber;
+            txtClientEmail.Text = client.Email;
+            txtClientAddress.Text = client.Address;
+            btnClientRegister.IsVisible = false;
+            btnClientCancel.IsVisible = true;
+            btnClientUpdate.IsVisible = true;
+            //txtDebtAmount.Text = "0";
+            //txtCreditAmount.Value = null;
+            //await ClientCreditStatus(client.ClientId.ToString());
         }
 
         async private void btnClientRegister_Clicked(object sender, EventArgs e)
@@ -146,14 +196,51 @@ namespace Sandoghche
             }
         }
 
-            private void btnClientUpdate_Clicked(object sender, EventArgs e)
+        async private void btnClientUpdate_Clicked(object sender, EventArgs e)
         {
+            var client = await SandoghcheController.GetConnection().Table<Client>().FirstOrDefaultAsync(c => c.ClientId == clientId);
+            
+            if (String.IsNullOrWhiteSpace(txtClientFullName.Text))
+                await DisplayAlert("خطا", "نام مشترک نمیتواند خالی باشد", "باشه");
+            else
+            {
+                client.ClientName = txtClientFullName.Text;
+                client.PhoneNumber = txtClientPhoneNumber.Text;
+                client.MobileNumber = txtClientMobileNumber.Text;
+                client.Email = txtClientEmail.Text;
+                client.Address = txtClientAddress.Text;
+                client.IsActive = swtClientIsActive.IsToggled;
 
+                await SandoghcheController._connection.UpdateAsync(client);
+
+                txtClientFullName.Text = "";
+                txtClientPhoneNumber.Text = "";
+                txtClientMobileNumber.Text = "";
+                txtClientEmail.Text = "";
+                txtClientAddress.Text = "";
+                btnClientCancel.IsVisible = false;
+                btnClientUpdate.IsVisible = false;
+                btnClientRegister.IsVisible = true;
+                await GetClients();
+                TabClientsList.IsSelected = true;
+                await DisplayAlert("ثبت", "بروز رسانی با موفقیت انجام شد", "باشه");
+            }
         }
 
         private void btnClientCancel_Clicked(object sender, EventArgs e)
         {
+            TabClientsList.IsSelected = true;
 
+            txtClientFullName.Text = "";
+            txtClientPhoneNumber.Text = "";
+            txtClientMobileNumber.Text = "";
+            txtClientEmail.Text = "";
+            txtClientAddress.Text = "";
+            btnClientCancel.IsVisible = false;
+            btnClientUpdate.IsVisible = false;
+            btnClientRegister.IsVisible = true;
+            //txtDebtAmount.Text = "";
+            //btnPayCredit.IsEnabled = false;
         }
     }
 }
