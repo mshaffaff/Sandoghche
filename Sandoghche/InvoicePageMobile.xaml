@@ -44,8 +44,8 @@
                     </telerikPrimitives:TabViewHeaderItem>
                 </telerikPrimitives:TabViewItem.Header>
                 <telerikPrimitives:TabViewItem.Content>
-                    <StackLayout>
-                        <Grid>
+                    <StackLayout BackgroundColor="White">
+                        <Grid >
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="3*"/>
                                 <RowDefinition Height="*"/>
@@ -292,7 +292,7 @@
                                 </telerikDataGrid:RadDataGrid.Columns>
                             </telerikDataGrid:RadDataGrid>
                         </Grid>
-                        <Grid Grid.Row="1" VerticalOptions="EndAndExpand" >
+                        <Grid Grid.Row="1"  VerticalOptions="EndAndExpand" >
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>

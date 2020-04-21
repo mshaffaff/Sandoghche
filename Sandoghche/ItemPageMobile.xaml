@@ -42,7 +42,7 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
                     </telerikPrimitives:TabViewHeaderItem>
                 </telerikPrimitives:TabViewItem.Header>
                 <telerikPrimitives:TabViewItem.Content>
-                    <Grid Padding="20">
+                    <Grid BackgroundColor="White" Padding="20">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="2*" />
                             <RowDefinition Height="*" />
@@ -160,7 +160,7 @@ xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;
                     </telerikPrimitives:TabViewHeaderItem>
                 </telerikPrimitives:TabViewItem.Header>
                 <telerikPrimitives:TabViewItem.Content>
-                    <Grid Padding="20" >
+                    <Grid BackgroundColor="White" Padding="20" >
                         <Grid.RowDefinitions>
                             <RowDefinition Height="60"/>
                             <RowDefinition Height="40"/>

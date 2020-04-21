@@ -89,6 +89,7 @@ namespace Sandoghche
                 return clientName.Contains(searchText);
             }
         }
+       
         async Task getSetting()
         {
             var tax = await SandoghcheController._connection.Table<SandoghcheSetting>().FirstOrDefaultAsync();
@@ -169,14 +170,6 @@ namespace Sandoghche
 
 
             await ClientCreditStatus(clientId);
-
-
-
-
-
-
-
-
         }
 
         async private void pkrCategory_SelectedIndexChanged(object sender, EventArgs e)

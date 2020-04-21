@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Telerik.XamarinForms.Input.AutoComplete;
 using Telerik.XamarinForms.Primitives;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -42,6 +43,10 @@ namespace Sandoghche
 
 
             ClientslistView.ItemsSource = result;
+
+            srchClients.ItemsSource = clients.ToList();
+            srchClients.Filter = new ClientAutoCompleteViewFilter();
+
         }
 
 
@@ -199,7 +204,7 @@ namespace Sandoghche
         async private void btnClientUpdate_Clicked(object sender, EventArgs e)
         {
             var client = await SandoghcheController.GetConnection().Table<Client>().FirstOrDefaultAsync(c => c.ClientId == clientId);
-            
+
             if (String.IsNullOrWhiteSpace(txtClientFullName.Text))
                 await DisplayAlert("خطا", "نام مشترک نمیتواند خالی باشد", "باشه");
             else
@@ -241,6 +246,101 @@ namespace Sandoghche
             btnClientRegister.IsVisible = true;
             //txtDebtAmount.Text = "";
             //btnPayCredit.IsEnabled = false;
+        }
+
+        async private void btnPayCredit_Clicked(object sender, EventArgs e)
+        {
+            var client = await SandoghcheController.GetConnection().Table<Client>().FirstOrDefaultAsync(c => c.ClientId == clientId);
+
+            Accounting accounting = new Accounting();
+            accounting.ClientId = client.ClientId;
+
+            accounting.CreditorAmount = Convert.ToDouble(txtCreditAmount.Value);
+            accounting.DebtorAmount = 0;
+            
+                       //if (Convert.ToDouble(txtCreditAmount.Value) > Convert.ToDouble(txtDebtAmount.Text))
+            //{
+            //    await DisplayAlert("خطا", "مبلغ پرداختی از مبلغ بدهی بیشتر است", "باشه");
+            //    return;
+            //}
+            await SandoghcheController._connection.InsertAsync(accounting);
+            txtCreditAmount.Value = null;
+            txtDebtAmount.Text = "0";
+            srchClients.Text = null;
+            lblClientCreditStatus.Text = "وضعیت حساب";
+            lblClientCreditStatus.TextColor = Color.Black;
+
+            //await ClientCreditStatus(client.ClientId);
+
+        }
+
+        public class ClientAutoCompleteViewFilter : IAutoCompleteFilter
+        {
+            public bool Filter(object item, string searchText, CompletionMode completionMode)
+            {
+
+                ClientCreditViewModel client = (ClientCreditViewModel)item;
+                string clientName = client.ClientName;
+                return clientName.Contains(searchText);
+            }
+        }
+
+
+
+        async private Task ClientCreditStatus(int ClientId)
+        {
+            var query = "select (sum(DebtorAmount)-sum(CreditorAmount)) as 'Amount' from Accounting WHERE ClientId=" + ClientId;
+            var amount = await SandoghcheController.GetConnection().QueryAsync<ClientCreditViewModel>(query);
+            txtDebtAmount.Text = amount.FirstOrDefault()?.Amount.ToString() ?? 0.ToString(); ;
+
+            if (Convert.ToDouble(txtDebtAmount.Text) > 0)
+            {
+                lblClientCreditStatus.Text = "وضعیت حساب / بدهکار";
+                lblClientCreditStatus.TextColor = Color.Red;
+            }
+            else if (Convert.ToDouble(txtDebtAmount.Text) < 0)
+            {
+                lblClientCreditStatus.Text = "وضعیت حساب / بستانکار ";
+                lblClientCreditStatus.TextColor = Color.Green;
+            }
+            else
+            {
+                lblClientCreditStatus.Text = "وضعیت حساب";
+                lblClientCreditStatus.TextColor = Color.Black;
+            }
+
+
+            btnPayCredit.IsEnabled = true;
+            txtCreditAmount.IsEnabled = true;
+
+
+
+            //if (amount[0].Amount > 0)
+            //{
+            //    txtDebtAmount.Text = amount.FirstOrDefault()?.Amount.ToString() ?? 0.ToString(); ;
+            //    btnPayCredit.IsEnabled = true;
+            //    txtCreditAmount.IsEnabled = true;
+            //}
+            //else
+            //    btnPayCredit.IsEnabled = false;
+
+        }
+
+        async private void srchClients_SuggestionItemSelected(object sender, Telerik.XamarinForms.Input.AutoComplete.SuggestionItemSelectedEventArgs e)
+        {
+            //order = new Order();
+            var client = (ClientCreditViewModel)e.DataItem;
+            clientId = client.ClientId;
+            await ClientCreditStatus(clientId);
+        }
+
+        private void srchClients_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            txtDebtAmount.Text = "0";
+            txtCreditAmount.Value = 0;
+            txtCreditAmount.IsEnabled = false;
+            btnPayCredit.IsEnabled = false;
+
         }
     }
 }

@@ -5,8 +5,8 @@ NavigationPage.HasNavigationBar="False"
     xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:telerikPrimitives="clr-namespace:Telerik.XamarinForms.Primitives;assembly=Telerik.XamarinForms.Primitives" xmlns:telerikDataControls="clr-namespace:Telerik.XamarinForms.DataControls;assembly=Telerik.XamarinForms.DataControls" xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;assembly=Telerik.XamarinForms.DataControls" xmlns:helpers="clr-namespace:Sandoghche.Helpers"
-             mc:Ignorable="d"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:telerikPrimitives="clr-namespace:Telerik.XamarinForms.Primitives;assembly=Telerik.XamarinForms.Primitives" xmlns:telerikDataControls="clr-namespace:Telerik.XamarinForms.DataControls;assembly=Telerik.XamarinForms.DataControls" xmlns:telerikListView="clr-namespace:Telerik.XamarinForms.DataControls.ListView;assembly=Telerik.XamarinForms.DataControls" xmlns:helpers="clr-namespace:Sandoghche.Helpers" xmlns:syncfusion="clr-namespace:Syncfusion.SfNumericTextBox.XForms;assembly=Syncfusion.SfNumericTextBox.XForms" xmlns:telerikInput="clr-namespace:Telerik.XamarinForms.Input;assembly=Telerik.XamarinForms.Input"
+    mc:Ignorable="d"
              x:Class="Sandoghche.ClientPageMobile">
 
     <telerikPrimitives:RadTabView x:Name="tabView" HeaderPosition="Bottom" BackgroundColor="#DDDDDD" PropertyChanged="tabViewClient_PropertyChanged" >
@@ -41,9 +41,57 @@ NavigationPage.HasNavigationBar="False"
                     </telerikPrimitives:TabViewHeaderItem>
                 </telerikPrimitives:TabViewItem.Header>
                 <telerikPrimitives:TabViewItem.Content>
-                    <StackLayout>
+                    <Grid BackgroundColor="White" Padding="20">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="35"/>
+                            <RowDefinition Height="35"/>
+                            <RowDefinition Height="35"/>
+                            <RowDefinition Height="35"/>
 
-                    </StackLayout>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="*" />
+
+                        </Grid.ColumnDefinitions>
+                        
+                        <telerikInput:RadAutoCompleteView Grid.Row="0" Grid.Column="0" SuggestionViewHeight="200"  TextSearchPath="ClientName" FlowDirection="RightToLeft" x:Name="srchClients" VerticalOptions="Center" WatermarkTextColor="Black" Watermark="مشتری ..." NoResultsMessage="یافت نشد" TextChanged="srchClients_TextChanged"  SuggestionItemSelected="srchClients_SuggestionItemSelected" >
+                            <telerikInput:RadAutoCompleteView.SuggestionItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label Text="{Binding ClientName}"/>
+                                        </StackLayout>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </telerikInput:RadAutoCompleteView.SuggestionItemTemplate>
+                        </telerikInput:RadAutoCompleteView>
+                        
+                        <Label HorizontalOptions="EndAndExpand" Grid.Row="0" Grid.Column="1"  Text="دریافت از طرف حساب" FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"/>
+                        
+                        <Entry  x:Name="txtDebtAmount" Text="0" Grid.Row="1" Grid.Column="0" FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" IsEnabled="False"/>
+                        <Label x:Name="lblClientCreditStatus" Grid.Row="1" Grid.Column="1" Text="وضعیت حساب" FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="EndAndExpand"/>
+                        
+                        <syncfusion:SfNumericTextBox
+                            x:Name="txtCreditAmount"
+                            Grid.Row="2" Grid.Column="0"    
+                            MaximumNumberDecimalDigits="2"  
+                            FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" 
+                            TextColor="Black"
+                            />
+                        <Label HorizontalOptions="EndAndExpand" Text="مبلغ پرداختی" Grid.Row="2" Grid.Column="1" FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" />
+                        <Button
+                            Grid.Row="3" Grid.Column="0"
+                VerticalOptions="Center"
+                x:Name="btnPayCredit"
+                CornerRadius="5"
+                Text="ثبت" 
+                BackgroundColor="#0078D7"
+                FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                Clicked="btnPayCredit_Clicked"
+                />
+                    </Grid>
+
                 </telerikPrimitives:TabViewItem.Content>
             </telerikPrimitives:TabViewItem>
 

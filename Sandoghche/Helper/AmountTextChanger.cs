@@ -11,7 +11,8 @@ namespace Sandoghche.Helpers
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return string.Concat(((double)value).ToString("##,#0") + ((double)value > 0  ?  " بدهکار" : " بستانکار"));
+
+            return (double)value == 0 ? "0" : (string.Concat(((double)value).ToString("##,#0") + ((double)value > 0 ? " بدهکار" : " بستانکار")));
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

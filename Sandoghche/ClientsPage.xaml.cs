@@ -213,6 +213,7 @@ namespace Sandoghche
         {
             public double Amount { get; set; }
         }
+        
         async private Task ClientCreditStatus(string ClientId)
         {
             var query = "select (sum(DebtorAmount)-sum(CreditorAmount)) as 'Amount' from Accounting WHERE ClientId=" + Convert.ToInt32(ClientId);
