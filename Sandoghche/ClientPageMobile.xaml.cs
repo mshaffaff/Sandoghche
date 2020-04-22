@@ -30,7 +30,6 @@ namespace Sandoghche
 
         async Task GetClients(string Searchtext = null)
         {
-
             var query = "select Clients.ClientId,Clients.ClientName,Clients.MobileNumber,(select sum(Accounting.DebtorAmount)-sum(Accounting.CreditorAmount) from Accounting where Accounting.ClientId=Clients.ClientId) as Amount from Clients WHERE Clients.IsDeleted == false";
 
             var clients = await SandoghcheController.GetConnection().QueryAsync<ClientCreditViewModel>(query);

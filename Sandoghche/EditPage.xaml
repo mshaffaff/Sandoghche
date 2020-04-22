@@ -23,8 +23,6 @@
         </Grid.RowDefinitions>
         <!--منوی بالا-->
         <StackLayout Grid.Row="0" VerticalOptions="Center" >
-
-
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />

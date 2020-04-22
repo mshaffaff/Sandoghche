@@ -1,0 +1,382 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    NavigationPage.HasBackButton="False"
+    NavigationPage.HasNavigationBar="False"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:telerikPrimitives="clr-namespace:Telerik.XamarinForms.Primitives;assembly=Telerik.XamarinForms.Primitives" 
+    xmlns:bitControls="clr-namespace:Bit.View.Controls;assembly=Bit.CSharpClient.Controls" 
+    xmlns:noda="clr-namespace:NodaTime;assembly=NodaTime"
+    xmlns:syncfusion="clr-namespace:Syncfusion.SfNumericTextBox.XForms;assembly=Syncfusion.SfNumericTextBox.XForms"
+    mc:Ignorable="d"
+             x:Class="Sandoghche.EditPageMobile">
+    <telerikPrimitives:RadTabView x:Name="tabView" HeaderPosition="Bottom" BackgroundColor="#DDDDDD" PropertyChanged="tabViewOrdersList_PropertyChanged" >
+        <telerikPrimitives:RadTabView.Items>
+            <!--صفحه نخست-->
+            <telerikPrimitives:TabViewItem x:Name="TabHome" HeaderText="TabHome">
+                <telerikPrimitives:TabViewItem.Header>
+                    <telerikPrimitives:TabViewHeaderItem>
+                        <telerikPrimitives:TabViewHeaderItem.Content>
+                            <StackLayout HeightRequest="50" Orientation="Horizontal" HorizontalOptions="Center">
+                                <Label VerticalOptions="Center"  Text="صفحه نخست" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" />
+                            </StackLayout>
+                        </telerikPrimitives:TabViewHeaderItem.Content>
+                    </telerikPrimitives:TabViewHeaderItem>
+                </telerikPrimitives:TabViewItem.Header>
+                <telerikPrimitives:TabViewItem.Content>
+                    <StackLayout>
+
+                    </StackLayout>
+                </telerikPrimitives:TabViewItem.Content>
+            </telerikPrimitives:TabViewItem>
+
+            <!--گزارش-->
+            <telerikPrimitives:TabViewItem x:Name="TabReports" HeaderText="TabReports">
+                <telerikPrimitives:TabViewItem.Header>
+                    <telerikPrimitives:TabViewHeaderItem>
+                        <telerikPrimitives:TabViewHeaderItem.Content>
+                            <StackLayout HeightRequest="50" Orientation="Horizontal" HorizontalOptions="Center">
+                                <Label VerticalOptions="Center"  Text="گزارش" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" />
+                            </StackLayout>
+                        </telerikPrimitives:TabViewHeaderItem.Content>
+                    </telerikPrimitives:TabViewHeaderItem>
+                </telerikPrimitives:TabViewItem.Header>
+                <telerikPrimitives:TabViewItem.Content>
+                    <StackLayout>
+
+                    </StackLayout>
+                </telerikPrimitives:TabViewItem.Content>
+            </telerikPrimitives:TabViewItem>
+
+            <!--سفارشات-->
+            <telerikPrimitives:TabViewItem x:Name="TabOrdersList" HeaderText="TabOrdersList" IsSelected="True">
+                <telerikPrimitives:TabViewItem.Header>
+                    <telerikPrimitives:TabViewHeaderItem>
+                        <telerikPrimitives:TabViewHeaderItem.Content>
+                            <StackLayout HeightRequest="50" Orientation="Horizontal" HorizontalOptions="Center">
+                                <Label VerticalOptions="Center"  Text="سفارشات" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" />
+                            </StackLayout>
+                        </telerikPrimitives:TabViewHeaderItem.Content>
+                    </telerikPrimitives:TabViewHeaderItem>
+                </telerikPrimitives:TabViewItem.Header>
+                <telerikPrimitives:TabViewItem.Content>
+                    <StackLayout BackgroundColor="White" Padding="20">
+                            <!--فیلدهای جستجو-->
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <Button Grid.Column="0"
+                                    x:Name="btnSearch"
+                                    VerticalOptions="Center"
+                                    FontSize="15"
+                                    CornerRadius="5"
+                                    Text="جستجو" 
+                                    BackgroundColor="#0078D7"
+                                    FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                                Clicked="btnSearch_Clicked"
+                                   />
+                                <bitControls:BitDateTimePicker
+                                    
+                            Grid.Column="1"
+                            x:Name="srchCreatedDate"
+                            Text="تاریخ"
+                            Culture="Fa"
+                            CalendarSystem="{x:Static noda:CalendarSystem.PersianArithmetic}"
+                            FlowDirection="RightToLeft"
+                            DateTimeDisplayFormat="dd MMM yyyy"
+                            ShowTimePicker="False"
+                            VerticalOptions="Center"
+                            WidthRequest="150"
+                            AutoClose="True"
+                            />
+                                <syncfusion:SfNumericTextBox VerticalOptions="Center" x:Name="srchReceiptNumber"  MaximumNumberDecimalDigits="0"  Grid.Column="2" FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" TextColor="Black"/>
+                                <Label Text="یا شماره فیش" Grid.Column="3" VerticalOptions="Center" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" />
+
+
+
+                                <syncfusion:SfNumericTextBox VerticalOptions="Center"  MaximumNumberDecimalDigits="0"  x:Name="srchOrderId" Grid.Column="4" FontFamily="IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" TextColor="Black"/>
+                                <Label Text="شماره فاکتور" Grid.Column="5" VerticalOptions="Center" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"/>
+
+                            </Grid>
+
+                            <!--نمایش فاکتورها-->
+ 
+                            <!--<Frame Grid.Row="1" Margin="5" BorderColor="Black"  >
+                                <telerikDataGrid:RadDataGrid x:Name="OrdersDataGrid"  UserFilterMode="Disabled" UserGroupMode="Disabled"  UserSortMode="Single" UserEditMode="None" AutoGenerateColumns="False"   >
+                                    <telerikDataGrid:RadDataGrid.Columns>
+
+                                        --><!--اشتراک گزاری--><!--
+                                        <telerikDataGrid:DataGridTemplateColumn  CanUserEdit="False" CanUserFilter="False" CanUserGroup="False" CanUserSort="False">
+
+                                            <telerikDataGrid:DataGridTemplateColumn.HeaderStyle>
+                                                <telerikDataGrid:DataGridColumnHeaderStyle OptionsButtonTextColor="Transparent"
+                                                    OptionsButtonFontSize="0"
+                                                    BorderColor="#D9D9D9"
+                                                    BorderThickness="1" />
+                                            </telerikDataGrid:DataGridTemplateColumn.HeaderStyle>
+
+                                            <telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
+                                                <DataTemplate>
+                                                    <Button
+                                    HorizontalOptions="FillAndExpand"
+                                    VerticalOptions="Center"
+                                    HeightRequest="40"
+                                    x:Name="btnShare"
+                                    FontSize="Small"
+                                    CornerRadius="5"
+                                    Text="اشتراک گزاری" 
+                                    BackgroundColor="YellowGreen"
+                                    FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                                    Clicked="btnShare_Clicked"
+                                    IsVisible="True" Margin="5"
+                                    />
+                                                </DataTemplate>
+                                            </telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
+                                        </telerikDataGrid:DataGridTemplateColumn>
+
+                                        --><!--چاپ مجدد--><!--
+                                        <telerikDataGrid:DataGridTemplateColumn  CanUserEdit="False" CanUserFilter="False" CanUserGroup="False" CanUserSort="False">
+
+                                            <telerikDataGrid:DataGridTemplateColumn.HeaderStyle>
+                                                <telerikDataGrid:DataGridColumnHeaderStyle OptionsButtonTextColor="Transparent"
+                                                    OptionsButtonFontSize="0"
+                                                    BorderColor="#D9D9D9"
+                                                    BorderThickness="1" />
+                                            </telerikDataGrid:DataGridTemplateColumn.HeaderStyle>
+
+                                            <telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
+                                                <DataTemplate>
+                                                    <Button
+                                    HorizontalOptions="FillAndExpand"
+                                    VerticalOptions="Center"
+                                    HeightRequest="40"
+                                    x:Name="btnPrint"
+                                    FontSize="Small"
+                                    CornerRadius="5"
+                                    Text="چاپ" 
+                                    BackgroundColor="#0078D7"
+                                    FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                                    Clicked="btnPrint_Clicked"
+                                    IsVisible="True" Margin="5"
+                                    />
+                                                </DataTemplate>
+                                            </telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
+                                        </telerikDataGrid:DataGridTemplateColumn>
+
+                                        --><!--ویراش--><!--
+                                        <telerikDataGrid:DataGridTemplateColumn  CanUserEdit="False" CanUserFilter="False" CanUserGroup="False" CanUserSort="False">
+
+                                            <telerikDataGrid:DataGridTemplateColumn.HeaderStyle>
+                                                <telerikDataGrid:DataGridColumnHeaderStyle OptionsButtonTextColor="Transparent"
+                                                    OptionsButtonFontSize="0"
+                                                    BorderColor="#D9D9D9"
+                                                    BorderThickness="1" />
+                                            </telerikDataGrid:DataGridTemplateColumn.HeaderStyle>
+
+                                            <telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
+                                                <DataTemplate>
+                                                    <Button
+                                    HorizontalOptions="FillAndExpand"
+                                    VerticalOptions="Center"
+                                    HeightRequest="40"
+                                    x:Name="btnEdit"
+                                    FontSize="Small"
+                                    CornerRadius="5"
+                                    Text="مشاهده یا ویرایش" 
+                                    BackgroundColor="#00c695"
+                                    FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                                    Clicked="btnEdit_Clicked"
+                                    IsVisible="True" Margin="5"
+                                    />
+                                                </DataTemplate>
+                                            </telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
+                                        </telerikDataGrid:DataGridTemplateColumn>
+
+                                        --><!--مبلغ کل--><!--
+                                        <telerikDataGrid:DataGridTemplateColumn CanUserSort="True">
+                                            <telerikDataGrid:DataGridTemplateColumn.SortDescriptor>
+                                                <telerikCommon:PropertySortDescriptor PropertyName="FinalPayment" />
+                                            </telerikDataGrid:DataGridTemplateColumn.SortDescriptor>
+                                            <telerikDataGrid:DataGridTemplateColumn.HeaderContentTemplate>
+
+                                                <DataTemplate>
+                                                    <Label Margin="5"
+                                                FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                                                FontSize="Small" 
+                                                TextColor="Black" 
+                                                Text="قیمت کل" 
+                                                VerticalOptions="Center" 
+                                                HorizontalOptions="Center"
+                                                HeightRequest="30"/>
+                                                </DataTemplate>
+                                            </telerikDataGrid:DataGridTemplateColumn.HeaderContentTemplate>
+
+                                            <telerikDataGrid:DataGridTemplateColumn.HeaderStyle>
+                                                <telerikDataGrid:DataGridColumnHeaderStyle OptionsButtonTextColor="Transparent"
+                                                    OptionsButtonFontSize="0"
+                                                    BorderColor="#D9D9D9"
+                                                    BorderThickness="1" />
+                                            </telerikDataGrid:DataGridTemplateColumn.HeaderStyle>
+
+                                            <telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
+                                                <DataTemplate>
+                                                    <Label
+                                            VerticalOptions="Center"                                    
+                                            TextColor="Black"
+                                            FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                                            FontSize="Small"
+                                            Text="{Binding FinalPayment}"
+                                            HorizontalOptions="Center"
+                                            Margin="0,0,10,0" />
+                                                </DataTemplate>
+                                            </telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
+                                        </telerikDataGrid:DataGridTemplateColumn>
+
+                                        --><!--نام مشترک--><!--
+                                        <telerikDataGrid:DataGridTemplateColumn   CanUserSort="True">
+                                            <telerikDataGrid:DataGridTemplateColumn.SortDescriptor>
+                                                <telerikCommon:PropertySortDescriptor PropertyName="ClientName" />
+                                            </telerikDataGrid:DataGridTemplateColumn.SortDescriptor>
+                                            <telerikDataGrid:DataGridTemplateColumn.HeaderContentTemplate>
+                                                <DataTemplate>
+                                                    <Label Margin="5"
+                                                FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                                                FontSize="Small" 
+                                                TextColor="Black" 
+                                                Text="نام مشترک" 
+                                                VerticalOptions="Center" 
+                                                HorizontalOptions="Center"
+                                                HeightRequest="30"/>
+                                                </DataTemplate>
+                                            </telerikDataGrid:DataGridTemplateColumn.HeaderContentTemplate>
+                                            <telerikDataGrid:DataGridTemplateColumn.HeaderStyle>
+                                                <telerikDataGrid:DataGridColumnHeaderStyle 
+                                            OptionsButtonTextColor="Transparent"
+                                            OptionsButtonFontSize="0"
+                                            BorderColor="#D9D9D9"
+                                            BorderThickness="1" />
+                                            </telerikDataGrid:DataGridTemplateColumn.HeaderStyle>
+
+                                            <telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
+                                                <DataTemplate>
+                                                    <Label 
+                                            VerticalOptions="Center"                                    
+                                            TextColor="Black"
+                                            FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                                            FontSize="Small"
+                                            Text="{Binding ClientName}"
+                                            HorizontalOptions="Center"
+                                            Margin="0,0,10,0" />
+                                                </DataTemplate>
+                                            </telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
+                                        </telerikDataGrid:DataGridTemplateColumn>
+
+                                        --><!--شماره فاکتور--><!--
+                                        <telerikDataGrid:DataGridTemplateColumn SizeMode="Auto"  CanUserSort="True" >
+                                            <telerikDataGrid:DataGridTemplateColumn.SortDescriptor>
+                                                <telerikCommon:PropertySortDescriptor PropertyName="OrderId" />
+                                            </telerikDataGrid:DataGridTemplateColumn.SortDescriptor>
+                                            <telerikDataGrid:DataGridTemplateColumn.HeaderContentTemplate>
+                                                <DataTemplate>
+                                                    <Label 
+                                            Margin="5"
+                                                FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                                                FontSize="Small" 
+                                                TextColor="Black" 
+                                                Text="فاکتور" 
+                                                VerticalOptions="Center" 
+                                                HorizontalOptions="Center"
+                                                HeightRequest="30"/>
+                                                </DataTemplate>
+                                            </telerikDataGrid:DataGridTemplateColumn.HeaderContentTemplate>
+                                            <telerikDataGrid:DataGridTemplateColumn.HeaderStyle>
+                                                <telerikDataGrid:DataGridColumnHeaderStyle OptionsButtonTextColor="Transparent"
+                                                    OptionsButtonFontSize="0"
+                                                    BorderColor="#D9D9D9"
+                                                    BorderThickness="1" />
+                                            </telerikDataGrid:DataGridTemplateColumn.HeaderStyle>
+                                            <telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
+                                                <DataTemplate>
+
+                                                    <Label 
+                                             VerticalOptions="Center"                                    
+                                            TextColor="Black"
+                                            FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                                            FontSize="Small"
+                                            Text="{Binding OrderId}"
+                                            HorizontalOptions="Center"
+                                            Margin="0,0,10,0" />
+                                                </DataTemplate>
+                                            </telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
+                                        </telerikDataGrid:DataGridTemplateColumn>
+
+                                        --><!--شماره فیش--><!--
+                                        <telerikDataGrid:DataGridTemplateColumn  SizeMode="Auto" CanUserSort="True" >
+                                            <telerikDataGrid:DataGridTemplateColumn.SortDescriptor>
+                                                <telerikCommon:PropertySortDescriptor PropertyName="ReceiptNumber" />
+                                            </telerikDataGrid:DataGridTemplateColumn.SortDescriptor>
+                                            <telerikDataGrid:DataGridTemplateColumn.HeaderContentTemplate>
+                                                <DataTemplate>
+                                                    <Label 
+                                            Margin="5"
+                                                FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                                                FontSize="Small" 
+                                                TextColor="Black" 
+                                                Text="فیش " 
+                                                VerticalOptions="Center" 
+                                                HorizontalOptions="Center"
+                                                HeightRequest="30" />
+                                                </DataTemplate>
+                                            </telerikDataGrid:DataGridTemplateColumn.HeaderContentTemplate>
+                                            <telerikDataGrid:DataGridTemplateColumn.HeaderStyle>
+                                                <telerikDataGrid:DataGridColumnHeaderStyle OptionsButtonTextColor="Transparent"
+                                                    OptionsButtonFontSize="0"
+                                                    BorderColor="#D9D9D9"
+                                                    BorderThickness="1" />
+                                            </telerikDataGrid:DataGridTemplateColumn.HeaderStyle>
+                                            <telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
+                                                <DataTemplate>
+                                                    <Label 
+                                            TextColor="{Binding IsEditedDeleted,Converter={helpers:DisabledLabelForReport}}"
+                                            TextDecorations="{Binding isDeleted,Converter={helpers:LabelStrikethroughForReport}}"
+                                            VerticalOptions="Center"                                    
+                                            FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)"
+                                            FontSize="Small"
+                                            Text="{Binding ReceiptNumber}"
+                                            HorizontalOptions="Center"
+                                            Margin="0,0,10,0">
+                                                        <Label.GestureRecognizers>
+                                                            <TapGestureRecognizer Tapped="btnOrderHistory" />
+                                                        </Label.GestureRecognizers>
+                                                    </Label>
+
+                                                </DataTemplate>
+                                            </telerikDataGrid:DataGridTemplateColumn.CellContentTemplate>
+                                        </telerikDataGrid:DataGridTemplateColumn>
+
+
+
+                                    </telerikDataGrid:RadDataGrid.Columns>
+                                </telerikDataGrid:RadDataGrid>
+
+
+
+                            </Frame>-->
+
+
+                    </StackLayout>
+                </telerikPrimitives:TabViewItem.Content>
+            </telerikPrimitives:TabViewItem>
+
+
+        </telerikPrimitives:RadTabView.Items>
+    </telerikPrimitives:RadTabView>
+</ContentPage>
