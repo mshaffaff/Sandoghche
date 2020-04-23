@@ -220,11 +220,7 @@ NavigationPage.HasNavigationBar="False"
                                                 <ColumnDefinition Width="*"/>
                                                 <ColumnDefinition Width="*"/>
                                             </Grid.ColumnDefinitions>
-                                            <!--<Label Grid.Column="0" Text="قیمت" TextColor="Black" FontSize="Small" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="Center" VerticalOptions="Center">
-                                                <Label.GestureRecognizers>
-                                                    <TapGestureRecognizer Tapped="SortByPrice_Tapped"/>
-                                                </Label.GestureRecognizers>
-                                            </Label>-->
+                                           
                                             <Label Grid.Column="0" Text="وضعیت حساب" TextColor="Black" FontSize="Micro" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" HorizontalOptions="Center"  VerticalOptions="Center">
                                                 <Label.GestureRecognizers>
                                                     <TapGestureRecognizer Tapped="SortByDebt_Tapped"/>
@@ -361,10 +357,6 @@ NavigationPage.HasNavigationBar="False"
                                         BorderLocation="Bottom" />
                                 </telerikDataControls:RadListView.ItemStyle>
                             </telerikDataControls:RadListView>
-
-
-
-
                         </ScrollView>
 
                     </StackLayout>
