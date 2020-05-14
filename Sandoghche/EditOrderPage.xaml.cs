@@ -220,6 +220,7 @@ namespace Sandoghche
         {
             public double Amount { get; set; }
         }
+
         async private Task ClientCreditStatus(string ClientId)
         {
             var query = "select (sum(DebtorAmount)-sum(CreditorAmount)) as 'Amount' from Accounting WHERE ClientId=" + Convert.ToInt32(ClientId);
@@ -748,6 +749,7 @@ namespace Sandoghche
                     PopupNavigation.Instance.PushAsync(new DiscountPopupPage(order.TotalPrice.ToString(), order.DiscountType, order.DiscountPercent, order.TotalDiscount));
             }
         }
+    
         private void btnNote_Clicked(object sender, EventArgs e)
         {
             if (lblFinalPayment.Text == "0")
@@ -764,6 +766,7 @@ namespace Sandoghche
                     PopupNavigation.Instance.PushAsync(new NotePopupPage(order.Comment));
             }
         }
+     
         async private void btnCreditInvoiceUpdate_Tapped(object sender, EventArgs e)
         {
             await SaveInvoice(1);
@@ -867,7 +870,6 @@ namespace Sandoghche
         {
             await SaveInvoice(3);
         }
-
 
         protected override bool OnBackButtonPressed()
         {

@@ -19,6 +19,7 @@ namespace Sandoghche
     public partial class InvoicePageMobile : ContentPage
     {
         private static Order order;
+        //private static int OrderId;
         private static int clientId;
         private static int categoryId;
         private static double Tax1, Tax2;
@@ -28,18 +29,39 @@ namespace Sandoghche
         public InvoicePageMobile()
         {
             InitializeComponent();
+            //OrderId = orderId;     
+            
             order = new Order();
 
 
         }
+        
         async protected override void OnAppearing()
         {
-            await GetClients();
-            await getCategories();
-            await getSetting();
-            await setOrderNumber();
-            await setReceiptNumber();
+            //if (OrderId != 0)
+            //{
+            //    order = await SandoghcheController.GetConnection().Table<Order>().FirstOrDefaultAsync(o => o.OrderId == OrderId);
+            //    var orderdetails = await SandoghcheController.GetConnection().Table<OrderDetail>().Where(od => od.OrderId == order.OrderId).ToListAsync();
+            //    foreach (var item in orderdetails)
+            //    {
+            //        TotalNumberOfItem = TotalNumberOfItem + item.Number;
+            //    }
+            //    lblTotalNumberOfItem.Text = "سبد " + "( " + TotalNumberOfItem.ToString() + " )";
+            //    ProductsDataGrid.ItemsSource = orderdetails;
+            //    lblTabReceipt.Text = "ویرایش فاکتور";
+            //    TabBasket.IsSelected = true;
+            //    await GetClient();
+            //    await getCategories();
 
+            //}
+            //else
+            //{
+                await GetClients();
+                await getCategories();
+                await getSetting();
+                await setOrderNumber();
+                await setReceiptNumber();
+            //}
             base.OnAppearing();
         }
 
@@ -165,8 +187,8 @@ namespace Sandoghche
             lblFinalPayment.Text = "0";
             lblTotalPrice.Text = "0";
             lblDelivery.Text = "0";
-            lblTotalNumberOfItem.Text = "سبد" + "( " + "0" + " )";
-            TotalNumberOfItem = 0;
+            //lblTotalNumberOfItem.Text = "سبد" + "( " + "0" + " )";
+            //TotalNumberOfItem = 0;
 
 
             await ClientCreditStatus(clientId);
@@ -332,7 +354,7 @@ namespace Sandoghche
             TotalPriceCalculator();
         }
 
-        private void tabView_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        async private void tabView_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "SelectedItem")
             {
@@ -340,11 +362,15 @@ namespace Sandoghche
                 if (selectedTab.HeaderText == "TabBasket")
                 {
                     ProductsDataGrid.ItemsSource = new List<string>();
+                    //var orderdetails = await SandoghcheController.GetConnection().Table<OrderDetail>().Where(od => od.OrderId == OrderId).ToListAsync();
+                    
+                    //lblTotalNumberOfItem.Text = "سبد " + "( " + TotalNumberOfItem.ToString() + " )";
+
                     ProductsDataGrid.ItemsSource = order.OrderDetails;
                 }
                 if (selectedTab.HeaderText == "TabHome")
                 {
-                    Navigation.PushAsync(new SandoghcheMainPage());
+                   await Navigation.PushAsync(new SandoghcheMainPage());
                 }
             }
         }

@@ -160,7 +160,7 @@ namespace Sandoghche
         async private void imgEdit_Tapped(object sender, EventArgs e)
         {
             //await Navigation.PushAsync(new EditPage());
-            await Navigation.PushAsync(new EditPageMobile());
+           await Navigation.PushAsync(new EditPageMobile());
         }
         async private void imgInvoice_Tapped(object sender, EventArgs e)
         {

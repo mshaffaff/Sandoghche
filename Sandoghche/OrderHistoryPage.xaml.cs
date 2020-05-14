@@ -31,8 +31,10 @@ namespace Sandoghche
         protected override async void OnAppearing()
         {
             base.OnAppearing();
+        
             await getEditedOrders(OrderId);
         }
+       
         async Task getEditedOrders(int orderId)
         {
             var query = "SELECT EditedOrdersLogs.OrderId,EditedOrdersLogs.ReceiptNumber,EditedOrdersLogs.EditedLogId,EditedOrdersLogs.FinalPayment,date(EditedOrdersLogs.DateCreated),Clients.ClientName from EditedOrdersLogs LEFT  JOIN Clients ON EditedOrdersLogs.ClientId = Clients.ClientId where EditedOrdersLogs.OrderId = " + orderId;
@@ -52,10 +54,12 @@ namespace Sandoghche
             var EditedOrder = (OrderHistoryViewModel)selectedItem;
             Navigation.PushAsync(new EditOrderPage(EditedOrder.OrderId,true, EditedOrder.EditedLogId));
         }
+       
         private void btnHome_Tapped(object sender, EventArgs e)
         {
             Navigation.PushAsync(new EditPage());
         }
+        
         protected override bool OnBackButtonPressed()
         {
             return true;

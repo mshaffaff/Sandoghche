@@ -21,11 +21,10 @@ namespace Sandoghche
 
         async protected override void OnAppearing()
         {
-
             await getOrders(DateTime.Now.Date, 0);
             base.OnAppearing();
-
         }
+
 
         async Task getOrders(DateTime? createdDate, int orderId)
         {
@@ -60,6 +59,7 @@ namespace Sandoghche
 
             OrderslistView.ItemsSource = Orders;
         }
+
         async private void tabViewOrdersList_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "SelectedItem")
@@ -82,9 +82,12 @@ namespace Sandoghche
             }
         }
 
-        private void btnSearch_Clicked(object sender, EventArgs e)
+        async private void btnSearch_Clicked(object sender, EventArgs e)
         {
-
+            if (srchCreatedDate.SelectedDateTime == null && ((srchOrderId.Value == null || (srchOrderId.Value != null && Convert.ToInt32(srchOrderId.Value) == 0))))
+                await DisplayAlert("اخطار", "جهت جستجو ورود یکی از فیلد ها الزامی است", "باشه");
+            else
+                await getOrders(srchCreatedDate.SelectedDateTime != null ? srchCreatedDate.SelectedDateTime.Value.Date : (DateTime?)null, srchOrderId.Value != null ? Convert.ToInt32(srchOrderId.Value) : 0);
         }
 
         private void SortByPrice_Tapped(object sender, EventArgs e)
@@ -112,9 +115,12 @@ namespace Sandoghche
 
         }
 
-        private void btnEditOrder_Clicked(object sender, EventArgs e)
+        async private void btnEditOrder_Clicked(object sender, EventArgs e)
         {
-
+            var s = sender as Xamarin.Forms.Button;
+            var selectedItem = s.BindingContext;
+            var order = (OrderDetailForSearchViewModel)selectedItem;
+            await Navigation.PushAsync(new EditOrderPageMobile(order.OrderId));
         }
     }
 }

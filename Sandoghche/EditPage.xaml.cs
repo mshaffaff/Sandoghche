@@ -23,6 +23,8 @@ namespace Sandoghche
 
 {
 
+
+
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class EditPage : ContentPage
     {
@@ -38,6 +40,7 @@ namespace Sandoghche
             lblUser.Text = Application.Current.Properties["userRollName"].ToString() + " : " + Application.Current.Properties["FullName"].ToString();
             userRoll = Application.Current.Properties["userRollName"].ToString();
         }
+
         protected override async void OnAppearing()
         {
             base.OnAppearing();
@@ -52,6 +55,7 @@ namespace Sandoghche
             else
                 await getOrders(srchCreatedDate.SelectedDateTime != null ? srchCreatedDate.SelectedDateTime.Value.Date : (DateTime?)null, srchOrderId.Value != null ? Convert.ToInt32(srchOrderId.Value) : 0, srchReceiptNumber.Value != null ? Convert.ToInt32(srchReceiptNumber.Value) : 0);
         }
+
         async Task getOrders(DateTime? createdDate, int orderId, int receiptId)
         {
             //var query = "SELECT Orders.OrderId,Orders.ReceiptNumber,Orders.FinalPayment,date(Orders.DateCreated),Orders.isDeleted,Orders.isEditedClients.ClientName from Orders LEFT  JOIN Clients ON Orders.ClientId = Clients.ClientId where Orders.isDeleted <>1";
@@ -66,7 +70,7 @@ namespace Sandoghche
 
             if (orderId != 0)
                 query += "  and Orders.OrderId=" + orderId;
-            
+
 
 
             if (receiptId != 0)
@@ -192,7 +196,7 @@ namespace Sandoghche
                 doc.Close(true);
 
 
-                DependencyService.Get<IPrintPdf>().PrintPdf(test,order.OrderId);
+                DependencyService.Get<IPrintPdf>().PrintPdf(test, order.OrderId);
             }
             else if (Device.RuntimePlatform == Device.UWP)
             {
@@ -222,12 +226,13 @@ namespace Sandoghche
             var order = (OrderDetailForSearchViewModel)selectedOrder;
             if (order.isEdited || order.isDeleted)
                 Navigation.PushAsync(new OrderHistoryPage(order.OrderId));
-
         }
+
         private void btnHome_Tapped(object sender, EventArgs e)
         {
             Navigation.PushAsync(new SandoghcheMainPage());
         }
+
         protected override bool OnBackButtonPressed()
         {
             return true;

@@ -1,19 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage 
-    NavigationPage.HasNavigationBar="False"
+<ContentPage
     NavigationPage.HasBackButton="False"
+    NavigationPage.HasNavigationBar="False"
     xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:Sandoghche.MarkupExtentions" xmlns:telerikPrimitives="clr-namespace:Telerik.XamarinForms.Primitives;assembly=Telerik.XamarinForms.Primitives" xmlns:telerikInput="clr-namespace:Telerik.XamarinForms.Input;assembly=Telerik.XamarinForms.Input" xmlns:telerikDataGrid="clr-namespace:Telerik.XamarinForms.DataGrid;assembly=Telerik.XamarinForms.DataGrid"
-    mc:Ignorable="d"
-             x:Class="Sandoghche.InvoicePageMobile">
-
-    <!--قسمت پایین-->
-
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:telerikPrimitives="clr-namespace:Telerik.XamarinForms.Primitives;assembly=Telerik.XamarinForms.Primitives" xmlns:telerikDataGrid="clr-namespace:Telerik.XamarinForms.DataGrid;assembly=Telerik.XamarinForms.DataGrid" xmlns:telerikInput="clr-namespace:Telerik.XamarinForms.Input;assembly=Telerik.XamarinForms.Input"
+             mc:Ignorable="d"
+             x:Class="Sandoghche.EditOrderPageMobile">
     <telerikPrimitives:RadTabView x:Name="tabView" HeaderPosition="Bottom" BackgroundColor="#DDDDDD" PropertyChanged="tabView_PropertyChanged" >
         <telerikPrimitives:RadTabView.Items>
-            
+
             <!--صفحه نخست-->
             <telerikPrimitives:TabViewItem x:Name="TabHome" HeaderText="TabHome">
                 <telerikPrimitives:TabViewItem.Header>
@@ -27,12 +24,12 @@
                 </telerikPrimitives:TabViewItem.Header>
                 <telerikPrimitives:TabViewItem.Content>
                     <StackLayout>
-                        
+
                     </StackLayout>
                 </telerikPrimitives:TabViewItem.Content>
             </telerikPrimitives:TabViewItem>
-         
-              <!--سبد-->
+
+            <!--سبد-->
             <telerikPrimitives:TabViewItem x:Name="TabBasket" HeaderText="TabBasket" >
                 <telerikPrimitives:TabViewItem.Header>
                     <telerikPrimitives:TabViewHeaderItem >
@@ -392,14 +389,14 @@
                     </StackLayout>
                 </telerikPrimitives:TabViewItem.Content>
             </telerikPrimitives:TabViewItem>
-            
+
             <!--فاکتور-->
             <telerikPrimitives:TabViewItem IsSelected="True" HeaderText="TabReceipt" x:Name="TabReceipt" >
                 <telerikPrimitives:TabViewItem.Header>
                     <telerikPrimitives:TabViewHeaderItem>
                         <telerikPrimitives:TabViewHeaderItem.Content>
                             <StackLayout HeightRequest="50" Orientation="Horizontal" HorizontalOptions="Center">
-                                <Label x:Name="lblTabReceipt" VerticalOptions="Center" Text="صدور فاکتور" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" />
+                                <Label x:Name="lblTabReceipt" VerticalOptions="Center" Text="ویرایش فاکتور" FontFamily = "IRANSansMobile(FaNum).ttf#IRANSansMobile(FaNum)" />
                             </StackLayout>
                         </telerikPrimitives:TabViewHeaderItem.Content>
                     </telerikPrimitives:TabViewHeaderItem>
@@ -413,7 +410,7 @@
                                 <ColumnDefinition Width="*"/>
 
                             </Grid.ColumnDefinitions>
-                           
+
                             <Label x:Name="lblOrderId" IsVisible="False"/>
                             <Label x:Name="lblReceipNumber" IsVisible="False"/>
                             <Label 
@@ -456,7 +453,7 @@
                                     FlowDirection="RightToLeft"
                         />
                         </Grid>
-                        
+
                         <ListView x:Name="lstProducts">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
@@ -506,9 +503,7 @@
 
                 </telerikPrimitives:TabViewItem.Content>
             </telerikPrimitives:TabViewItem>
-      
+
         </telerikPrimitives:RadTabView.Items>
     </telerikPrimitives:RadTabView>
-
-    <!--</Grid>-->
 </ContentPage>
